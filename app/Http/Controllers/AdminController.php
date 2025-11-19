@@ -38,46 +38,35 @@ class AdminController extends Controller
     public function dashboard(Request $request)
     {
         $section = $request->get('section');
+
+        // Fetch all data for dashboard
         $users = \App\Models\User::all();
-        $data = collect();
-        $resource = null;
-        $fields = [];
+        $packages = \App\Models\Package::all();
+        $bookings = \App\Models\Booking::with('user', 'package')->get();
+        $galleries = \App\Models\Gallery::all();
+        $mutawwifs = \App\Models\Mutawwif::all();
+        $partners = \App\Models\Partner::all();
+        $testimonials = \App\Models\Testimonial::with('user')->get();
 
-        if ($section) {
-            switch ($section) {
-                case 'packages':
-                    $data = \App\Models\Package::all();
-                    $resource = 'packages';
-                    $fields = ['id', 'title', 'schedule', 'duration', 'price', 'description'];
-                    break;
-                case 'bookings':
-                    $data = \App\Models\Booking::with('user', 'package')->get();
-                    $resource = 'bookings';
-                    $fields = ['id', 'user.fullName', 'package.title', 'status', 'registered_at'];
-                    break;
-                case 'galleries':
-                    $data = \App\Models\Gallery::all();
-                    $resource = 'galleries';
-                    $fields = ['id', 'title', 'description', 'image_path'];
-                    break;
-                case 'mutawwifs':
-                    $data = \App\Models\Mutawwif::all();
-                    $resource = 'mutawwifs';
-                    $fields = ['id', 'name', 'description', 'photo_path'];
-                    break;
-                case 'partners':
-                    $data = \App\Models\Partner::all();
-                    $resource = 'partners';
-                    $fields = ['id', 'name', 'logo_path'];
-                    break;
-                case 'testimonials':
-                    $data = \App\Models\Testimonial::with('user')->get();
-                    $resource = 'testimonials';
-                    $fields = ['id', 'user.fullName', 'content', 'rating'];
-                    break;
-            }
-        }
+        // Calculate counts
+        $counts = [
+            'users' => $users->count(),
+            'bookings' => $bookings->count(),
+            'packages' => $packages->count(),
+            'partners' => $partners->count(),
+            'testimonials' => $testimonials->count(),
+        ];
 
-        return view('admin.dashboard', compact('users', 'data', 'resource', 'fields', 'section'));
+        return view('admin.dashboard', compact(
+            'users',
+            'packages',
+            'bookings',
+            'galleries',
+            'mutawwifs',
+            'partners',
+            'testimonials',
+            'counts',
+            'section'
+        ));
     }
 }

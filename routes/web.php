@@ -15,6 +15,9 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AdminController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/daftar', [HomeController::class, 'showRegistrationForm'])->name('registration.form');
+Route::post('/daftar', [HomeController::class, 'register'])->name('registration.submit');
+Route::get('/daftar/sukses', [HomeController::class, 'registrationSuccess'])->name('registration.success');
 
 Route::get('/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/login', [AdminController::class, 'login']);
