@@ -8,11 +8,27 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function index() {
-        return User::all();
+        $users = User::all();
+        return view('admin.dashboard', [
+            'users' => $users,
+            'section' => 'users',
+            'counts' => [
+                'users' => User::count(),
+                'bookings' => \App\Models\Booking::count(),
+                'packages' => \App\Models\Package::count(),
+                'partners' => \App\Models\Partner::count(),
+            ]
+        ]);
     }
 
     public function show($id) {
-        return User::findOrFail($id);
+        $user = User::with(['bookings.package', 'documents'])->findOrFail($id);
+        return view('users.show', compact('user'));
+    }
+
+    public function edit($id) {
+        $user = User::findOrFail($id);
+        return view('users.edit', compact('user'));
     }
 
     public function store(Request $request) {
@@ -29,8 +45,20 @@ class UserController extends Controller
 
     public function update(Request $request, $id) {
         $user = User::findOrFail($id);
-        $user->update($request->all());
-        return $user;
+
+        $data = $request->validate([
+            'fullName' => 'required|string|max:255',
+            'birthDate' => 'required|date',
+            'address' => 'required|string',
+            'phone' => 'required|string|max:20',
+            'hasPassport' => 'boolean',
+            'email' => 'nullable|email|unique:users,email,' . $id,
+        ]);
+
+        $user->update($data);
+
+        return redirect()->route('users.show', $id)
+            ->with('success', 'Data pendaftar berhasil diperbarui!');
     }
 
     public function destroy($id) {

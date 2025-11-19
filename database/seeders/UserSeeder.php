@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Ahmad Rizki',
+                'fullName' => 'Ahmad Rizki',
                 'birthDate' => '1990-05-15',
                 'address' => 'Jl. Merdeka No. 123, Jakarta Pusat',
                 'phone' => '081234567890',
@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Siti Fatimah',
+                'fullName' => 'Siti Fatimah',
                 'birthDate' => '1985-08-22',
                 'address' => 'Jl. Sudirman No. 45, Bandung',
                 'phone' => '081298765432',
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Budi Santoso',
+                'fullName' => 'Budi Santoso',
                 'birthDate' => '1978-12-10',
                 'address' => 'Jl. Gatot Subroto No. 78, Surabaya',
                 'phone' => '081345678901',
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Maya Sari',
+                'fullName' => 'Maya Sari',
                 'birthDate' => '1992-03-30',
                 'address' => 'Jl. Thamrin No. 56, Medan',
                 'phone' => '081456789012',
@@ -50,7 +50,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Rudi Hermawan',
+                'fullName' => 'Rudi Hermawan',
                 'birthDate' => '1988-07-18',
                 'address' => 'Jl. Pahlawan No. 89, Yogyakarta',
                 'phone' => '081567890123',

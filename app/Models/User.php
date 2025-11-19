@@ -57,7 +57,7 @@ class User extends Authenticatable
 
     public function documents()
     {
-        return $this->hasMany(Document::class);
+        return $this->hasOne(Document::class);
     }
 
     public function passports()

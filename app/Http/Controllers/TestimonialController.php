@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class TestimonialController extends Controller
 {
     public function index() {
-        return Testimonial::with('user')->get();
+        return Testimonial::with('user')->latest()->get();
     }
 
     public function show($id) {
@@ -17,19 +17,27 @@ class TestimonialController extends Controller
 
     public function store(Request $request) {
         $data = $request->validate([
-            'user_id' => 'required',
-            'package_id' => 'nullable',
-            'message' => 'required',
-            'rating' => 'nullable|integer',
+            'name' => 'required|string|max:255',
+            'user_id' => 'nullable|exists:users,id',
+            'content' => 'required|string',
+            'rating' => 'required|integer|min:1|max:5',
         ]);
 
         return Testimonial::create($data);
     }
 
     public function update(Request $request, $id) {
-        $t = Testimonial::findOrFail($id);
-        $t->update($request->all());
-        return $t;
+        $testimonial = Testimonial::findOrFail($id);
+
+        $data = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'user_id' => 'nullable|exists:users,id',
+            'content' => 'sometimes|required|string',
+            'rating' => 'sometimes|required|integer|min:1|max:5',
+        ]);
+
+        $testimonial->update($data);
+        return $testimonial;
     }
 
     public function destroy($id) {

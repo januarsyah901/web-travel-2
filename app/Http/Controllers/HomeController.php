@@ -47,6 +47,31 @@ class HomeController extends Controller
             ]);
         }
 
+        // Handle file uploads
+        $documentData = ['user_id' => $user->id];
+
+        // KTP
+        if ($request->hasFile('ktp')) {
+            $documentData['ktp'] = $request->file('ktp')->store('documents/ktp', 'public');
+        }
+
+        // KK
+        if ($request->hasFile('kk')) {
+            $documentData['kk'] = $request->file('kk')->store('documents/kk', 'public');
+        }
+
+        // Supporting documents (multiple files)
+        if ($request->hasFile('supporting_docs')) {
+            $supportingPaths = [];
+            foreach ($request->file('supporting_docs') as $file) {
+                $supportingPaths[] = $file->store('documents/supporting', 'public');
+            }
+            $documentData['dokumen_pendukung'] = json_encode($supportingPaths);
+        }
+
+        // Create document record
+        \App\Models\Document::create($documentData);
+
         return redirect()->route('registration.success')->with('success', 'Pendaftaran berhasil! Kami akan menghubungi Anda segera.');
     }
 

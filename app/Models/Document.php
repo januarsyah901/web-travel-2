@@ -9,7 +9,7 @@ class Document extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'type', 'file_path'];
+    protected $fillable = ['user_id', 'ktp', 'kk', 'dokumen_pendukung'];
 
     public function user()
     {

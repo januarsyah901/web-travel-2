@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('passportName')->nullable();
+            $table->boolean('isActive')->default(false);
             $table->timestamps();
         });
     }

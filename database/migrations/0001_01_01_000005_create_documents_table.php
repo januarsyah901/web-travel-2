@@ -11,8 +11,9 @@ return new class extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('type', ['ktp', 'kk', 'birthCert', 'photo']);
-            $table->string('file_path');
+            $table->string('ktp')->nullable();
+            $table->string('kk')->nullable();
+            $table->string('dokumen_pendukung')->nullable();
             $table->timestamps();
         });
     }

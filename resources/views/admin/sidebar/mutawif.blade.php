@@ -1,0 +1,49 @@
+<div id="mutawifs" class="content-section {{ $section == 'mutawwifs' ? '' : 'hidden' }}">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Mutawifs</h2>
+        <a href="{{ route('mutawwifs.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
+            <i class="fas fa-plus mr-2"></i> Tambah Mutawif
+        </a>
+    </div>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <table class="w-full">
+            <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Deskripsi</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Foto</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+            @forelse($mutawwifs as $mutawwif)
+                <tr>
+                    <td class="px-6 py-4">{{ $mutawwif->id }}</td>
+                    <td class="px-6 py-4">{{ $mutawwif->name }}</td>
+                    <td class="px-6 py-4">{{ Str::limit($mutawwif->description, 50) }}</td>
+                    <td class="px-6 py-4">
+                        @if($mutawwif->photo_path)
+                            <a href="{{ asset('storage/' . $mutawwif->photo_path) }}" target="_blank" class="text-blue-600 hover:underline">View</a>
+                        @else
+                            N/A
+                        @endif
+                    </td>
+                    <td class="px-6 py-4">
+                        <a href="{{ route('mutawwifs.edit', $mutawwif->id) }}" class="text-blue-600 hover:text-blue-800 mr-3"><i class="fas fa-edit"></i></a>
+                        <form method="POST" action="{{ route('mutawwifs.destroy', $mutawwif->id) }}" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 hover:text-red-800" onclick="return confirm('Yakin ingin menghapus?')"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada data mutawif</td>
+                </tr>
+            @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>

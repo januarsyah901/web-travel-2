@@ -17,17 +17,20 @@ class PassportSeeder extends Seeder
                 'user_id' => 1,
                 'passportName' => 'Ahmad Rizki',
                 'created_at' => Carbon::now(),
+                'isActive' => true,
                 'updated_at' => Carbon::now(),
             ],
             [
                 'user_id' => 3,
                 'passportName' => 'Budi Santoso',
+                'isActive' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'user_id' => 5,
                 'passportName' => 'Rudi Hermawan',
+                'isActive' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]
@@ -35,50 +38,32 @@ class PassportSeeder extends Seeder
 
         DB::table('passports')->insert($passports);
 
-        // Documents untuk semua user
+        // Documents untuk semua user - Updated structure
         $documents = [
             // User 1
             [
                 'user_id' => 1,
-                'type' => 'ktp',
-                'file_path' => 'documents/user1/ktp.jpg',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'user_id' => 1,
-                'type' => 'kk',
-                'file_path' => 'documents/user1/kk.jpg',
+                'ktp' => 'documents/user1/ktp.jpg',
+                'kk' => 'documents/user1/kk.jpg',
+                'dokumen_pendukung' => null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             // User 2
             [
                 'user_id' => 2,
-                'type' => 'ktp',
-                'file_path' => 'documents/user2/ktp.jpg',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'user_id' => 2,
-                'type' => 'birthCert',
-                'file_path' => 'documents/user2/birth-cert.jpg',
+                'ktp' => 'documents/user2/ktp.jpg',
+                'kk' => null,
+                'dokumen_pendukung' => json_encode(['documents/user2/birth-cert.jpg']),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             // User 3
             [
                 'user_id' => 3,
-                'type' => 'ktp',
-                'file_path' => 'documents/user3/ktp.jpg',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'user_id' => 3,
-                'type' => 'photo',
-                'file_path' => 'documents/user3/photo.jpg',
+                'ktp' => 'documents/user3/ktp.jpg',
+                'kk' => null,
+                'dokumen_pendukung' => null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]

@@ -82,6 +82,42 @@
                         </div>
                     </div>
                 </div>
+                <!-- 10 pendaftar terbaru dengan pagination -->
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold mb-4">Pendaftar Terbaru</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Daftar</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Telepon</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                @forelse($recentUsers ?? $users ?? collect() as $user)
+                                <tr>
+                                    <td class="px-4 py-3">{{ $user->id }}</td>
+                                    <td class="px-4 py-3">{{ $user->fullName }}</td>
+                                    <td class="px-4 py-3">{{ $user->created_at ? $user->created_at->format('d/m/Y') : 'N/A' }}</td>
+                                    <td class="px-4 py-3">{{ $user->phone }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="4" class="px-4 py-3 text-center text-gray-500">Tidak ada pendaftar terbaru</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if(isset($recentUsers) && method_exists($recentUsers, 'links'))
+                    <div class="mt-4">
+                        {{ $recentUsers->links() }}
+                    </div>
+                    @endif
+                </div>
             </div>
 
             <!-- Users Section (Pendaftar Umroh) -->
@@ -109,7 +145,7 @@
                         @forelse($users as $user)
                         <tr>
                             <td class="px-6 py-4">{{ $user->id }}</td>
-                            <td class="px-6 py-4 font-medium">{{ $user->name }}</td>
+                            <td class="px-6 py-4 font-medium">{{ $user->fullName }}</td>
                             <td class="px-6 py-4">{{ $user->birthDate ? $user->birthDate->format('d/m/Y') : 'N/A' }}</td>
                             <td class="px-6 py-4">{{ Str::limit($user->address, 30) }}</td>
                             <td class="px-6 py-4">{{ $user->phone }}</td>
@@ -324,7 +360,7 @@
                         @forelse($testimonials as $testimonial)
                         <tr>
                             <td class="px-6 py-4">{{ $testimonial->id }}</td>
-                            <td class="px-6 py-4">{{ $testimonial->user->name ?? 'N/A' }}</td>
+                            <td class="px-6 py-4">{{ $testimonial->name?? 'N/A' }}</td>
                             <td class="px-6 py-4">
                                 <div class="flex">
                                     @for($i = 1; $i <= 5; $i++)
@@ -376,7 +412,7 @@
                         @forelse($bookings as $booking)
                         <tr>
                             <td class="px-6 py-4">{{ $booking->id }}</td>
-                            <td class="px-6 py-4">{{ $booking->user->name ?? 'N/A' }}</td>
+                            <td class="px-6 py-4">{{ $booking->user->fullName ?? 'N/A' }}</td>
                             <td class="px-6 py-4">{{ $booking->package->title ?? 'N/A' }}</td>
                             <td class="px-6 py-4">{{ $booking->registered_at ? $booking->registered_at->format('Y-m-d') : 'N/A' }}</td>
                             <td class="px-6 py-4">
