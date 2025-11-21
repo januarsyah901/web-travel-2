@@ -20,7 +20,7 @@
             @forelse($testimonials as $testimonial)
                 <tr>
                     <td class="px-6 py-4">{{ $testimonial->id }}</td>
-                    <td class="px-6 py-4">{{ $testimonial->user->name ?? 'N/A' }}</td>
+                    <td class="px-6 py-4">{{ $testimonial->name ?? 'N/A' }}</td>
                     <td class="px-6 py-4">
                         <div class="flex">
                             @for($i = 1; $i <= 5; $i++)

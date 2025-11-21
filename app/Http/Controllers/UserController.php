@@ -40,7 +40,10 @@ class UserController extends Controller
             'hasPassport' => 'boolean',
         ]);
 
-        return User::create($data);
+        User::create($data);
+
+        return redirect()->to(route('admin.dashboard') . '?section=users')
+            ->with('success', 'Pendaftar baru berhasil ditambahkan!');
     }
 
     public function update(Request $request, $id) {
@@ -62,6 +65,8 @@ class UserController extends Controller
     }
 
     public function destroy($id) {
-        return User::destroy($id);
+        User::destroy($id);
+        return redirect()->to(route('admin.dashboard') . '?section=users')
+            ->with('success', 'Pendaftar berhasil dihapus!');
     }
 }
