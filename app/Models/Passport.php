@@ -9,7 +9,7 @@ class Passport extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'passportName'];
+    protected $fillable = ['user_id', 'passportName', 'isActive'];
 
     public function user()
     {

@@ -20,12 +20,20 @@ class HomeController extends Controller
     public function register(Request $request) {
         $validated = $request->validate([
             'fullName' => 'required|string|max:255',
+            'birthPlace' => 'required|string|max:255',
             'birthDate' => 'required|date',
             'address' => 'required|string',
             'phone' => 'required|string|max:20',
             'hasPassport' => 'required|boolean',
-            'password' => 'required|string|min:6|confirmed',
-            'package_id' => 'nullable|exists:packages,id',
+            'package_id' => 'required|exists:packages,id',
+            'ktp' => 'required|file|mimes:jpeg,jpg,png,pdf|max:2048',
+            'kk' => 'required|file|mimes:jpeg,jpg,png,pdf|max:2048',
+            'supporting_docs' => 'required|array',
+            'supporting_docs.*' => 'file|mimes:jpeg,jpg,png,pdf|max:2048',
+            'pas_foto' => 'nullable|file|mimes:jpeg,jpg,png|max:2048',
+            'passportName' => 'nullable|string|max:255',
+            'passportStatus' => 'nullable|in:valid,expired',
+            'passportPhoto' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:2048',
         ]);
 
         $user = \App\Models\User::create([
@@ -34,18 +42,16 @@ class HomeController extends Controller
             'address' => $validated['address'],
             'phone' => $validated['phone'],
             'hasPassport' => $validated['hasPassport'],
-            'password' => bcrypt($validated['password']),
+//            'password' => bcrypt('password123'), // Default password
         ]);
 
-        // Create booking if package selected
-        if ($request->package_id) {
-            \App\Models\Booking::create([
-                'user_id' => $user->id,
-                'package_id' => $request->package_id,
-                'status' => 'pending',
-                'registered_at' => now(),
-            ]);
-        }
+        // Create booking
+        \App\Models\Booking::create([
+            'user_id' => $user->id,
+            'package_id' => $validated['package_id'],
+            'status' => 'pending',
+            'registered_at' => now(),
+        ]);
 
         // Handle file uploads
         $documentData = ['user_id' => $user->id];
@@ -60,7 +66,7 @@ class HomeController extends Controller
             $documentData['kk'] = $request->file('kk')->store('documents/kk', 'public');
         }
 
-        // Supporting documents (multiple files)
+        // Supporting documents (Akte/Buku Nikah/Ijazah)
         if ($request->hasFile('supporting_docs')) {
             $supportingPaths = [];
             foreach ($request->file('supporting_docs') as $file) {
@@ -72,7 +78,31 @@ class HomeController extends Controller
         // Create document record
         \App\Models\Document::create($documentData);
 
-        return redirect()->route('registration.success')->with('success', 'Pendaftaran berhasil! Kami akan menghubungi Anda segera.');
+        // Create passport record first (required for passport_photos)
+        $passport = \App\Models\Passport::create([
+            'user_id' => $user->id,
+            'passportName' => $request->passportName ?? $validated['fullName'],
+            'isActive' => $validated['hasPassport'],
+        ]);
+
+        // Handle passport photos (pas foto and passport photo)
+        // Pas foto background putih
+        if ($request->hasFile('pas_foto')) {
+            \App\Models\PassportPhoto::create([
+                'passport_id' => $passport->id,
+                'file_path' => $request->file('pas_foto')->store('passport_photos/pas_foto', 'public'),
+            ]);
+        }
+
+        // Upload passport photo if provided
+        if ($request->hasFile('passportPhoto')) {
+            \App\Models\PassportPhoto::create([
+                'passport_id' => $passport->id,
+                'file_path' => $request->file('passportPhoto')->store('passport_photos/passport', 'public'),
+            ]);
+        }
+
+        return redirect()->route('home')->with('success', 'Pendaftaran berhasil! Kami akan menghubungi Anda segera.');
     }
 
     public function registrationSuccess() {

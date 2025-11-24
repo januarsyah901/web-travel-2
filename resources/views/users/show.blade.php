@@ -153,19 +153,38 @@
                     Dokumen KTP
                 </h3>
                 @if($user->documents && $user->documents->ktp)
-                    <div class="text-center">
-                        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-3">
-                            <i class="fas fa-check-circle text-green-600 text-2xl mb-2"></i>
-                            <p class="text-sm text-green-800 font-medium">Dokumen Sudah Upload</p>
+                    <div class="space-y-3">
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                            <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                            <span class="text-sm text-green-800 font-medium">Dokumen Tersedia</span>
                         </div>
-                        <a href="{{ asset('storage/' . $user->documents->ktp) }}" target="_blank"
-                           class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg">
-                            <i class="fas fa-eye mr-2"></i>Lihat Dokumen
-                        </a>
+
+                        @php
+                            $ktpPath = $user->documents->ktp;
+                            $ktpExtension = pathinfo($ktpPath, PATHINFO_EXTENSION);
+                            $isImage = in_array(strtolower($ktpExtension), ['jpg', 'jpeg', 'png', 'gif']);
+                        @endphp
+
+                        @if($isImage)
+                            <div class="border rounded-lg overflow-hidden">
+                                <img src="{{ asset('storage/' . $ktpPath) }}" alt="KTP" class="w-full h-auto">
+                            </div>
+                        @endif
+
+                        <div class="flex gap-2">
+                            <a href="{{ asset('storage/' . $ktpPath) }}" target="_blank"
+                               class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg">
+                                <i class="fas fa-eye mr-2"></i>Lihat
+                            </a>
+                            <a href="{{ asset('storage/' . $ktpPath) }}" download
+                               class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg">
+                                <i class="fas fa-download mr-2"></i>Download
+                            </a>
+                        </div>
                     </div>
                 @else
                     <div class="text-center">
-                        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-3">
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
                             <i class="fas fa-times-circle text-red-600 text-2xl mb-2"></i>
                             <p class="text-sm text-red-800 font-medium">Belum Upload</p>
                         </div>
@@ -180,19 +199,38 @@
                     Kartu Keluarga
                 </h3>
                 @if($user->documents && $user->documents->kk)
-                    <div class="text-center">
-                        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-3">
-                            <i class="fas fa-check-circle text-green-600 text-2xl mb-2"></i>
-                            <p class="text-sm text-green-800 font-medium">Dokumen Sudah Upload</p>
+                    <div class="space-y-3">
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                            <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                            <span class="text-sm text-green-800 font-medium">Dokumen Tersedia</span>
                         </div>
-                        <a href="{{ asset('storage/' . $user->documents->kk) }}" target="_blank"
-                           class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg">
-                            <i class="fas fa-eye mr-2"></i>Lihat Dokumen
-                        </a>
+
+                        @php
+                            $kkPath = $user->documents->kk;
+                            $kkExtension = pathinfo($kkPath, PATHINFO_EXTENSION);
+                            $isImage = in_array(strtolower($kkExtension), ['jpg', 'jpeg', 'png', 'gif']);
+                        @endphp
+
+                        @if($isImage)
+                            <div class="border rounded-lg overflow-hidden">
+                                <img src="{{ asset('storage/' . $kkPath) }}" alt="KK" class="w-full h-auto">
+                            </div>
+                        @endif
+
+                        <div class="flex gap-2">
+                            <a href="{{ asset('storage/' . $kkPath) }}" target="_blank"
+                               class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg">
+                                <i class="fas fa-eye mr-2"></i>Lihat
+                            </a>
+                            <a href="{{ asset('storage/' . $kkPath) }}" download
+                               class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg">
+                                <i class="fas fa-download mr-2"></i>Download
+                            </a>
+                        </div>
                     </div>
                 @else
                     <div class="text-center">
-                        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-3">
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
                             <i class="fas fa-times-circle text-red-600 text-2xl mb-2"></i>
                             <p class="text-sm text-red-800 font-medium">Belum Upload</p>
                         </div>
@@ -207,32 +245,105 @@
                     Dokumen Pendukung
                 </h3>
                 @if($user->documents && $user->documents->dokumen_pendukung)
-                    <div class="text-center">
-                        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-3">
-                            <i class="fas fa-check-circle text-green-600 text-2xl mb-2"></i>
-                            <p class="text-sm text-green-800 font-medium">Dokumen Sudah Upload</p>
+                    <div class="space-y-3">
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                            <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                            <span class="text-sm text-green-800 font-medium">Dokumen Tersedia</span>
                         </div>
+
                         @php
                             $supportingDocs = json_decode($user->documents->dokumen_pendukung, true);
                         @endphp
-                        @if(is_array($supportingDocs))
-                            @foreach($supportingDocs as $index => $doc)
-                                <a href="{{ asset('storage/' . $doc) }}" target="_blank"
-                                   class="inline-flex items-center px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded mb-2 mr-2">
-                                    <i class="fas fa-eye mr-1"></i>Dokumen {{ $index + 1 }}
-                                </a>
-                            @endforeach
+
+                        @if(is_array($supportingDocs) && count($supportingDocs) > 0)
+                            <div class="space-y-3">
+                                @foreach($supportingDocs as $index => $doc)
+                                    @php
+                                        $docExtension = pathinfo($doc, PATHINFO_EXTENSION);
+                                        $isImage = in_array(strtolower($docExtension), ['jpg', 'jpeg', 'png', 'gif']);
+                                    @endphp
+
+                                    <div class="border rounded-lg p-3">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-sm font-medium text-gray-700">
+                                                <i class="fas fa-file mr-1"></i>Dokumen {{ $index + 1 }}
+                                            </span>
+                                            <span class="text-xs text-gray-500 uppercase">{{ $docExtension }}</span>
+                                        </div>
+
+                                        @if($isImage)
+                                            <div class="border rounded overflow-hidden mb-2">
+                                                <img src="{{ asset('storage/' . $doc) }}" alt="Dokumen {{ $index + 1 }}" class="w-full h-auto">
+                                            </div>
+                                        @endif
+
+                                        <div class="flex gap-2">
+                                            <a href="{{ asset('storage/' . $doc) }}" target="_blank"
+                                               class="flex-1 inline-flex items-center justify-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded">
+                                                <i class="fas fa-eye mr-1"></i>Lihat
+                                            </a>
+                                            <a href="{{ asset('storage/' . $doc) }}" download
+                                               class="flex-1 inline-flex items-center justify-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded">
+                                                <i class="fas fa-download mr-1"></i>Download
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         @endif
                     </div>
                 @else
                     <div class="text-center">
-                        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-3">
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
                             <i class="fas fa-times-circle text-red-600 text-2xl mb-2"></i>
                             <p class="text-sm text-red-800 font-medium">Belum Upload</p>
                         </div>
                     </div>
                 @endif
             </div>
+
+            <!-- Pas Foto & Foto Paspor -->
+            @if($user->passport && $user->passport->passportPhotos && $user->passport->passportPhotos->count() > 0)
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-camera text-indigo-600 mr-2"></i>
+                    Foto Paspor
+                </h3>
+                <div class="space-y-3">
+                    @foreach($user->passport->passportPhotos as $index => $photo)
+                        @php
+                            $photoExtension = pathinfo($photo->file_path, PATHINFO_EXTENSION);
+                            $isImage = in_array(strtolower($photoExtension), ['jpg', 'jpeg', 'png', 'gif']);
+                        @endphp
+
+                        <div class="border rounded-lg p-3">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium text-gray-700">
+                                    <i class="fas fa-image mr-1"></i>Foto {{ $index + 1 }}
+                                </span>
+                            </div>
+
+                            @if($isImage)
+                                <div class="border rounded overflow-hidden mb-2">
+                                    <img src="{{ asset('storage/' . $photo->file_path) }}" alt="Foto Paspor" class="w-full h-auto">
+                                </div>
+                            @endif
+
+                            <div class="flex gap-2">
+                                <a href="{{ asset('storage/' . $photo->file_path) }}" target="_blank"
+                                   class="flex-1 inline-flex items-center justify-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded">
+                                    <i class="fas fa-eye mr-1"></i>Lihat
+                                </a>
+                                <a href="{{ asset('storage/' . $photo->file_path) }}" download
+                                   class="flex-1 inline-flex items-center justify-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded">
+                                    <i class="fas fa-download mr-1"></i>Download
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
 
             <!-- Aksi Cepat -->
             <div class="bg-white rounded-lg shadow-md p-6">
