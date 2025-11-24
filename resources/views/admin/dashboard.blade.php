@@ -20,9 +20,233 @@
         .animate-fade-in {
             animation: fadeIn 0.3s ease-out;
         }
+
+        /* Sidebar collapse styles */
+        #sidebar.collapsed {
+            width: 80px !important;
+        }
+
+        #sidebar.collapsed .sidebar-text,
+        #sidebar.collapsed #sidebar-title {
+            opacity: 0;
+            display: none;
+        }
+
+        #sidebar.collapsed .nav-link {
+            justify-content: center;
+        }
+
+        #sidebar.collapsed .nav-link i {
+            margin: 0;
+        }
+
+        /* Smooth transition for all elements */
+        .sidebar-text, #sidebar-title {
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Rotate icon when sidebar collapsed */
+        #toggle-icon {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #toggle-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* Mobile Menu Overlay */
+        #mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #mobile-menu-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            #sidebar {
+                position: fixed;
+                left: -256px;
+                top: 0;
+                height: 100vh;
+                z-index: 50;
+                transition: left 0.3s ease-in-out;
+                -webkit-overflow-scrolling: touch;
+                overflow-y: auto;
+            }
+
+            #sidebar.mobile-open {
+                left: 0;
+            }
+
+            #sidebar.collapsed {
+                left: -256px;
+            }
+
+            /* Main content takes full width on mobile */
+            .flex-1 {
+                width: 100%;
+            }
+
+            /* Adjust card grid for mobile */
+            .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4 {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+
+            /* Make tables scrollable on mobile */
+            .overflow-x-auto {
+                -webkit-overflow-scrolling: touch;
+                overflow-x: auto;
+                max-width: 100%;
+            }
+
+            /* Ensure tables don't break layout on mobile */
+            table {
+                min-width: 600px;
+                width: 100%;
+            }
+
+            /* Make all content sections scrollable horizontally if needed */
+            .content-section {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Prevent content from overflowing */
+            main {
+                overflow-x: hidden;
+            }
+
+            /* Make action buttons stack on mobile */
+            .flex.gap-2,
+            .flex.space-x-2 {
+                flex-wrap: wrap;
+            }
+
+            /* Stack header items on mobile */
+            header .flex.items-center.justify-between {
+                flex-wrap: wrap;
+            }
+
+            /* Reduce padding on mobile */
+            main {
+                padding: 1rem;
+            }
+
+            /* Make cards more compact on mobile */
+            .bg-white.rounded-lg.shadow-md {
+                padding: 1rem;
+            }
+
+            /* Adjust font sizes for mobile */
+            h2.text-3xl {
+                font-size: 1.5rem;
+            }
+
+            h3.text-xl {
+                font-size: 1.125rem;
+            }
+
+            /* Make images responsive */
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            /* Adjust modal width on mobile */
+            .modal-content {
+                width: 95%;
+                max-width: 95%;
+            }
+
+            /* Make form inputs full width on mobile */
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="date"],
+            select,
+            textarea {
+                width: 100%;
+            }
+
+            /* Stack buttons on mobile */
+            .btn-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-group button,
+            .btn-group a {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            /* Further adjustments for small screens */
+            .text-3xl.font-bold {
+                font-size: 1.5rem;
+            }
+
+            .text-2xl {
+                font-size: 1.25rem;
+            }
+
+            /* Stack stat cards */
+            .grid-cols-1 {
+                gap: 1rem;
+            }
+
+            /* Compact table on very small screens */
+            table {
+                font-size: 0.875rem;
+                min-width: 500px;
+            }
+
+            th, td {
+                padding: 0.5rem;
+                white-space: nowrap;
+            }
+
+            /* Reduce padding further on very small screens */
+            main {
+                padding: 0.5rem;
+            }
+
+            .bg-white.rounded-lg.shadow-md {
+                padding: 0.75rem;
+            }
+
+            /* Make text smaller */
+            body {
+                font-size: 14px;
+            }
+
+            /* Adjust alert padding */
+            #success-alert,
+            #error-alert,
+            #warning-alert {
+                padding: 0.75rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100">
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu-overlay" onclick="closeMobileSidebar()"></div>
+
 <div class="flex h-screen overflow-hidden">
     <!-- Sidebar -->
     @include('admin.sidebar')
@@ -208,9 +432,36 @@
 </div>
 
 <script>
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle('-translate-x-full');
+        const overlay = document.getElementById('mobile-menu-overlay');
+
+        if (isMobile()) {
+            // Mobile behavior
+            const isOpen = sidebar.classList.toggle('mobile-open');
+            if (isOpen) {
+                overlay.classList.add('show');
+                sidebar.classList.remove('collapsed');
+            } else {
+                overlay.classList.remove('show');
+            }
+        } else {
+            // Desktop behavior
+            sidebar.classList.toggle('collapsed');
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('show');
+        }
+    }
+
+    function closeMobileSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobile-menu-overlay');
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('show');
     }
 
     function closeAlert(alertId) {
@@ -223,6 +474,21 @@
         }
     }
 
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobile-menu-overlay');
+
+        if (!isMobile()) {
+            // When switching to desktop, remove mobile classes
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('show');
+        } else {
+            // When switching to mobile, remove collapsed class
+            sidebar.classList.remove('collapsed');
+        }
+    });
+
     // Auto-dismiss alerts after 5 seconds
     document.addEventListener('DOMContentLoaded', function() {
         const alerts = ['success-alert', 'error-alert', 'warning-alert'];
@@ -231,6 +497,16 @@
             if (alert) {
                 setTimeout(() => closeAlert(alertId), 5000);
             }
+        });
+
+        // Close mobile sidebar when clicking on nav links
+        const navLinks = document.querySelectorAll('#sidebar .nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (isMobile()) {
+                    closeMobileSidebar();
+                }
+            });
         });
     });
 </script>

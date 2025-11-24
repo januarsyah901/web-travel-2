@@ -18,28 +18,36 @@
     @endif
 
     <!-- Header -->
-    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <div class="flex items-center justify-between">
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6 relative">
+        <!-- Mobile close button (X) -->
+        <a href="{{ route('admin.dashboard') }}?section=users"
+           class="sm:hidden absolute top-3 right-3 hover:bg-gray-700 text-gray-500 p-4   rounded-full flex items-center justify-center"
+           aria-label="Close">
+            <i class="fas fa-times"></i>
+        </a>
+
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center space-x-4">
-                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center">
-                    <i class="fas fa-user text-indigo-600 text-2xl"></i>
+                <div class="w-12 h-12 md:w-16 md:h-16 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-user text-indigo-600 text-xl md:text-2xl"></i>
                 </div>
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-800">{{ $user->fullName }}</h1>
-                    <p class="text-gray-600">ID Pendaftar: {{ $user->id }}</p>
+                <div class="min-w-0">
+                    <h1 class="text-xl md:text-2xl font-bold text-gray-800 truncate">{{ $user->fullName }}</h1>
+                    <p class="text-gray-600 text-sm md:text-base">ID Pendaftar: {{ $user->id }}</p>
                 </div>
             </div>
-            <div class="flex space-x-2">
-                <a href="{{ route('users.edit', $user->id) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
+
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2 w-full sm:w-auto">
+                <a href="{{ route('users.edit', $user->id) }}"
+                   class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center">
                     <i class="fas fa-edit mr-2"></i>Edit
                 </a>
-                <a href="{{ route('admin.dashboard') }}?section=users" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center">
+                <a href="{{ route('admin.dashboard') }}?section=users"
+                   class="hidden sm:inline-flex w-full sm:w-auto bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center justify-center">
                     <i class="fas fa-arrow-left mr-2"></i>Kembali
                 </a>
             </div>
         </div>
-    </div>
-
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Informasi Pribadi -->
         <div class="lg:col-span-2 space-y-6">
