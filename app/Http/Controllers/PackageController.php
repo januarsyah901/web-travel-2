@@ -20,11 +20,24 @@ class PackageController extends Controller
             'title' => 'required',
             'schedule' => 'required',
             'duration' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric',
             'description' => 'nullable',
         ]);
 
-        return Package::create($data);
+        try {
+            return Package::create($data);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $sqlState = $e->getCode();
+            $driverErrorCode = $e->errorInfo[1] ?? null;
+
+            if ($sqlState === '22003' || $driverErrorCode == 1264) {
+                return redirect()->to(route('admin.dashboard') . '?section=packages')
+                    ->with('error','Price value out of range');
+            }
+
+            return redirect()->to(route('admin.dashboard') . '?section=packages')
+                ->with('error','Database error: ' . $e->getMessage());
+        }
     }
 
     public function update(Request $request, $id) {
@@ -34,6 +47,8 @@ class PackageController extends Controller
     }
 
     public function destroy($id) {
-        return Package::destroy($id);
+        Package::destroy($id);
+        return redirect()->to(route('admin.dashboard') . '?section=packages')
+            ->with('success', 'Package berhasil dihapus!');
     }
 }

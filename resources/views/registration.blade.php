@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pendaftaran Umroh</title>
+    <link rel="icon" href="{{ asset('img/icon/favicon.png') }}" type="image/png">
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -12,7 +13,7 @@
         <!-- Header -->
         <div class="text-center mb-8">
             <div class="inline-block bg-white rounded-full p-4 shadow-lg mb-4">
-                <i class="fas fa-kaaba text-indigo-600 text-5xl"></i>
+
             </div>
             <h1 class="text-4xl font-bold text-gray-800 mb-2">Pendaftaran Umroh</h1>
             <p class="text-gray-600">Daftar sekarang untuk perjalanan spiritual Anda</p>
@@ -23,7 +24,7 @@
             @if ($errors->any())
                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
                     <div class="flex items-center mb-2">
-                        <i class="fas fa-exclamation-circle mr-2"></i>
+
                         <p class="font-bold">Terdapat kesalahan dalam pengisian form:</p>
                     </div>
                     <ul class="list-disc list-inside">
@@ -40,7 +41,6 @@
                 <!-- Personal Information Section -->
                 <div>
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
-                        <i class="fas fa-user-circle text-indigo-600 mr-2"></i>
                         Informasi Pribadi
                     </h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -51,7 +51,7 @@
                             </label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-user text-gray-400"></i>
+
                                 </div>
                                 <input type="text" name="fullName" id="fullName" value="{{ old('fullName') }}"
                                     class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -66,7 +66,7 @@
                             </label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-map-marker-alt text-gray-400"></i>
+
                                 </div>
                                 <input type="text" name="birthPlace" id="birthPlace" value="{{ old('birthPlace') }}"
                                     class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -81,7 +81,7 @@
                             </label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-calendar text-gray-400"></i>
+
                                 </div>
                                 <input type="date" name="birthDate" id="birthDate" value="{{ old('birthDate') }}"
                                     class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
@@ -95,7 +95,7 @@
                             </label>
                             <div class="relative">
                                 <div class="absolute top-3 left-3 pointer-events-none">
-                                    <i class="fas fa-home text-gray-400"></i>
+
                                 </div>
                                 <textarea name="address" id="address" rows="3"
                                     class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -110,7 +110,7 @@
                             </label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fab fa-whatsapp text-gray-400"></i>
+
                                 </div>
                                 <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
                                     class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -123,7 +123,7 @@
                 <!-- Package Selection -->
                 <div>
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
-                        <i class="fas fa-box-open text-indigo-600 mr-2"></i>
+
                         Jadwal & Program Umroh <span class="text-red-500">*</span>
                     </h2>
                     <div class="grid grid-cols-1 gap-4">
@@ -154,14 +154,14 @@
                 <!-- Documents Upload -->
                 <div>
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
-                        <i class="fas fa-file-upload text-indigo-600 mr-2"></i>
+
                         Upload Dokumen
                     </h2>
                     <div class="space-y-4">
                         <!-- KTP -->
                         <div>
                             <label for="ktp" class="block text-sm font-medium text-gray-700 mb-2">
-                                <i class="fas fa-id-card mr-1"></i>
+
                                 KTP (Kartu Tanda Penduduk) <span class="text-red-500">*</span>
                             </label>
                             <input type="file" name="ktp" id="ktp" accept="image/*,.pdf" required
@@ -172,7 +172,7 @@
                         <!-- KK -->
                         <div>
                             <label for="kk" class="block text-sm font-medium text-gray-700 mb-2">
-                                <i class="fas fa-users mr-1"></i>
+
                                 KK (Kartu Keluarga) <span class="text-red-500">*</span>
                             </label>
                             <input type="file" name="kk" id="kk" accept="image/*,.pdf" required
@@ -183,7 +183,7 @@
                         <!-- Akte/Buku Nikah/Ijazah -->
                         <div>
                             <label for="supporting_docs" class="block text-sm font-medium text-gray-700 mb-2">
-                                <i class="fas fa-certificate mr-1"></i>
+
                                 Akte Lahir / Buku Nikah / Ijazah <span class="text-red-500">*</span>
                             </label>
                             <input type="file" name="supporting_docs[]" id="supporting_docs" accept="image/*,.pdf" multiple required
@@ -194,7 +194,7 @@
                         <!-- Pas Foto -->
                         <div>
                             <label for="pas_foto" class="block text-sm font-medium text-gray-700 mb-2">
-                                <i class="fas fa-portrait mr-1"></i>
+
                                 Pas Foto Background Putih 80% Tampak Muka
                             </label>
                             <input type="file" name="pas_foto" id="pas_foto" accept="image/*"
@@ -241,7 +241,7 @@
                                 </label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <i class="fas fa-passport text-gray-400"></i>
+
                                     </div>
                                     <input type="text" name="passportName" id="passportName" value="{{ old('passportName') }}"
                                         class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -271,7 +271,7 @@
                             <!-- Passport Photo Upload -->
                             <div>
                                 <label for="passportPhoto" class="block text-sm font-medium text-gray-700 mb-2">
-                                    <i class="fas fa-image mr-1"></i>
+
                                     Upload Foto Paspor
                                 </label>
                                 <input type="file" name="passportPhoto" id="passportPhoto" accept="image/*,.pdf"
@@ -285,11 +285,11 @@
                 <!-- Submit Button -->
                 <div class="flex flex-col sm:flex-row gap-4 pt-6">
                     <a href="{{ route('home') }}" class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-center">
-                        <i class="fas fa-arrow-left mr-2"></i>
+
                         Kembali
                     </a>
                     <button type="submit" class="flex-1 bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-blue-700 transition-colors shadow-lg">
-                        <i class="fas fa-paper-plane mr-2"></i>
+
                         Daftar Sekarang
                     </button>
                 </div>
@@ -300,7 +300,7 @@
         <div class="mt-8 bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
             <div class="flex">
                 <div class="flex-shrink-0">
-                    <i class="fas fa-info-circle text-blue-600 text-xl"></i>
+
                 </div>
                 <div class="ml-3">
                     <h3 class="text-sm font-medium text-blue-800">Informasi Penting</h3>
