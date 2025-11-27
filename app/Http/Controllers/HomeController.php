@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Package;
+use App\Models\Contact;
 
 class HomeController extends Controller
 {
     public function index() {
         $packages = Package::all();
-        return $packages;
+        $contact = Contact::getMainContact();
+        return view('home', compact('packages', 'contact'));
     }
 
     public function showRegistrationForm() {
@@ -42,7 +44,7 @@ class HomeController extends Controller
             'address' => $validated['address'],
             'phone' => $validated['phone'],
             'hasPassport' => $validated['hasPassport'],
-            'password' => bcrypt('password123'), // Default password
+//            'password' => bcrypt('password123'), // Default password
         ]);
 
         // Create booking
