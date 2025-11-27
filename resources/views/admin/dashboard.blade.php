@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{ asset('img/icon/favicon.png') }}">
     <title>Dashboard Admin</title>
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -329,10 +328,10 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-gray-600 text-sm">Pendaftar Umroh</p>
-                                <p class="text-3xl font-bold text-indigo-600">{{ $counts['users'] }}</p>
+                                <p class="text-3xl font-bold text-blue-600">{{ $counts['users'] }}</p>
                             </div>
-                            <div class="bg-indigo-100 p-4 rounded-full">
-                                <i class="fas fa-users text-indigo-600 text-2xl"></i>
+                            <div class="bg-blue-100 p-4 rounded-full">
+                                <i class="fas fa-users text-blue-600 text-2xl"></i>
                             </div>
                         </div>
                     </div>
@@ -351,10 +350,10 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-gray-600 text-sm">Packages</p>
-                                <p class="text-3xl font-bold text-green-600">{{ $counts['packages'] }}</p>
+                                <p class="text-3xl font-bold text-blue-600">{{ $counts['packages'] }}</p>
                             </div>
-                            <div class="bg-green-100 p-4 rounded-full">
-                                <i class="fas fa-box text-green-600 text-2xl"></i>
+                            <div class="bg-blue-100 p-4 rounded-full">
+                                <i class="fas fa-box text-blue-600 text-2xl"></i>
                             </div>
                         </div>
                     </div>
@@ -362,10 +361,10 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-gray-600 text-sm">Partners</p>
-                                <p class="text-3xl font-bold text-purple-600">{{ $counts['partners'] }}</p>
+                                <p class="text-3xl font-bold text-blue-600">{{ $counts['partners'] }}</p>
                             </div>
-                            <div class="bg-purple-100 p-4 rounded-full">
-                                <i class="fas fa-handshake text-purple-600 text-2xl"></i>
+                            <div class="bg-blue-100 p-4 rounded-full">
+                                <i class="fas fa-handshake text-blue-600 text-2xl"></i>
                             </div>
                         </div>
                     </div>

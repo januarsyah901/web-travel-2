@@ -122,8 +122,8 @@
         </button>
 
         <div class="mt-3">
-            <h3 class="text-2xl font-bold bg-gradient-to-r bg-blue-600 bg-clip-text text-transparent mb-6 flex items-center">
-                <i class="fas fa-plus mr-3 text-blue-600"></i>
+            <h3 class="text-2xl font-bold bg-gradient-to-r bg-green-600 bg-clip-text text-transparent mb-6 flex items-center">
+                <i class="fas fa-plus mr-3 text-green-600"></i>
                 Tambah Paket Baru
             </h3>
             <form id="createForm" method="POST" action="{{ route('packages.store') }}" class="space-y-5">
@@ -167,7 +167,7 @@
                     <button type="button" onclick="closeCreateModal()" class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-all duration-200 shadow-lg">
                         Batal
                     </button>
-                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r bg-blue-600 text-white rounded-lg font-medium hover:from-green-700 hover:to-teal-700 transition-all duration-200 shadow-lg transform hover:scale-105">
+                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r bg-green-600 text-white rounded-lg font-medium hover:from-green-700 hover:to-teal-700 transition-all duration-200 shadow-lg transform hover:scale-105">
                         <i class="fas fa-plus mr-2"></i>
                         Tambah Paket
                     </button>

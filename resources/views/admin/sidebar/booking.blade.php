@@ -1,4 +1,10 @@
 <div id="bookings" class="content-section {{ $section == 'bookings' ? '' : 'hidden' }}">
+    @if(session('success'))
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-3xl font-bold text-gray-800">Bookings</h2>
         <button onclick="openCreateBookingModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">

@@ -9,7 +9,7 @@ class Testimonial extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'user_id', 'content', 'rating'];
+    protected $fillable = ['name', 'user_id', 'content', 'rating', 'photo', 'city'];
 
     public function user()
     {

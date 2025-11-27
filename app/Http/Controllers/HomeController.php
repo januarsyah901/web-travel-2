@@ -42,7 +42,7 @@ class HomeController extends Controller
             'address' => $validated['address'],
             'phone' => $validated['phone'],
             'hasPassport' => $validated['hasPassport'],
-//            'password' => bcrypt('password123'), // Default password
+            'password' => bcrypt('password123'), // Default password
         ]);
 
         // Create booking

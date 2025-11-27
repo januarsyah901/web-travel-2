@@ -13,6 +13,7 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\MutawwifController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/daftar', [HomeController::class, 'showRegistrationForm'])->name('registration.form');
@@ -22,6 +23,9 @@ Route::get('/daftar/sukses', [HomeController::class, 'registrationSuccess'])->na
 Route::get('/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/login', [AdminController::class, 'login']);
 Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+// API endpoint untuk mendapatkan informasi kontak (public)
+Route::get('/api/contact-info', [ContactController::class, 'getContactInfo'])->name('api.contact.info');
 
 Route::middleware('auth:admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -35,4 +39,5 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('partners', PartnerController::class);
     Route::resource('mutawwifs', MutawwifController::class);
     Route::resource('galleries', GalleryController::class);
+    Route::resource('contacts', ContactController::class)->names('admin.contact');
 });

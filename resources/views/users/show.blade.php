@@ -173,11 +173,11 @@
                             $isImage = in_array(strtolower($ktpExtension), ['jpg', 'jpeg', 'png', 'gif']);
                         @endphp
 
-                        @if($isImage)
-                            <div class="border rounded-lg overflow-hidden">
-                                <img src="{{ asset('storage/' . $ktpPath) }}" alt="KTP" class="w-full h-auto">
-                            </div>
-                        @endif
+                            @if($isImage)
+                                <div class="border rounded-lg overflow-hidden">
+                                    <img src="{{ asset('storage/' . $ktpPath) }}" alt="KTP" class="w-full h-auto">
+                                </div>
+                            @endif
 
                         <div class="flex gap-2">
                             <a href="{{ asset('storage/' . $ktpPath) }}" target="_blank"
