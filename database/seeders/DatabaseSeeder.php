@@ -26,13 +26,7 @@ class DatabaseSeeder extends Seeder
             PassportSeeder::class, // Ini sudah include documents dan passport_photos
             BookingSeeder::class,
             TestimonialSeeder::class,
-        ]);
-
-        Admin::create([
-            'name' => 'Admin',
-            'email' => 'me@mail.com',
-            'password' => Hash::make('password'),
-            'role' => 'superadmin',
+            AdminSeeder::class,
         ]);
     }
 }
