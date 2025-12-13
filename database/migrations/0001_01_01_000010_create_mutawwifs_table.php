@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('mutawwifs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description')->nullable();
+            $table->text('specialization')->nullable();
             $table->string('photo_path')->nullable();
             $table->timestamps();
         });

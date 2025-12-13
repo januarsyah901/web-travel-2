@@ -16,7 +16,7 @@ class HomeController extends Controller
 
     public function showRegistrationForm() {
         $packages = Package::all();
-        return view('registration', compact('packages'));
+        return view('registration.index', compact('packages'));
     }
 
     public function register(Request $request) {

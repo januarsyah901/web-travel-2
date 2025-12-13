@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('registration.app')
 
 @section('title', 'Pendaftaran Umroh')
 
@@ -6,7 +6,8 @@
     <!-- Header -->
     <div class="text-center mb-8">
         <div class="inline-block mb-4">
-            <img src="{{ asset('img/img/vertical_logo.png') }}" alt="" srcset="{{ asset('img/img/vertical_logo.png') }}" width="400">
+            <img src="{{ asset('img/img/vertical_logo.png') }}" alt="" srcset="{{ asset('img/img/vertical_logo.png') }}"
+                 width="400">
         </div>
         <h1 class="text-4xl font-bold text-gray-800 mb-2">Pendaftaran Umroh</h1>
         <p class="text-gray-600">Daftar sekarang untuk perjalanan ibadah Anda</p>
@@ -49,8 +50,8 @@
 
                             </div>
                             <input type="text" name="fullName" id="fullName" value="{{ old('fullName') }}"
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                                placeholder="Masukkan nama lengkap sesuai KTP" required>
+                                   class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                   placeholder="Masukkan nama lengkap sesuai KTP" required>
                         </div>
                     </div>
 
@@ -64,8 +65,8 @@
 
                             </div>
                             <input type="text" name="birthPlace" id="birthPlace" value="{{ old('birthPlace') }}"
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                                placeholder="Contoh: Jakarta" required>
+                                   class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                   placeholder="Contoh: Jakarta" required>
                         </div>
                     </div>
 
@@ -79,7 +80,8 @@
 
                             </div>
                             <input type="date" name="birthDate" id="birthDate" value="{{ old('birthDate') }}"
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500" required>
+                                   class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                   required>
                         </div>
                     </div>
 
@@ -93,8 +95,9 @@
 
                             </div>
                             <textarea name="address" id="address" rows="3"
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                                placeholder="Masukkan alamat lengkap sesuai KTP" required>{{ old('address') }}</textarea>
+                                      class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                      placeholder="Masukkan alamat lengkap sesuai KTP"
+                                      required>{{ old('address') }}</textarea>
                         </div>
                     </div>
 
@@ -108,8 +111,8 @@
 
                             </div>
                             <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                                placeholder="08xxxxxxxxxx" required>
+                                   class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                   placeholder="08xxxxxxxxxx" required>
                         </div>
                     </div>
                 </div>
@@ -123,10 +126,11 @@
                 </h2>
                 <div class="grid grid-cols-1 gap-4">
                     @forelse($packages as $package)
-                        <label class="relative flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-orange-500 transition-colors">
+                        <label
+                            class="relative flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-orange-500 transition-colors">
                             <input type="radio" name="package_id" value="{{ $package->id }}"
-                                {{ old('package_id') == $package->id ? 'checked' : '' }}
-                                class="w-5 h-5 text-orange-600 focus:ring-orange-500" required>
+                                   {{ old('package_id') == $package->id ? 'checked' : '' }}
+                                   class="w-5 h-5 text-orange-600 focus:ring-orange-500" required>
                             <div class="ml-4 flex-1">
                                 <div class="flex justify-between items-start">
                                     <div>
@@ -135,7 +139,8 @@
                                         <p class="text-sm text-gray-500">Durasi: {{ $package->duration }}</p>
                                     </div>
                                     <div class="text-right">
-                                        <p class="text-xl font-bold text-orange-600">Rp {{ number_format($package->price, 0, ',', '.') }}</p>
+                                        <p class="text-xl font-bold text-orange-600">
+                                            Rp {{ number_format($package->price, 0, ',', '.') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +165,7 @@
                             KTP (Kartu Tanda Penduduk) <span class="text-red-500">*</span>
                         </label>
                         <input type="file" name="ktp" id="ktp" accept="image/*,.pdf" required
-                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+                               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
                         <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, atau PDF (Max 2MB)</p>
                     </div>
 
@@ -171,7 +176,7 @@
                             KK (Kartu Keluarga) <span class="text-red-500">*</span>
                         </label>
                         <input type="file" name="kk" id="kk" accept="image/*,.pdf" required
-                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+                               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
                         <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, atau PDF (Max 2MB)</p>
                     </div>
 
@@ -181,9 +186,11 @@
 
                             Akte Lahir / Buku Nikah / Ijazah <span class="text-red-500">*</span>
                         </label>
-                        <input type="file" name="supporting_docs[]" id="supporting_docs" accept="image/*,.pdf" multiple required
-                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
-                        <p class="mt-1 text-xs text-gray-500">Upload salah satu atau lebih. Format: JPG, PNG, atau PDF</p>
+                        <input type="file" name="supporting_docs[]" id="supporting_docs" accept="image/*,.pdf" multiple
+                               required
+                               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+                        <p class="mt-1 text-xs text-gray-500">Upload salah satu atau lebih. Format: JPG, PNG, atau
+                            PDF</p>
                     </div>
 
                     <!-- Pas Foto -->
@@ -193,8 +200,9 @@
                             Pas Foto Background Putih 80% Tampak Muka
                         </label>
                         <input type="file" name="pas_foto" id="pas_foto" accept="image/*"
-                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
-                        <p class="mt-1 text-xs text-gray-500">Format: JPG atau PNG. Ukuran 4x6 dengan background putih</p>
+                               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+                        <p class="mt-1 text-xs text-gray-500">Format: JPG atau PNG. Ukuran 4x6 dengan background
+                            putih</p>
                     </div>
                 </div>
             </div>
@@ -213,22 +221,25 @@
                         </label>
                         <div class="flex space-x-4">
                             <label class="flex items-center cursor-pointer">
-                                <input type="radio" name="hasPassport" value="1" {{ old('hasPassport') == '1' ? 'checked' : '' }}
-                                    class="w-5 h-5 text-orange-600 focus:ring-orange-500" required
-                                    onchange="togglePassportFields(true)">
+                                <input type="radio" name="hasPassport" value="1"
+                                       {{ old('hasPassport') == '1' ? 'checked' : '' }}
+                                       class="w-5 h-5 text-orange-600 focus:ring-orange-500" required
+                                       onchange="togglePassportFields(true)">
                                 <span class="ml-2 text-gray-700">Ya, sudah memiliki paspor</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
-                                <input type="radio" name="hasPassport" value="0" {{ old('hasPassport') == '0' ? 'checked' : '' }}
-                                    class="w-5 h-5 text-orange-600 focus:ring-orange-500" required
-                                    onchange="togglePassportFields(false)">
+                                <input type="radio" name="hasPassport" value="0"
+                                       {{ old('hasPassport') == '0' ? 'checked' : '' }}
+                                       class="w-5 h-5 text-orange-600 focus:ring-orange-500" required
+                                       onchange="togglePassportFields(false)">
                                 <span class="ml-2 text-gray-700">Belum memiliki paspor</span>
                             </label>
                         </div>
                     </div>
 
                     <!-- Passport Details (Conditional) -->
-                    <div id="passportDetails" class="space-y-4" style="display: {{ old('hasPassport') == '1' ? 'block' : 'none' }};">
+                    <div id="passportDetails" class="space-y-4"
+                         style="display: {{ old('hasPassport') == '1' ? 'block' : 'none' }};">
                         <!-- Passport Name -->
                         <div>
                             <label for="passportName" class="block text-sm font-medium text-gray-700 mb-2">
@@ -238,9 +249,10 @@
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
 
                                 </div>
-                                <input type="text" name="passportName" id="passportName" value="{{ old('passportName') }}"
-                                    class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                                    placeholder="Nama sesuai paspor">
+                                <input type="text" name="passportName" id="passportName"
+                                       value="{{ old('passportName') }}"
+                                       class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                       placeholder="Nama sesuai paspor">
                             </div>
                         </div>
 
@@ -251,13 +263,15 @@
                             </label>
                             <div class="space-y-2">
                                 <label class="flex items-center cursor-pointer">
-                                    <input type="radio" name="passportStatus" value="valid" {{ old('passportStatus') == 'valid' ? 'checked' : '' }}
-                                        class="w-4 h-4 text-orange-600 focus:ring-orange-500">
+                                    <input type="radio" name="passportStatus" value="valid"
+                                           {{ old('passportStatus') == 'valid' ? 'checked' : '' }}
+                                           class="w-4 h-4 text-orange-600 focus:ring-orange-500">
                                     <span class="ml-2 text-gray-700">Masih berlaku</span>
                                 </label>
                                 <label class="flex items-center cursor-pointer">
-                                    <input type="radio" name="passportStatus" value="expired" {{ old('passportStatus') == 'expired' ? 'checked' : '' }}
-                                        class="w-4 h-4 text-orange-600 focus:ring-orange-500">
+                                    <input type="radio" name="passportStatus" value="expired"
+                                           {{ old('passportStatus') == 'expired' ? 'checked' : '' }}
+                                           class="w-4 h-4 text-orange-600 focus:ring-orange-500">
                                     <span class="ml-2 text-gray-700">Habis masa berlaku</span>
                                 </label>
                             </div>
@@ -270,8 +284,9 @@
                                 Upload Foto Paspor
                             </label>
                             <input type="file" name="passportPhoto" id="passportPhoto" accept="image/*,.pdf"
-                                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
-                            <p class="mt-1 text-xs text-gray-500">Upload foto halaman identitas paspor. Format: JPG, PNG, atau PDF</p>
+                                   class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+                            <p class="mt-1 text-xs text-gray-500">Upload foto halaman identitas paspor. Format: JPG,
+                                PNG, atau PDF</p>
                         </div>
                     </div>
                 </div>
@@ -279,11 +294,13 @@
 
             <!-- Submit Button -->
             <div class="flex flex-col sm:flex-row gap-4 pt-6">
-                <a href="{{ route('home') }}" class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-center">
+                <a href="{{ route('home') }}"
+                   class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-center">
 
                     Kembali
                 </a>
-                <button type="submit" class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-colors shadow-lg">
+                <button type="submit"
+                        class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-colors shadow-lg">
 
                     Daftar Sekarang
                 </button>
@@ -326,7 +343,7 @@
         }
 
         // Initialize on page load if old value exists
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const hasPassportYes = document.querySelector('input[name="hasPassport"][value="1"]');
             if (hasPassportYes && hasPassportYes.checked) {
                 togglePassportFields(true);

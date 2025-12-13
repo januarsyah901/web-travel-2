@@ -46,8 +46,6 @@ class MutawwifController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'experience' => 'nullable|integer',
-            'specialization' => 'nullable|string|max:255',
             'photo' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 

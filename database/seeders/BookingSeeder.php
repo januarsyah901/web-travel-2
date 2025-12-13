@@ -11,40 +11,41 @@ class BookingSeeder extends Seeder
 {
     public function run()
     {
-        $bookings = [
-            [
-                'user_id' => 1,
-                'package_id' => 1,
-                'status' => 'confirmed',
-                'registered_at' => Carbon::now()->subDays(10),
-                'created_at' => Carbon::now()->subDays(15),
-                'updated_at' => Carbon::now()->subDays(5),
-            ],
-            [
-                'user_id' => 2,
-                'package_id' => 2,
-                'status' => 'pending',
-                'registered_at' => Carbon::now()->subDays(5),
-                'created_at' => Carbon::now()->subDays(7),
-                'updated_at' => Carbon::now()->subDays(5),
-            ],
-            [
-                'user_id' => 3,
-                'package_id' => 3,
-                'status' => 'confirmed',
-                'registered_at' => Carbon::now()->subDays(3),
-                'created_at' => Carbon::now()->subDays(5),
-                'updated_at' => Carbon::now()->subDays(2),
-            ],
-            [
-                'user_id' => 4,
-                'package_id' => 4,
-                'status' => 'cancelled',
-                'registered_at' => Carbon::now()->subDays(20),
-                'created_at' => Carbon::now()->subDays(25),
-                'updated_at' => Carbon::now()->subDays(18),
-            ]
+        // Grab existing package and user IDs to avoid FK constraint failures
+        $packageIds = DB::table('packages')->pluck('id')->toArray();
+        $userIds = DB::table('users')->pluck('id')->toArray();
+
+        // If there are no packages or users, skip seeding bookings
+        if (empty($packageIds) || empty($userIds)) {
+            return;
+        }
+
+        // Sample booking templates (relative indices). We'll map indices to actual IDs.
+        $templates = [
+            ['user_index' => 0, 'package_index' => 0, 'status' => 'confirmed', 'registered_days_ago' => 10, 'created_days_ago' => 15, 'updated_days_ago' => 5],
+            ['user_index' => 1, 'package_index' => 1, 'status' => 'pending', 'registered_days_ago' => 5, 'created_days_ago' => 7, 'updated_days_ago' => 5],
+            ['user_index' => 2, 'package_index' => 2, 'status' => 'confirmed', 'registered_days_ago' => 3, 'created_days_ago' => 5, 'updated_days_ago' => 2],
+            ['user_index' => 3, 'package_index' => 3, 'status' => 'cancelled', 'registered_days_ago' => 20, 'created_days_ago' => 25, 'updated_days_ago' => 18],
         ];
+
+        $bookings = [];
+        $packageCount = count($packageIds);
+        $userCount = count($userIds);
+
+        foreach ($templates as $t) {
+            // Map relative index to available IDs using modulo to avoid out-of-range errors
+            $userId = $userIds[$t['user_index'] % $userCount];
+            $packageId = $packageIds[$t['package_index'] % $packageCount];
+
+            $bookings[] = [
+                'user_id' => $userId,
+                'package_id' => $packageId,
+                'status' => $t['status'],
+                'registered_at' => Carbon::now()->subDays($t['registered_days_ago']),
+                'created_at' => Carbon::now()->subDays($t['created_days_ago']),
+                'updated_at' => Carbon::now()->subDays($t['updated_days_ago']),
+            ];
+        }
 
         DB::table('bookings')->insert($bookings);
     }

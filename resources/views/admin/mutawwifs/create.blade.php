@@ -48,29 +48,6 @@
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
-
-                <div>
-                    <label for="experience" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Pengalaman (Tahun)
-                    </label>
-                    <input type="number" name="experience" id="experience" value="{{ old('experience') }}" min="0"
-                        class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('experience') border-red-500 @enderror">
-                    @error('experience')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="description" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Deskripsi
-                    </label>
-                    <textarea name="description" id="description" rows="4"
-                        class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
-                    @error('description')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
                 <div>
                     <label for="photo" class="block text-sm font-semibold text-gray-700 mb-2">
                         Foto

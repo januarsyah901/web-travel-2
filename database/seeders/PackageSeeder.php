@@ -40,23 +40,14 @@ class PackageSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'title' => 'Paket Umroh Ramadhan 14 Hari',
-                'schedule' => '2024-04-01 s/d 2024-04-15',
-                'duration' => 14,
-                'price' => 48000000.00,
-                'description' => 'Paket khusus umroh di bulan Ramadhan dengan program ibadah khusus dan buka puasa bersama.',
+                'title' => 'Paket Umroh VIP 7 Hari',
+                'schedule' => '2024-05-05 s/d 2024-05-12',
+                'duration' => 7,
+                'price' => 55000000.00,
+                'description' => 'Paket umroh VIP dengan hotel bintang 5 dekat Masjidil Haram, makan prasmanan, dan guide berpengalaman.',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-            [
-                'title' => 'Paket Umroh Ekonomis 10 Hari',
-                'schedule' => '2024-06-20 s/d 2024-06-30',
-                'duration' => 10,
-                'price' => 28000000.00,
-                'description' => 'Paket umroh ekonomis dengan harga terjangkau namun tetap nyaman dan berkualitas.',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]
         ];
 
         DB::table('packages')->insert($packages);

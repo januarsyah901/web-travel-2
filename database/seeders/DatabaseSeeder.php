@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
             PackageSeeder::class,
             MutawwifSeeder::class,
             PartnerSeeder::class,
-            GallerySeeder::class,
             PassportSeeder::class, // Ini sudah include documents dan passport_photos
             BookingSeeder::class,
             TestimonialSeeder::class,
