@@ -13,7 +13,7 @@
                 Bersama PT Fabi Abadi, perjalanan ibadah Anda adalah prioritas kami
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ route('registration.form') }}"
+                <a href="{{ route('registration.index') }}"
                    class="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
                     Daftar Sekarang
                 </a>

@@ -16,7 +16,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/daftar', [HomeController::class, 'showRegistrationForm'])->name('registration.form');
+Route::get('/daftar', [HomeController::class, 'showRegistrationForm'])->name('registration.index');
 Route::post('/daftar', [HomeController::class, 'register'])->name('registration.submit');
 Route::get('/daftar/sukses', [HomeController::class, 'registrationSuccess'])->name('registration.success');
 

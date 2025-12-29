@@ -77,7 +77,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('registration.form') }}" class="group flex items-center text-orange-500 font-semibold hover:text-orange-400 transition-colors duration-300">
+                        <a href="{{ route('registration.index') }}" class="group flex items-center text-orange-500 font-semibold hover:text-orange-400 transition-colors duration-300">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
                             <span class="group-hover:translate-x-1 transition-transform duration-300">Form Pendaftaran</span>
                         </a>

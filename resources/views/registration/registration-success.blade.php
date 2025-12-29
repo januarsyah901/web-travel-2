@@ -3,111 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Berhasil</title>
-    @vite('resources/css/app.css')
+    <title>Pendaftaran Berhasil | Fabi Abadi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Animasi Pop untuk icon centang */
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-green-50 to-emerald-100 min-h-screen flex items-center justify-center px-4">
-    <div class="max-w-2xl mx-auto">
-        <!-- Success Card -->
-        <div class="bg-white rounded-2xl shadow-xl p-8 text-center">
-            <!-- Success Icon -->
-            <div class="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full mb-6">
-                <i class="fas fa-check-circle text-green-600 text-6xl"></i>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center px-4 py-10 font-sans">
+
+<div class="max-w-2xl w-full mx-auto">
+
+    <div class="text-center mb-8">
+        <img src="{{ asset('img/img/vertical_logo.png') }}"
+             alt="Logo Fabi Abadi"
+             class="h-16 mx-auto object-contain mb-2">
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-xl shadow-orange-100 border border-orange-50 overflow-hidden relative">
+
+        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-400 to-orange-600"></div>
+
+        <div class="p-8 md:p-10 text-center">
+            <div class="animate-pop inline-flex items-center justify-center w-24 h-24 bg-orange-50 rounded-full mb-6 ring-8 ring-orange-50/50">
+                <i class="fas fa-check text-orange-600 text-5xl"></i>
             </div>
 
-            <!-- Success Message -->
-            <h1 class="text-4xl font-bold text-gray-800 mb-4">Pendaftaran Berhasil!</h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3 tracking-tight">Alhamdulillah!</h1>
+            <h2 class="text-xl font-medium text-orange-600 mb-4">Pendaftaran Berhasil Terkirim</h2>
 
             @if(session('success'))
-                <p class="text-lg text-gray-600 mb-6">{{ session('success') }}</p>
+                <p class="text-gray-600 mb-8 leading-relaxed max-w-lg mx-auto">{{ session('success') }}</p>
             @else
-                <p class="text-lg text-gray-600 mb-6">
-                    Terima kasih telah mendaftar program umroh kami. Tim kami akan segera menghubungi Anda untuk konfirmasi dan informasi lebih lanjut.
+                <p class="text-gray-600 mb-8 leading-relaxed max-w-lg mx-auto">
+                    Terima kasih telah mempercayakan perjalanan ibadah Anda kepada kami. Data Anda telah kami terima dengan aman.
                 </p>
             @endif
 
-            <!-- Info Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 mb-8">
-                <div class="bg-blue-50 rounded-lg p-4">
-                    <i class="fas fa-phone-alt text-blue-600 text-2xl mb-2"></i>
-                    <p class="text-sm text-gray-600">Kami akan menghubungi</p>
-                    <p class="font-semibold text-gray-800">1-2 Hari Kerja</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 text-left">
+                <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-4 transition hover:bg-orange-50">
+                    <div class="bg-white w-10 h-10 rounded-lg flex items-center justify-center shadow-sm mb-3 text-orange-600">
+                        <i class="fas fa-clock text-lg"></i>
+                    </div>
+                    <p class="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Respon Kami</p>
+                    <p class="font-bold text-gray-800">1x24 Jam Kerja</p>
                 </div>
-                <div class="bg-purple-50 rounded-lg p-4">
-                    <i class="fas fa-envelope text-purple-600 text-2xl mb-2"></i>
-                    <p class="text-sm text-gray-600">Cek email Anda</p>
-                    <p class="font-semibold text-gray-800">Untuk Konfirmasi</p>
+
+                <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-4 transition hover:bg-orange-50">
+                    <div class="bg-white w-10 h-10 rounded-lg flex items-center justify-center shadow-sm mb-3 text-orange-600">
+                        <i class="fas fa-whatsapp text-lg"></i>
+                    </div>
+                    <p class="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Dihubungi Via</p>
+                    <p class="font-bold text-gray-800">WhatsApp / Telp</p>
                 </div>
-                <div class="bg-indigo-50 rounded-lg p-4">
-                    <i class="fas fa-clipboard-check text-indigo-600 text-2xl mb-2"></i>
-                    <p class="text-sm text-gray-600">Proses selanjutnya</p>
-                    <p class="font-semibold text-gray-800">Verifikasi Data</p>
+
+                <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-4 transition hover:bg-orange-50">
+                    <div class="bg-white w-10 h-10 rounded-lg flex items-center justify-center shadow-sm mb-3 text-orange-600">
+                        <i class="fas fa-file-shield text-lg"></i>
+                    </div>
+                    <p class="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Status Data</p>
+                    <p class="font-bold text-gray-800">Menunggu Verifikasi</p>
                 </div>
             </div>
 
-            <!-- Next Steps -->
-            <div class="bg-gray-50 rounded-lg p-6 mb-6 text-left">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                    <i class="fas fa-list-check text-indigo-600 mr-2"></i>
-                    Langkah Selanjutnya:
+            <div class="text-left bg-gray-50 rounded-2xl p-6 border border-gray-100 mb-8">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-list-check text-orange-500 mr-2.5"></i>
+                    Langkah Selanjutnya
                 </h3>
-                <ul class="space-y-3">
-                    <li class="flex items-start">
-                        <span class="flex-shrink-0 w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm mr-3 mt-0.5">1</span>
-                        <span class="text-gray-700">Pastikan nomor telepon Anda aktif dan dapat dihubungi</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="flex-shrink-0 w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm mr-3 mt-0.5">2</span>
-                        <span class="text-gray-700">Cek email Anda secara berkala untuk informasi lebih lanjut</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="flex-shrink-0 w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm mr-3 mt-0.5">3</span>
-                        <span class="text-gray-700">Siapkan dokumen yang diperlukan (KTP, KK, Paspor jika ada)</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="flex-shrink-0 w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm mr-3 mt-0.5">4</span>
-                        <span class="text-gray-700">Tunggu konfirmasi dari tim kami</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Contact Info -->
-            <div class="bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg p-6 mb-6">
-                <h3 class="text-lg font-semibold mb-3">Butuh Bantuan?</h3>
-                <p class="text-sm mb-4">Hubungi kami jika ada pertanyaan:</p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <div class="flex items-center justify-center">
-                        <i class="fas fa-phone mr-2"></i>
-                        <span>0812-3456-7890</span>
+                <div class="space-y-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0 mr-4 flex flex-col items-center">
+                            <div class="w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md shadow-orange-200">1</div>
+                            <div class="h-full w-0.5 bg-orange-200 my-1"></div>
+                        </div>
+                        <div class="pb-4">
+                            <p class="font-semibold text-gray-800">Cek WhatsApp & Email</p>
+                            <p class="text-sm text-gray-600 mt-1">Kami akan mengirimkan detail paket dan tagihan booking seat.</p>
+                        </div>
                     </div>
-                    <div class="flex items-center justify-center">
-                        <i class="fas fa-envelope mr-2"></i>
-                        <span>info@umroh.com</span>
+                    <div class="flex">
+                        <div class="flex-shrink-0 mr-4 flex flex-col items-center">
+                            <div class="w-8 h-8 bg-orange-100 text-orange-600 border border-orange-200 rounded-full flex items-center justify-center font-bold text-sm">2</div>
+                            <div class="h-full w-0.5 bg-gray-200 my-1"></div>
+                        </div>
+                        <div class="pb-4">
+                            <p class="font-semibold text-gray-800">Pembayaran DP</p>
+                            <p class="text-sm text-gray-600 mt-1">Lakukan pembayaran uang muka sesuai instruksi untuk mengamankan seat.</p>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="flex-shrink-0 mr-4 flex flex-col items-center">
+                            <div class="w-8 h-8 bg-orange-100 text-orange-600 border border-orange-200 rounded-full flex items-center justify-center font-bold text-sm">3</div>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800">Penyerahan Dokumen Fisik</p>
+                            <p class="text-sm text-gray-600 mt-1">Tim kami akan memandu Anda untuk pengumpulan paspor asli & dokumen lain.</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4">
-                <a href="{{ route('home') }}" class="flex-1 bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">
-                    <i class="fas fa-home mr-2"></i>
-                    Kembali ke Beranda
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{{ route('home') }}" class="w-full sm:w-auto px-8 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-colors flex items-center justify-center">
+                    <i class="fas fa-home mr-2 text-gray-500"></i>
+                    Ke Beranda
                 </a>
-                <a href="{{ route('registration.form') }}" class="flex-1 bg-white border-2 border-indigo-600 text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-indigo-50 transition-colors">
-                    <i class="fas fa-plus mr-2"></i>
-                    Daftar Lagi
+                <a href="{{ route('registration.index') }}" class="w-full sm:w-auto px-8 py-3 bg-orange-600 text-white font-bold rounded-xl hover:bg-orange-700 transition-all shadow-lg shadow-orange-200 flex items-center justify-center">
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Daftar Jemaah Lain
                 </a>
             </div>
         </div>
 
-        <!-- Additional Info -->
-        <div class="mt-8 text-center">
-            <p class="text-gray-600 text-sm">
-                <i class="fas fa-shield-alt text-green-600 mr-2"></i>
-                Data Anda aman dan terlindungi
-            </p>
+        <div class="bg-orange-50 px-8 py-4 border-t border-orange-100">
+            <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-gray-500 gap-2">
+                <p class="flex items-center">
+                    <i class="fas fa-shield-alt text-orange-500 mr-2"></i>
+                    Data aman & terlindungi
+                </p>
+                <p>Butuh bantuan? <a href="#" class="text-orange-600 font-semibold hover:underline">0812-3456-7890</a></p>
+            </div>
         </div>
     </div>
+
+    <p class="text-center text-gray-400 text-sm mt-8">
+        &copy; {{ date('Y') }} PT Fabi Abadi. All rights reserved.
+    </p>
+</div>
 </body>
 </html>

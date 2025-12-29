@@ -23,7 +23,6 @@ class User extends Authenticatable
         'address',
         'phone',
         'hasPassport',
-        'password',
     ];
 
     /**

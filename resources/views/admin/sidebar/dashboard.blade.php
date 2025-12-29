@@ -1,20 +1,91 @@
-<div id="users" class="content-section {{ $section == 'users' ? '' : 'hidden' }} space-y-6">
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-            <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Data Pendaftar</h2>
-            <p class="text-gray-500 mt-1">Database lengkap calon jamaah umroh yang terdaftar.</p>
+<div id="dashboard" class="content-section {{ $section ? 'hidden' : '' }} space-y-8 animate-fade-in-up">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Total Pendaftar</p>
+                    <h3 class="text-3xl font-bold text-gray-800 mt-2">{{ number_format($counts['users']) }}</h3>
+                </div>
+                <div class="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <i class="fas fa-users text-xl"></i>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center text-xs text-gray-400">
+                <span class="text-blue-600 font-semibold bg-blue-50 px-2 py-0.5 rounded mr-2">
+                    <i class="fas fa-database mr-1"></i> Data
+                </span>
+                <span>Calon Jamaah</span>
+            </div>
         </div>
 
-        <div class="relative w-full md:w-64">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-                <i class="fas fa-search"></i>
-            </span>
-            <input type="text" placeholder="Cari nama jamaah..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-shadow">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Total Bookings</p>
+                    <h3 class="text-3xl font-bold text-gray-800 mt-2">{{ number_format($counts['bookings']) }}</h3>
+                </div>
+                <div class="p-3 bg-green-50 rounded-xl text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                    <i class="fas fa-calendar-check text-xl"></i>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center text-xs text-gray-400">
+                <span class="text-green-600 font-semibold bg-green-50 px-2 py-0.5 rounded mr-2">
+                    <i class="fas fa-check mr-1"></i> Aktif
+                </span>
+                <span>Transaksi Masuk</span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Paket Tersedia</p>
+                    <h3 class="text-3xl font-bold text-gray-800 mt-2">{{ number_format($counts['packages']) }}</h3>
+                </div>
+                <div class="p-3 bg-purple-50 rounded-xl text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                    <i class="fas fa-box text-xl"></i>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center text-xs text-gray-400">
+                <span class="text-purple-600 font-semibold bg-purple-50 px-2 py-0.5 rounded mr-2">
+                    <i class="fas fa-plane mr-1"></i> Umroh
+                </span>
+                <span>Pilihan Paket</span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Total Partner</p>
+                    <h3 class="text-3xl font-bold text-gray-800 mt-2">{{ number_format($counts['partners']) }}</h3>
+                </div>
+                <div class="p-3 bg-orange-50 rounded-xl text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                    <i class="fas fa-handshake text-xl"></i>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center text-xs text-gray-400">
+                <span class="text-orange-600 font-semibold bg-orange-50 px-2 py-0.5 rounded mr-2">
+                    <i class="fas fa-star mr-1"></i> Mitra
+                </span>
+                <span>Kerjasama</span>
+            </div>
         </div>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div class="overflow-x-auto custom-scrollbar">
+        <div class="px-6 py-5 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-50/50">
+            <div>
+                <h3 class="text-lg font-bold text-gray-800">Pendaftar Terbaru</h3>
+                <p class="text-sm text-gray-500">Daftar akun jamaah yang baru mendaftar.</p>
+            </div>
+            <a href="{{ route('admin.dashboard') }}?section=users" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center group">
+                Lihat Semua <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
+            </a>
+        </div>
+
+        <div class="overflow-x-auto">
             <table class="w-full whitespace-nowrap">
                 <thead>
                 <tr class="bg-gray-50/50 border-b border-gray-200 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -109,29 +180,10 @@
             </table>
         </div>
 
-        {{--
-        <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
-            {{ $users->links() }}
-        </div>
-        --}}
+        @if(isset($recentUsers) && method_exists($recentUsers, 'links'))
+            <div class="px-6 py-4 border-t border-gray-100 bg-gray-50">
+                {{ $recentUsers->links() }}
+            </div>
+        @endif
     </div>
 </div>
-
-<style>
-    /* Styling Scrollbar Konsisten */
-    .custom-scrollbar::-webkit-scrollbar {
-        height: 6px;
-        width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: #f1f5f9;
-        border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
-    }
-</style>

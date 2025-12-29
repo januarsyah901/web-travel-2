@@ -18,7 +18,7 @@
                 <a href="#galeri" class="nav-link text-sm font-medium text-gray-600 hover:text-orange-600 transition duration-300">Galeri</a>
                 <a href="#kontak" class="nav-link text-sm font-medium text-gray-600 hover:text-orange-600 transition duration-300">Kontak</a>
 
-                <a href="{{ route('registration.form') }}" class="bg-orange-600 text-white px-5 py-2.5 rounded-full font-medium hover:bg-orange-700 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300">
+                <a href="{{ route('registration.index') }}" class="bg-orange-600 text-white px-5 py-2.5 rounded-full font-medium hover:bg-orange-700 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300">
                     Daftar Sekarang
                 </a>
             </div>
@@ -45,7 +45,7 @@
             <a href="#kontak" class="mobile-link block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50 transition">Kontak</a>
 
             <div class="pt-4 mt-4 border-t border-gray-100">
-                <a href="{{ route('registration.form') }}" class="block w-full text-center px-6 py-3 bg-orange-600 text-white rounded-lg font-bold hover:bg-orange-700 shadow-md transition">
+                <a href="{{ route('registration.index') }}" class="block w-full text-center px-6 py-3 bg-orange-600 text-white rounded-lg font-bold hover:bg-orange-700 shadow-md transition">
                     Daftar Sekarang
                 </a>
             </div>

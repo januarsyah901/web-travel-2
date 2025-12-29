@@ -23,7 +23,7 @@ class MutawwifController extends Controller
     public function store(Request $request) {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'specialization' => 'nullable|string',
             'photo' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 
@@ -45,7 +45,7 @@ class MutawwifController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'specialization' => 'nullable|string',
             'photo' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 

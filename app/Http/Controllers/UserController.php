@@ -23,12 +23,12 @@ class UserController extends Controller
 
     public function show($id) {
         $user = User::with(['bookings.package', 'documents'])->findOrFail($id);
-        return view('users.show', compact('user'));
+        return view('admin.users.show', compact('user'));
     }
 
     public function edit($id) {
         $user = User::findOrFail($id);
-        return view('users.edit', compact('user'));
+        return view('admin.users.edit', compact('user'));
     }
 
     public function store(Request $request) {
@@ -42,7 +42,7 @@ class UserController extends Controller
 
         User::create($data);
 
-        return redirect()->to(route('admin.dashboard') . '?section=users')
+        return redirect()->to(route('home') . '?section=users')
             ->with('success', 'Pendaftar baru berhasil ditambahkan!');
     }
 

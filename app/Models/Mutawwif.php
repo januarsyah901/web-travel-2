@@ -9,5 +9,5 @@ class Mutawwif extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'photo_path', 'experience', 'specialization'];
+    protected $fillable = ['name', 'specialization', 'photo_path'];
 }

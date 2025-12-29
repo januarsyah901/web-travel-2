@@ -72,7 +72,7 @@
                                 </ul>
 
                                 <div class="mt-auto">
-                                    <a href="{{ route('registration.form', ['package' => $package->id]) }}"
+                                    <a href="{{ route('registration.index', ['package' => $package->id]) }}"
                                        class="block w-full py-4 px-6 bg-orange-600 border-2 border-orange-600 text-white font-bold rounded-xl text-center hover:bg-orange-700 hover:border-orange-700 transition-all duration-300 shadow-md hover:shadow-lg focus:ring-4 focus:ring-orange-200">
                                         Pilih Paket Ini
                                     </a>

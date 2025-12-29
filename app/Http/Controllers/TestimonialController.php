@@ -19,15 +19,9 @@ class TestimonialController extends Controller
     public function store(Request $request) {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'city' => 'nullable|string|max:255',
             'content' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
-            'photo' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
-
-        if ($request->hasFile('photo')) {
-            $validated['photo'] = $request->file('photo')->store('testimonials', 'public');
-        }
 
         Testimonial::create($validated);
         return redirect()->route('admin.dashboard', ['section' => 'testimonials'])->with('success', 'Testimoni berhasil ditambahkan!');
@@ -38,19 +32,9 @@ class TestimonialController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'city' => 'nullable|string|max:255',
             'content' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
-            'photo' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
-
-        if ($request->hasFile('photo')) {
-            // Delete old photo
-            if ($testimonial->photo) {
-                Storage::disk('public')->delete($testimonial->photo);
-            }
-            $validated['photo'] = $request->file('photo')->store('testimonials', 'public');
-        }
 
         $testimonial->update($validated);
         return redirect()->route('admin.dashboard', ['section' => 'testimonials'])->with('success', 'Testimoni berhasil diupdate!');
@@ -58,11 +42,6 @@ class TestimonialController extends Controller
 
     public function destroy($id) {
         $testimonial = Testimonial::findOrFail($id);
-
-        // Delete photo file
-        if ($testimonial->photo) {
-            Storage::disk('public')->delete($testimonial->photo);
-        }
 
         $testimonial->delete();
         return redirect()->route('admin.dashboard', ['section' => 'testimonials'])->with('success', 'Testimoni berhasil dihapus!');

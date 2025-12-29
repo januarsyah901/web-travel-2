@@ -8,7 +8,7 @@
         </div>
         <div class="bg-orange-50 p-8 rounded-lg text-center">
             <p class="text-gray-700 mb-6">Untuk pendaftaran yang lebih lengkap dan detail, silakan klik tombol di bawah ini:</p>
-            <a href="{{ route('registration.form') }}" class="inline-block bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-orange-700 transition text-lg">
+            <a href="{{ route('registration.index') }}" class="inline-block bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-orange-700 transition text-lg">
                 Formulir Pendaftaran Lengkap
             </a>
         </div>

@@ -102,24 +102,28 @@
                                    {{ old('package_id') == $package->id ? 'checked' : '' }}
                                    class="peer sr-only" required>
 
-                            <div class="flex-1 p-4 md:p-5 border-2 border-gray-200 rounded-xl bg-white hover:border-orange-300 peer-checked:border-orange-600 peer-checked:bg-orange-50 transition-all shadow-sm">
+                            <div class="flex-1 p-4 md:p-5 border-2 border-gray-200 rounded-xl bg-white hover:border-orange-300 transition-all shadow-sm
+                    peer-checked:border-orange-600 peer-checked:bg-orange-50
+                    peer-checked:[&_.check-circle]:border-orange-600
+                    peer-checked:[&_.check-dot]:opacity-100">
+
                                 <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
                                     <div class="flex items-start gap-3">
-                                        <div class="mt-1 w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-orange-600 flex items-center justify-center flex-shrink-0">
-                                            <div class="w-2.5 h-2.5 rounded-full bg-orange-600 opacity-0 peer-checked:opacity-100 transition-all"></div>
+                                        <div class="check-circle mt-1 w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center flex-shrink-0 transition-colors duration-200">
+                                            <div class="check-dot w-2.5 h-2.5 rounded-full bg-orange-600 opacity-0 transition-opacity duration-200"></div>
                                         </div>
 
                                         <div>
                                             <h3 class="font-bold text-gray-900 text-lg">{{ $package->title }}</h3>
                                             <div class="text-sm text-gray-600 mt-1 flex flex-col sm:flex-row sm:gap-4">
+                            <span class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                {{ $package->schedule }}
+                            </span>
                                                 <span class="flex items-center gap-1">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                                    {{ $package->schedule }}
-                                                </span>
-                                                <span class="flex items-center gap-1">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                    {{ $package->duration }} Hari
-                                                </span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                {{ $package->duration }} Hari
+                            </span>
                                             </div>
                                         </div>
                                     </div>

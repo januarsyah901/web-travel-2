@@ -15,7 +15,7 @@
 <div class="min-h-screen flex">
 
     <div class="hidden lg:block w-1/2 relative">
-        <img src="https://images.unsplash.com/photo-1565552645632-d725f8bfc19a?q=80&w=1600&auto=format&fit=crop"
+        <img src="{{ asset('img/img/login_images.png') }}"
              alt="Masjid Nabawi"
              class="absolute inset-0 w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-orange-900/80 to-orange-600/40 mix-blend-multiply"></div>

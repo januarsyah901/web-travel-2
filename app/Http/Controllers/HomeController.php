@@ -108,6 +108,6 @@ class HomeController extends Controller
     }
 
     public function registrationSuccess() {
-        return view('registration-success');
+        return view('registration.registration-success');
     }
 }

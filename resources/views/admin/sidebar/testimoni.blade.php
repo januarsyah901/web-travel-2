@@ -1,47 +1,91 @@
-<div id="testimoni" class="content-section {{ $section == 'testimonials' ? '' : 'hidden' }}">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-3xl font-bold text-gray-800">Testimoni</h2>
-        <button onclick="openCreateTestimonialModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
-            <i class="fas fa-plus mr-2"></i> Tambah Testimoni
+<div id="testimonials" class="content-section {{ $section == 'testimonials' ? '' : 'hidden' }} space-y-6">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Testimoni Jamaah</h2>
+            <p class="text-gray-500 mt-1">Kelola ulasan dan pengalaman dari para jamaah.</p>
+        </div>
+        <button onclick="openCreateTestimonialModal()" class="group relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 ease-in-out transform hover:-translate-y-0.5">
+            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                <i class="fas fa-star text-blue-300 group-hover:text-white transition-colors"></i>
+            </span>
+            <span class="ml-4">Tambah Testimoni</span>
         </button>
     </div>
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Rating</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Komentar</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full whitespace-nowrap">
+                <thead>
+                <tr class="bg-gray-50/50 border-b border-gray-200 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <th class="px-6 py-4 w-12">No</th>
+                    <th class="px-6 py-4">Nama Jamaah</th> <th class="px-6 py-4">Rating</th>
+                    <th class="px-6 py-4">Ulasan</th>
+                    <th class="px-6 py-4 text-center">Aksi</th>
                 </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200">
+                <tbody class="divide-y divide-gray-200 bg-white">
                 @forelse($testimonials as $testimonial)
-                    <tr>
-                        <td class="px-6 py-4">{{ $testimonial->id }}</td>
-                        <td class="px-6 py-4">{{ $testimonial->name ?? 'N/A' }}</td>
+                    <tr class="hover:bg-gray-50/80 transition-colors duration-150">
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            {{ $loop->iteration }}
+                        </td>
+
                         <td class="px-6 py-4">
-                            <div class="flex">
-                                @for($i = 1; $i <= 5; $i++)
-                                    <i class="fas fa-star {{ $i <= $testimonial->rating ? 'text-yellow-400' : 'text-gray-300' }}"></i>
-                                @endfor
+                            <div class="text-sm font-bold text-gray-900">{{ $testimonial->name }}</div>
+                        </td>
+
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <div class="flex text-yellow-400 text-sm mr-2">
+                                    @for($i = 1; $i <= 5; $i++)
+                                        @if($i <= $testimonial->rating)
+                                            <i class="fas fa-star"></i>
+                                        @else
+                                            <i class="far fa-star text-gray-300"></i>
+                                        @endif
+                                    @endfor
+                                </div>
+                                <span class="text-xs text-gray-500 font-medium border border-gray-200 px-1.5 py-0.5 rounded bg-gray-50">{{ $testimonial->rating }}.0</span>
                             </div>
                         </td>
-                        <td class="px-6 py-4">{{ Str::limit($testimonial->content, 50) }}</td>
+
                         <td class="px-6 py-4">
-                            <button onclick="openEditTestimonialModal({{ $testimonial->id }}, '{{ addslashes($testimonial->name) }}', '{{ addslashes($testimonial->city ?? '') }}', '{{ addslashes($testimonial->content) }}', {{ $testimonial->rating }}, '{{ $testimonial->photo }}')" class="text-blue-600 hover:text-blue-800 mr-3"><i class="fas fa-edit"></i></button>
-                            <form method="POST" action="{{ route('testimonials.destroy', $testimonial->id) }}" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-800" onclick="return confirm('Yakin ingin menghapus?')"><i class="fas fa-trash"></i></button>
-                            </form>
+                            <div class="relative group cursor-help max-w-xs md:max-w-sm">
+                                <p class="text-sm text-gray-600 truncate italic">"{{ Str::limit($testimonial->content, 60) }}"</p>
+                                <div class="absolute bottom-full left-0 mb-2 w-64 p-3 bg-gray-800 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 whitespace-normal leading-relaxed">
+                                    {{ $testimonial->content }}
+                                    <div class="absolute top-full left-4 -mt-1 border-4 border-transparent border-t-gray-800"></div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex items-center justify-center space-x-3">
+                                <button onclick="openEditTestimonialModal({{ $testimonial->id }}, '{{ addslashes($testimonial->name) }}', '{{ addslashes($testimonial->content) }}', {{ $testimonial->rating }}, '{{ $testimonial->photo ? asset('storage/' . $testimonial->photo) : '' }}')"
+                                        class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200" title="Edit">
+                                    <i class="fas fa-edit text-lg"></i>
+                                </button>
+
+                                <form method="POST" action="{{ route('testimonials.destroy', $testimonial->id) }}" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus testimoni ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" title="Hapus">
+                                        <i class="fas fa-trash-alt text-lg"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada data testimoni</td>
+                        <td colspan="5" class="px-6 py-12 text-center">
+                            <div class="flex flex-col items-center justify-center space-y-3">
+                                <div class="p-3 bg-gray-100 rounded-full">
+                                    <i class="far fa-comment-dots text-gray-400 text-3xl"></i>
+                                </div>
+                                <p class="text-gray-500 font-medium">Belum ada testimoni</p>
+                            </div>
+                        </td>
                     </tr>
                 @endforelse
                 </tbody>
@@ -50,189 +94,181 @@
     </div>
 </div>
 
-<!-- Create Testimonial Modal -->
-<div id="createTestimonialModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 backdrop-blur-sm overflow-y-auto h-full w-full hidden z-50">
-    <div class="relative top-20 mx-auto p-6 border shadow-2xl rounded-xl bg-white max-w-lg">
-        <button onclick="closeCreateTestimonialModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-            <i class="fas fa-times text-xl"></i>
-        </button>
+<div id="createTestimonialModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity opacity-0" id="createTestimoniBackdrop"></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg scale-95 opacity-0" id="createTestimoniPanel">
 
-        <h3 class="text-2xl font-bold text-gray-800 mb-6">Tambah Testimoni Baru</h3>
-        <form action="{{ route('testimonials.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
-            @csrf
+                <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+                        <i class="fas fa-star bg-white/20 p-1.5 rounded-md"></i>
+                        Tambah Testimoni
+                    </h3>
+                    <button onclick="closeCreateTestimonialModal()" class="text-blue-100 hover:text-white transition-colors focus:outline-none">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
 
-            <div>
-                <label for="create_testimonial_name" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Nama <span class="text-red-500">*</span>
-                </label>
-                <input type="text" name="name" id="create_testimonial_name" required
-                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <form id="createTestimonialForm" method="POST" action="{{ route('testimonials.store') }}" enctype="multipart/form-data" class="p-6 space-y-5">
+                    @csrf
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Jamaah</label>
+                            <input type="text" name="name" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5" placeholder="Nama Lengkap" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+                            <select name="rating" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5" required>
+                                <option value="5" selected>⭐⭐⭐⭐⭐ (Sempurna)</option>
+                                <option value="4">⭐⭐⭐⭐ (Sangat Baik)</option>
+                                <option value="3">⭐⭐⭐ (Cukup)</option>
+                                <option value="2">⭐⭐ (Kurang)</option>
+                                <option value="1">⭐ (Buruk)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Isi Ulasan</label>
+                        <textarea name="content" rows="4" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5 resize-none" placeholder="Tuliskan pengalaman jamaah..." required></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Foto Jamaah (Opsional)</label>
+                        <input type="file" name="photo" accept="image/*" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all cursor-pointer border border-gray-300 rounded-lg p-1"/>
+                    </div>
+
+                    <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
+                        <button type="button" onclick="closeCreateTestimonialModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Batal</button>
+                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm transition-colors">Simpan</button>
+                    </div>
+                </form>
             </div>
-
-            <div>
-                <label for="create_testimonial_city" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Kota/Asal
-                </label>
-                <input type="text" name="city" id="create_testimonial_city"
-                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            </div>
-
-            <div>
-                <label for="create_testimonial_content" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Testimoni <span class="text-red-500">*</span>
-                </label>
-                <textarea name="content" id="create_testimonial_content" rows="4" required
-                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
-            </div>
-
-            <div>
-                <label for="create_testimonial_rating" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Rating <span class="text-red-500">*</span>
-                </label>
-                <select name="rating" id="create_testimonial_rating" required
-                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">Pilih Rating</option>
-                    <option value="5">⭐⭐⭐⭐⭐ (5 Bintang)</option>
-                    <option value="4">⭐⭐⭐⭐ (4 Bintang)</option>
-                    <option value="3">⭐⭐⭐ (3 Bintang)</option>
-                    <option value="2">⭐⭐ (2 Bintang)</option>
-                    <option value="1">⭐ (1 Bintang)</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="create_testimonial_photo" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Foto
-                </label>
-                <input type="file" name="photo" id="create_testimonial_photo" accept="image/*"
-                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <p class="mt-1 text-sm text-gray-500">Format: JPG, JPEG, PNG. Max: 2MB</p>
-            </div>
-
-            <div class="flex justify-end gap-3 pt-4">
-                <button type="button" onclick="closeCreateTestimonialModal()"
-                    class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
-                    Batal
-                </button>
-                <button type="submit"
-                    class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                    Simpan
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<!-- Edit Testimonial Modal -->
-<div id="editTestimonialModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 backdrop-blur-sm overflow-y-auto h-full w-full hidden z-50">
-    <div class="relative top-20 mx-auto p-6 border shadow-2xl rounded-xl bg-white max-w-lg">
-        <button onclick="closeEditTestimonialModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-            <i class="fas fa-times text-xl"></i>
-        </button>
+<div id="editTestimonialModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity opacity-0" id="editTestimoniBackdrop"></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg scale-95 opacity-0" id="editTestimoniPanel">
 
-        <h3 class="text-2xl font-bold text-gray-800 mb-6">Edit Testimoni</h3>
-        <form id="editTestimonialForm" method="POST" enctype="multipart/form-data" class="space-y-5">
-            @csrf
-            @method('PUT')
+                <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+                        <i class="fas fa-edit bg-white/20 p-1.5 rounded-md"></i>
+                        Edit Testimoni
+                    </h3>
+                    <button onclick="closeEditTestimonialModal()" class="text-blue-100 hover:text-white transition-colors focus:outline-none">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
 
-            <div>
-                <label for="edit_testimonial_name" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Nama <span class="text-red-500">*</span>
-                </label>
-                <input type="text" name="name" id="edit_testimonial_name" required
-                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <form id="editTestimonialForm" method="POST" enctype="multipart/form-data" class="p-6 space-y-5">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Jamaah</label>
+                            <input type="text" id="editTestimoniName" name="name" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+                            <select id="editTestimoniRating" name="rating" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5" required>
+                                <option value="5">⭐⭐⭐⭐⭐ (Sempurna)</option>
+                                <option value="4">⭐⭐⭐⭐ (Sangat Baik)</option>
+                                <option value="3">⭐⭐⭐ (Cukup)</option>
+                                <option value="2">⭐⭐ (Kurang)</option>
+                                <option value="1">⭐ (Buruk)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Isi Ulasan</label>
+                        <textarea id="editTestimoniContent" name="content" rows="4" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5 resize-none" required></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ganti Foto (Opsional)</label>
+                        <input type="file" name="photo" accept="image/*" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all cursor-pointer border border-gray-300 rounded-lg p-1"/>
+                    </div>
+
+                    <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
+                        <button type="button" onclick="closeEditTestimonialModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Batal</button>
+                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm transition-colors">Update</button>
+                    </div>
+                </form>
             </div>
-
-            <div>
-                <label for="edit_testimonial_city" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Kota/Asal
-                </label>
-                <input type="text" name="city" id="edit_testimonial_city"
-                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            </div>
-
-            <div>
-                <label for="edit_testimonial_content" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Testimoni <span class="text-red-500">*</span>
-                </label>
-                <textarea name="content" id="edit_testimonial_content" rows="4" required
-                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
-            </div>
-
-            <div>
-                <label for="edit_testimonial_rating" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Rating <span class="text-red-500">*</span>
-                </label>
-                <select name="rating" id="edit_testimonial_rating" required
-                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">Pilih Rating</option>
-                    <option value="5">⭐⭐⭐⭐⭐ (5 Bintang)</option>
-                    <option value="4">⭐⭐⭐⭐ (4 Bintang)</option>
-                    <option value="3">⭐⭐⭐ (3 Bintang)</option>
-                    <option value="2">⭐⭐ (2 Bintang)</option>
-                    <option value="1">⭐ (1 Bintang)</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Foto Saat Ini</label>
-                <div id="current_testimonial_photo_preview" class="mb-3"></div>
-            </div>
-
-            <div>
-                <label for="edit_testimonial_photo" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Foto Baru
-                </label>
-                <input type="file" name="photo" id="edit_testimonial_photo" accept="image/*"
-                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <p class="mt-1 text-sm text-gray-500">Kosongkan jika tidak ingin mengubah foto</p>
-            </div>
-
-            <div class="flex justify-end gap-3 pt-4">
-                <button type="button" onclick="closeEditTestimonialModal()"
-                    class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
-                    Batal
-                </button>
-                <button type="submit"
-                    class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                    Update
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
 <script>
-function openCreateTestimonialModal() {
-    document.getElementById('createTestimonialModal').classList.remove('hidden');
-}
+    // --- Helper for Animations ---
+    function animateTestimoniModal(modalId, backdropId, panelId, show) {
+        const modal = document.getElementById(modalId);
+        const backdrop = document.getElementById(backdropId);
+        const panel = document.getElementById(panelId);
 
-function closeCreateTestimonialModal() {
-    document.getElementById('createTestimonialModal').classList.add('hidden');
-}
-
-function openEditTestimonialModal(id, name, city, content, rating, photo) {
-    const modal = document.getElementById('editTestimonialModal');
-    const form = document.getElementById('editTestimonialForm');
-
-    form.action = `/testimonials/${id}`;
-    document.getElementById('edit_testimonial_name').value = name;
-    document.getElementById('edit_testimonial_city').value = city;
-    document.getElementById('edit_testimonial_content').value = content;
-    document.getElementById('edit_testimonial_rating').value = rating;
-
-    const photoPreview = document.getElementById('current_testimonial_photo_preview');
-    if (photo) {
-        photoPreview.innerHTML = `<img src="/storage/${photo}" alt="${name}" class="h-20 w-20 rounded-full object-cover">`;
-    } else {
-        photoPreview.innerHTML = '<p class="text-gray-500 text-sm">Tidak ada foto</p>';
+        if (show) {
+            modal.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                backdrop.classList.remove('opacity-0');
+                panel.classList.remove('opacity-0', 'scale-95');
+                panel.classList.add('opacity-100', 'scale-100');
+            });
+        } else {
+            backdrop.classList.add('opacity-0');
+            panel.classList.remove('opacity-100', 'scale-100');
+            panel.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
     }
 
-    modal.classList.remove('hidden');
-}
+    // --- Create Modal Functions ---
+    function openCreateTestimonialModal() {
+        document.getElementById('createTestimonialForm').reset();
+        animateTestimoniModal('createTestimonialModal', 'createTestimoniBackdrop', 'createTestimoniPanel', true);
+    }
 
-function closeEditTestimonialModal() {
-    document.getElementById('editTestimonialModal').classList.add('hidden');
-}
+    function closeCreateTestimonialModal() {
+        animateTestimoniModal('createTestimonialModal', 'createTestimoniBackdrop', 'createTestimoniPanel', false);
+    }
+
+    // --- Edit Modal Functions ---
+    // Hapus parameter 'city'
+    function openEditTestimonialModal(id, name, content, rating, photoUrl) {
+        document.getElementById('editTestimoniName').value = name;
+        document.getElementById('editTestimoniContent').value = content;
+        document.getElementById('editTestimoniRating').value = rating;
+        // Tidak ada set value city
+
+        const baseUrl = '{{ url("testimonials") }}';
+        document.getElementById('editTestimonialForm').action = `${baseUrl}/${id}`;
+
+        animateTestimoniModal('editTestimonialModal', 'editTestimoniBackdrop', 'editTestimoniPanel', true);
+    }
+
+    function closeEditTestimonialModal() {
+        animateTestimoniModal('editTestimonialModal', 'editTestimoniBackdrop', 'editTestimoniPanel', false);
+    }
+
+    // --- Close on Outside Click ---
+    window.addEventListener('click', function(e) {
+        const createModal = document.getElementById('createTestimonialModal');
+        const editModal = document.getElementById('editTestimonialModal');
+        const createPanel = document.getElementById('createTestimoniPanel');
+        const editPanel = document.getElementById('editTestimoniPanel');
+
+        if (e.target === createModal || (createModal && createModal.contains(e.target) && !createPanel.contains(e.target))) {
+            closeCreateTestimonialModal();
+        }
+        if (e.target === editModal || (editModal && editModal.contains(e.target) && !editPanel.contains(e.target))) {
+            closeEditTestimonialModal();
+        }
+    });
 </script>
-
