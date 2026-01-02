@@ -1,22 +1,21 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Pendaftar - {{ $user->fullName }}</title>
-    @vite('resources/css/app.css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-    </style>
-</head>
-<body class="bg-gray-50 min-h-screen font-sans text-gray-900">
+@extends('admin.layouts.app')
 
-<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+@section('title', 'Detail Pendaftar - ' . $user->fullName)
+
+@section('page-title', 'Detail Pendaftar')
+
+@push('styles')
+<style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+</style>
+@endpush
+
+@section('content')
+<div class="max-w-7xl mx-auto">
 
     @if(session('success'))
         <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-r shadow-sm flex items-start animate-fade-in-down">
@@ -259,5 +258,4 @@
     </div>
 </div>
 
-</body>
-</html>
+@endsection

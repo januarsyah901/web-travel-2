@@ -11,7 +11,7 @@ class HomeController extends Controller
     public function index() {
         $packages = Package::all();
         $contact = Contact::getMainContact();
-        return view('home', compact('packages', 'contact'));
+        return view('public.home', compact('packages', 'contact'));
     }
 
     public function showRegistrationForm() {
