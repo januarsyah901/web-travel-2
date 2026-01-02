@@ -1,4 +1,4 @@
-<aside id="sidebar" class="bg-slate-900 text-slate-300 flex flex-col h-screen transition-all duration-300 ease-in-out border-r border-slate-800 w-64 fixed md:relative z-30 hidden md:flex">
+<aside id="sidebar" class="bg-slate-900 text-slate-300 flex flex-col h-screen transition-all duration-300 ease-in-out border-r border-slate-800 w-64 fixed md:relative z-30 -translate-x-full md:translate-x-0">
 
     <div class="h-20 flex items-center px-6 border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
         <div class="flex items-center gap-3">

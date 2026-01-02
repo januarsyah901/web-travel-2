@@ -1,6 +1,61 @@
 <!DOCTYPE html>
 <html lang="id">
 @include('public.head')
+<head>
+    <style>
+        /* Mobile Menu Overlay */
+        #mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            z-index: 20;
+        }
+
+        #mobile-menu-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.3);
+            border-radius: 3px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 163, 184, 0.5);
+        }
+
+        /* Collapsed Sidebar for Desktop */
+        @media (min-width: 768px) {
+            #sidebar.collapsed {
+                width: 80px;
+            }
+
+            #sidebar.collapsed nav a span {
+                display: none;
+            }
+
+            #sidebar.collapsed .ml-auto {
+                display: none;
+            }
+        }
+    </style>
+</head>
 <body class="bg-gray-100">
 <!-- Mobile Menu Overlay -->
 <div id="mobile-menu-overlay" onclick="closeMobileSidebar()"></div>
@@ -13,7 +68,10 @@
         <!-- Header -->
         <header class="bg-white shadow-sm z-10">
             <div class="flex items-center justify-between p-4">
-                <button onclick="toggleSidebar()" class="text-gray-600 hover:text-gray-900">
+                <button onclick="toggleSidebar()" class="text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
                 </button>
                 <div class="flex items-center space-x-4">
                     <span class="text-gray-700">Hello, {{ Auth::guard('admin')->user()->name }}</span>
@@ -107,7 +165,7 @@
 </div>
 <script>
     function isMobile() {
-        return window.innerWidth <= 768;
+        return window.innerWidth < 768;
     }
 
     function toggleSidebar() {
@@ -115,26 +173,28 @@
         const overlay = document.getElementById('mobile-menu-overlay');
 
         if (isMobile()) {
-            // Mobile behavior
-            const isOpen = sidebar.classList.toggle('mobile-open');
+            // Mobile behavior - toggle slide in/out
+            const isOpen = sidebar.classList.contains('translate-x-0');
             if (isOpen) {
-                overlay.classList.add('show');
-                sidebar.classList.remove('collapsed');
-            } else {
+                sidebar.classList.remove('translate-x-0');
+                sidebar.classList.add('-translate-x-full');
                 overlay.classList.remove('show');
+            } else {
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0');
+                overlay.classList.add('show');
             }
         } else {
-            // Desktop behavior
+            // Desktop behavior - toggle width
             sidebar.classList.toggle('collapsed');
-            sidebar.classList.remove('mobile-open');
-            overlay.classList.remove('show');
         }
     }
 
     function closeMobileSidebar() {
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('mobile-menu-overlay');
-        sidebar.classList.remove('mobile-open');
+        sidebar.classList.remove('translate-x-0');
+        sidebar.classList.add('-translate-x-full');
         overlay.classList.remove('show');
     }
 
@@ -154,12 +214,16 @@
         const overlay = document.getElementById('mobile-menu-overlay');
 
         if (!isMobile()) {
-            // When switching to desktop, remove mobile classes
-            sidebar.classList.remove('mobile-open');
+            // When switching to desktop, ensure sidebar is visible
+            sidebar.classList.remove('translate-x-0', '-translate-x-full');
+            sidebar.classList.remove('collapsed');
             overlay.classList.remove('show');
         } else {
-            // When switching to mobile, remove collapsed class
+            // When switching to mobile, hide sidebar
             sidebar.classList.remove('collapsed');
+            sidebar.classList.remove('translate-x-0');
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.remove('show');
         }
     });
 
@@ -174,7 +238,7 @@
         });
 
         // Close mobile sidebar when clicking on nav links
-        const navLinks = document.querySelectorAll('#sidebar .nav-link');
+        const navLinks = document.querySelectorAll('#sidebar a');
         navLinks.forEach(link => {
             link.addEventListener('click', function () {
                 if (isMobile()) {
