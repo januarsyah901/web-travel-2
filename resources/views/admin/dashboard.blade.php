@@ -207,10 +207,12 @@
             } else {
                 openSidebar();
             }
-        } else if (isTablet || isDesktop) {
+        } else {
             // Tablet & Desktop: Toggle collapsed state
             sidebar.classList.toggle('collapsed');
             hamburgerBtn.classList.toggle('active');
+
+            // Save state to localStorage for desktop
             if (isDesktop) {
                 localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
             }

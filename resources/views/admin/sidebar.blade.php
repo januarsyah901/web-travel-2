@@ -212,7 +212,7 @@
         }
     }
 
-    /* Collapsed State for Desktop */
+    /* Collapsed State for Tablet & Desktop */
     @media (min-width: 768px) {
         #sidebar.collapsed {
             width: 80px;
@@ -255,9 +255,21 @@
             overflow: hidden;
         }
 
+        #sidebar.collapsed .sidebar-footer .sidebar-text {
+            display: none;
+        }
+
+        #sidebar.collapsed .sidebar-footer button {
+            justify-content: center;
+        }
+
         #sidebar.collapsed nav > div {
             text-align: center;
             overflow: hidden;
+        }
+
+        #sidebar.collapsed nav > div .sidebar-text {
+            display: none;
         }
 
         /* Tooltip on hover when collapsed */
