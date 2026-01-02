@@ -1,38 +1,20 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Data - {{ $user->fullName }}</title>
-    @vite('resources/css/app.css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-gray-50 font-sans text-gray-900 min-h-screen">
+@extends('admin.layouts.app')
 
-<div class="max-w-5xl mx-auto py-8 px-4 sm:px-6">
+@section('title', 'Edit Data - ' . $user->fullName)
 
-    @if(session('success'))
-        <div id="success-alert" class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-r shadow-sm flex items-start animate-fade-in-down">
-            <i class="fas fa-check-circle text-green-500 mt-0.5 mr-3"></i>
-            <div>
-                <p class="text-sm text-green-700 font-medium">{{ session('success') }}</p>
-            </div>
-        </div>
-    @endif
+@section('page-title', 'Edit Data Pendaftar')
 
-    @if($errors->any())
-        <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r shadow-sm flex items-start">
-            <i class="fas fa-exclamation-circle text-red-500 mt-0.5 mr-3"></i>
-            <div>
-                <h3 class="text-sm font-bold text-red-800">Terdapat kesalahan input:</h3>
-                <ul class="mt-1 list-disc list-inside text-sm text-red-700">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
-    @endif
+@push('styles')
+<style>
+    /* Smooth transitions for passport section */
+    #passportUploadSection {
+        transition: all 0.3s ease;
+    }
+</style>
+@endpush
+
+@section('content')
+<div class="max-w-5xl mx-auto">
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div class="flex items-center gap-5">
@@ -169,18 +151,10 @@
     </div>
 
 </div>
+@endsection
 
+@push('scripts')
 <script>
-    // Auto dismiss success alert
-    const alertBox = document.getElementById('success-alert');
-    if(alertBox) {
-        setTimeout(() => {
-            alertBox.style.transition = "opacity 0.5s ease";
-            alertBox.style.opacity = 0;
-            setTimeout(() => alertBox.remove(), 500);
-        }, 4000);
-    }
-
     // Toggle passport upload section
     const hasPassportYes = document.getElementById('hasPassportYes');
     const hasPassportNo = document.getElementById('hasPassportNo');
@@ -217,6 +191,4 @@
         passportUploadSection.style.transform = 'translateY(-10px)';
     }
 </script>
-
-</body>
-</html>
+@endpush
