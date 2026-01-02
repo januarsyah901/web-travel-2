@@ -49,7 +49,7 @@
         </a>
     </div>
 
-    <form method="POST" action="{{ route('users.update', $user->id) }}" class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+    <form method="POST" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data" class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
         @csrf
         @method('PUT')
 
@@ -104,7 +104,7 @@
                 <label class="text-sm font-semibold text-gray-700 block mb-3">Status Kepemilikan Paspor <span class="text-red-500">*</span></label>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <label class="relative flex items-center p-4 border rounded-xl cursor-pointer hover:bg-gray-50 transition-colors {{ old('hasPassport', $user->hasPassport) == 1 ? 'border-green-500 bg-green-50/50 ring-1 ring-green-500' : 'border-gray-200' }}">
-                        <input type="radio" name="hasPassport" value="1" class="w-5 h-5 text-green-600 focus:ring-green-500 border-gray-300" {{ old('hasPassport', $user->hasPassport) == 1 ? 'checked' : '' }}>
+                        <input type="radio" name="hasPassport" value="1" id="hasPassportYes" class="w-5 h-5 text-green-600 focus:ring-green-500 border-gray-300" {{ old('hasPassport', $user->hasPassport) == 1 ? 'checked' : '' }}>
                         <div class="ml-3">
                             <span class="block text-sm font-bold text-gray-900">Sudah Ada Paspor</span>
                             <span class="block text-xs text-gray-500">Jamaah telah memiliki dokumen paspor aktif.</span>
@@ -112,12 +112,35 @@
                     </label>
 
                     <label class="relative flex items-center p-4 border rounded-xl cursor-pointer hover:bg-gray-50 transition-colors {{ old('hasPassport', $user->hasPassport) == 0 ? 'border-red-500 bg-red-50/50 ring-1 ring-red-500' : 'border-gray-200' }}">
-                        <input type="radio" name="hasPassport" value="0" class="w-5 h-5 text-red-600 focus:ring-red-500 border-gray-300" {{ old('hasPassport', $user->hasPassport) == 0 ? 'checked' : '' }}>
+                        <input type="radio" name="hasPassport" value="0" id="hasPassportNo" class="w-5 h-5 text-red-600 focus:ring-red-500 border-gray-300" {{ old('hasPassport', $user->hasPassport) == 0 ? 'checked' : '' }}>
                         <div class="ml-3">
                             <span class="block text-sm font-bold text-gray-900">Belum Ada Paspor</span>
                             <span class="block text-xs text-gray-500">Jamaah perlu mengurus pembuatan paspor.</span>
                         </div>
                     </label>
+                </div>
+
+                <!-- Passport Upload Section (Hidden by default) -->
+                <div id="passportUploadSection" class="mt-6 p-6 bg-green-50/30 border border-green-200 rounded-xl {{ old('hasPassport', $user->hasPassport) == 1 ? '' : 'hidden' }}" style="transition: all 0.3s ease;">
+                    <div class="flex items-center gap-2 mb-4">
+                        <h3 class="text-md font-bold text-gray-800">Upload Dokumen Paspor</h3>
+                    </div>
+                    <div class="space-y-4">
+
+                        <div class="space-y-2">
+                            <label for="passport_file" class="text-sm font-semibold text-gray-700">File Paspor (PDF/Image)</label>
+                            <input type="file" name="passport_file" id="passport_file"
+                                   accept=".pdf,.jpg,.jpeg,.png"
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                            <p class="text-xs text-gray-500 mt-1">Format yang didukung: PDF, JPG, JPEG, PNG (Max 2MB)</p>
+                            @if(isset($user->passport) && $user->passport->file_path)
+                                <p class="text-xs text-green-600 mt-2 flex items-center gap-1">
+                                    <i class="fas fa-check-circle"></i>
+                                    File saat ini: {{ basename($user->passport->file_path) }}
+                                </p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -156,6 +179,42 @@
             alertBox.style.opacity = 0;
             setTimeout(() => alertBox.remove(), 500);
         }, 4000);
+    }
+
+    // Toggle passport upload section
+    const hasPassportYes = document.getElementById('hasPassportYes');
+    const hasPassportNo = document.getElementById('hasPassportNo');
+    const passportUploadSection = document.getElementById('passportUploadSection');
+
+    function togglePassportSection() {
+        if (hasPassportYes.checked) {
+            passportUploadSection.classList.remove('hidden');
+            // Smooth animation
+            setTimeout(() => {
+                passportUploadSection.style.opacity = '1';
+                passportUploadSection.style.transform = 'translateY(0)';
+            }, 10);
+        } else {
+            passportUploadSection.style.opacity = '0';
+            passportUploadSection.style.transform = 'translateY(-10px)';
+            setTimeout(() => {
+                passportUploadSection.classList.add('hidden');
+            }, 300);
+        }
+    }
+
+    // Add event listeners
+    hasPassportYes.addEventListener('change', togglePassportSection);
+    hasPassportNo.addEventListener('change', togglePassportSection);
+
+    // Set initial state with smooth transition
+    passportUploadSection.style.transition = 'all 0.3s ease';
+    if (hasPassportYes.checked) {
+        passportUploadSection.style.opacity = '1';
+        passportUploadSection.style.transform = 'translateY(0)';
+    } else {
+        passportUploadSection.style.opacity = '0';
+        passportUploadSection.style.transform = 'translateY(-10px)';
     }
 </script>
 

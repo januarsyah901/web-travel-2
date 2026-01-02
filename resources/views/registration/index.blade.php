@@ -220,21 +220,6 @@
                                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500"
                                    placeholder="Nama sesuai paspor">
                         </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Masa Berlaku</label>
-                            <div class="flex flex-col sm:flex-row gap-4">
-                                <label class="flex items-center">
-                                    <input type="radio" name="passportStatus" value="valid" {{ old('passportStatus') == 'valid' ? 'checked' : '' }} class="text-orange-600 focus:ring-orange-500">
-                                    <span class="ml-2 text-sm text-gray-700">Masih Berlaku (> 6 Bulan)</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="passportStatus" value="expired" {{ old('passportStatus') == 'expired' ? 'checked' : '' }} class="text-orange-600 focus:ring-orange-500">
-                                    <span class="ml-2 text-sm text-gray-700">Habis / < 6 Bulan</span>
-                                </label>
-                            </div>
-                        </div>
-
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Foto Paspor</label>
                             <input type="file" name="passportPhoto" accept="image/*,.pdf" class="{{ $fileInputClass }}">
