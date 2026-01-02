@@ -22,7 +22,7 @@ class UserController extends Controller
     }
 
     public function show($id) {
-        $user = User::with(['bookings.package', 'documents'])->findOrFail($id);
+        $user = User::with(['bookings.package', 'documents', 'passport.passportPhotos'])->findOrFail($id);
         return view('admin.users.show', compact('user'));
     }
 

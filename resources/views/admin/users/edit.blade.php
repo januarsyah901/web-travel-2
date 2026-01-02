@@ -123,7 +123,7 @@
                 <!-- Passport Upload Section (Hidden by default) -->
                 <div id="passportUploadSection" class="mt-6 p-6 bg-green-50/30 border border-green-200 rounded-xl {{ old('hasPassport', $user->hasPassport) == 1 ? '' : 'hidden' }}" style="transition: all 0.3s ease;">
                     <div class="flex items-center gap-2 mb-4">
-                        <h3 class="text-md font-bold text-gray-800">Upload Dokumen Paspor</h3>
+                        <h3 class="text-md font-bold text-gray-800">Upload Dokumen Paspor Baru</h3>
                     </div>
                     <div class="space-y-4">
 

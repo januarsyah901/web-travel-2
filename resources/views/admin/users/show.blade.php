@@ -33,9 +33,6 @@
 
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
             <div class="flex items-center gap-5">
-                <div class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center text-white shadow-lg">
-                    <span class="text-2xl font-bold">{{ substr($user->fullName, 0, 1) }}</span>
-                </div>
                 <div>
                     <h1 class="text-2xl md:text-3xl font-bold text-gray-800 tracking-tight">{{ $user->fullName }}</h1>
                     <div class="flex items-center gap-3 mt-1 text-sm text-gray-500">
@@ -159,6 +156,78 @@
 
         <div class="space-y-8">
 
+            <!-- Passport Section -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                    <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-passport text-blue-500"></i> Data Paspor
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    @if($user->passport)
+                        <div class="space-y-4">
+                            <div class="border border-gray-200 rounded-xl p-4 bg-gray-50/50">
+                                <div class="grid grid-cols-1 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Nama di Paspor</label>
+                                        <p class="text-gray-800 font-medium">{{ $user->passport->passportName ?: '-' }}</p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Status</label>
+                                        @if($user->passport->isActive)
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200">
+                                                <i class="fas fa-check-circle mr-1.5"></i> Aktif
+                                            </span>
+                                        @else
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-50 text-gray-700 border border-gray-200">
+                                                <i class="fas fa-minus-circle mr-1.5"></i> Tidak Aktif
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Tanggal Didaftarkan</label>
+                                        <p class="text-gray-800 font-medium">{{ $user->passport->created_at->format('d F Y') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if($user->passport->passportPhotos && $user->passport->passportPhotos->count() > 0)
+                                <div class="pt-4 border-t border-gray-200">
+                                    <h3 class="text-sm font-bold text-gray-700 mb-3">Foto Paspor</h3>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        @foreach($user->passport->passportPhotos as $photo)
+                                            @php
+                                                $ext = pathinfo($photo->file_path, PATHINFO_EXTENSION);
+                                                $isImg = in_array(strtolower($ext), ['jpg','jpeg','png','gif','webp']);
+                                            @endphp
+                                            @if($isImg)
+                                                <div class="rounded-lg overflow-hidden border border-gray-200 h-32 bg-gray-200 flex items-center justify-center group cursor-pointer" onclick="window.open('{{ asset('storage/' . $photo->file_path) }}')">
+                                                    <img src="{{ asset('storage/' . $photo->file_path) }}" alt="Foto Paspor" class="h-full w-full object-cover group-hover:opacity-90 transition">
+                                                </div>
+                                            @else
+                                                <a href="{{ asset('storage/' . $photo->file_path) }}" target="_blank" class="flex flex-col items-center justify-center p-3 border border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition bg-white text-center group h-32">
+                                                    <i class="fas fa-file-alt text-3xl text-gray-400 group-hover:text-blue-500 mb-2"></i>
+                                                    <span class="text-xs font-medium text-gray-600 group-hover:text-blue-700">{{ strtoupper($ext) }}</span>
+                                                </a>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @else
+                        <div class="text-center py-8">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-passport text-gray-400 text-2xl"></i>
+                            </div>
+                            <p class="text-gray-500 text-sm">Belum ada data paspor.</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Documents Section -->
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
                     <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
