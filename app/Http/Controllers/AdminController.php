@@ -39,8 +39,8 @@ class AdminController extends Controller
     {
         $section = $request->get('section');
 
-        // Fetch all data for dashboard
-        $users = \App\Models\User::all();
+        // Fetch data for dashboard with pagination
+        $users = \App\Models\User::latest()->paginate(10);
         $packages = \App\Models\Package::all();
         $bookings = \App\Models\Booking::with('user', 'package')->get();
         $galleries = \App\Models\Gallery::all();
@@ -48,9 +48,9 @@ class AdminController extends Controller
         $partners = \App\Models\Partner::all();
         $testimonials = \App\Models\Testimonial::with('user')->get();
 
-        // Calculate counts
+        // Calculate counts (use separate query for accurate total)
         $counts = [
-            'users' => $users->count(),
+            'users' => \App\Models\User::count(),
             'bookings' => $bookings->count(),
             'packages' => $packages->count(),
             'partners' => $partners->count(),

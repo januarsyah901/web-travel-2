@@ -126,6 +126,20 @@
                 </tbody>
             </table>
         </div>
+
+        {{-- Pagination Navigation --}}
+        <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-sm text-gray-700">
+                    Menampilkan <span class="font-medium">{{ $users->firstItem() ?? 0 }}</span>
+                    sampai <span class="font-medium">{{ $users->lastItem() ?? 0 }}</span>
+                    dari <span class="font-medium">{{ $users->total() }}</span> pendaftar
+                </div>
+                <div class="flex justify-center">
+                    {{ $users->appends(['section' => 'users'])->links('vendor.pagination.custom') }}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
