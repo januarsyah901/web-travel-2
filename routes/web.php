@@ -29,6 +29,10 @@ Route::get('/api/contact-info', [ContactController::class, 'getContactInfo'])->n
 
 Route::middleware('auth:admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    // Search route must be before resource routes
+    Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
+
     Route::resource('users', UserController::class);
     Route::resource('packages', PackageController::class);
     Route::resource('bookings', BookingController::class);

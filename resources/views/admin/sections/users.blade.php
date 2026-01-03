@@ -9,7 +9,18 @@
             <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                 <i class="fas fa-search"></i>
             </span>
-            <input type="text" placeholder="Cari nama jamaah..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-shadow">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Cari nama jamaah..."
+                class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-shadow"
+                autocomplete="off">
+            <div id="searchLoader" class="absolute inset-y-0 right-0 flex items-center pr-3 hidden">
+                <svg class="animate-spin h-4 w-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </div>
         </div>
     </div>
 
@@ -26,7 +37,7 @@
                     <th class="px-6 py-4 text-center">Aksi</th>
                 </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 bg-white">
+                <tbody id="usersTableBody" class="divide-y divide-gray-200 bg-white">
                 @forelse($users as $user)
                     <tr class="hover:bg-gray-50/80 transition-colors duration-150">
                         <td class="px-6 py-4 text-sm text-gray-500 font-mono">
@@ -135,3 +146,163 @@
         background: #94a3b8;
     }
 </style>
+
+<script>
+    // Live Search Functionality
+    (function() {
+        const searchInput = document.getElementById('searchInput');
+        const searchLoader = document.getElementById('searchLoader');
+        const usersTableBody = document.getElementById('usersTableBody');
+        let searchTimeout;
+
+        // Store original table content
+        const originalContent = usersTableBody.innerHTML;
+
+        // Debounce function for better performance
+        function debounce(func, delay) {
+            return function() {
+                const context = this;
+                const args = arguments;
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
+
+        // Function to render users
+        function renderUsers(users) {
+            if (users.length === 0) {
+                usersTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-6 py-12 text-center">
+                            <div class="flex flex-col items-center justify-center space-y-3">
+                                <div class="p-4 bg-gray-50 rounded-full">
+                                    <i class="fas fa-search text-gray-400 text-3xl"></i>
+                                </div>
+                                <p class="text-gray-500 font-medium">Tidak ada hasil untuk pencarian ini</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            let html = '';
+            users.forEach(user => {
+                const passportBadge = user.hasPassport
+                    ? '<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200"><i class="fas fa-check-circle mr-1.5"></i> Ada</span>'
+                    : '<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700 border border-red-200"><i class="fas fa-times-circle mr-1.5"></i> Belum</span>';
+
+                html += `
+                    <tr class="hover:bg-gray-50/80 transition-colors duration-150">
+                        <td class="px-6 py-4 text-sm text-gray-500 font-mono">#${user.id}</td>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-bold text-gray-900">${user.fullName}</span>
+                                <span class="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                                    <i class="fab fa-whatsapp text-green-500"></i> ${user.phone}
+                                </span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-gray-700 flex items-center gap-2">
+                                <i class="far fa-calendar-alt text-gray-400"></i>
+                                ${user.birthDate}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-sm text-gray-600 block max-w-xs truncate" title="${user.address}">
+                                ${user.address.substring(0, 35)}${user.address.length > 35 ? '...' : ''}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            ${passportBadge}
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex items-center justify-center space-x-2">
+                                <a href="/users/${user.id}" class="group p-2 text-teal-600 hover:bg-teal-50 rounded-lg transition-all duration-200" title="Lihat Detail">
+                                    <i class="fas fa-eye text-lg group-hover:scale-110 transition-transform"></i>
+                                </a>
+                                <a href="/users/${user.id}/edit" class="group p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200" title="Edit Data">
+                                    <i class="fas fa-edit text-lg group-hover:scale-110 transition-transform"></i>
+                                </a>
+                                <form method="POST" action="/users/${user.id}" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data pendaftar ini?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="group p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200" title="Hapus Permanen">
+                                        <i class="fas fa-trash-alt text-lg group-hover:scale-110 transition-transform"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            usersTableBody.innerHTML = html;
+        }
+
+        // Search function
+        function performSearch() {
+            const searchTerm = searchInput.value.trim();
+
+            // If search is empty, restore original content
+            if (searchTerm === '') {
+                usersTableBody.innerHTML = originalContent;
+                return;
+            }
+
+            // Show loader
+            searchLoader.classList.remove('hidden');
+
+            // Perform AJAX request
+            fetch(`/users/search?search=${encodeURIComponent(searchTerm)}`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Search results:', data);
+                if (data && data.users) {
+                    renderUsers(data.users);
+                } else {
+                    throw new Error('Invalid response format');
+                }
+            })
+            .catch(error => {
+                console.error('Search error:', error);
+                usersTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-6 py-12 text-center">
+                            <div class="flex flex-col items-center justify-center space-y-3">
+                                <div class="p-4 bg-red-50 rounded-full">
+                                    <i class="fas fa-exclamation-circle text-red-400 text-3xl"></i>
+                                </div>
+                                <p class="text-red-500 font-medium">Terjadi kesalahan saat mencari</p>
+                                <p class="text-xs text-gray-500">${error.message}</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            })
+            .finally(() => {
+                // Hide loader
+                searchLoader.classList.add('hidden');
+            });
+        }
+
+        // Attach event listener with debounce
+        if (searchInput) {
+            searchInput.addEventListener('input', debounce(performSearch, 300));
+        }
+    })();
+</script>
+

@@ -21,6 +21,29 @@ class UserController extends Controller
         ]);
     }
 
+    public function search(Request $request) {
+        $search = $request->get('search', '');
+
+        $users = User::when($search, function($query) use ($search) {
+            return $query->where('fullName', 'like', '%' . $search . '%')
+                        ->orWhere('phone', 'like', '%' . $search . '%')
+                        ->orWhere('address', 'like', '%' . $search . '%');
+        })->get();
+
+        return response()->json([
+            'users' => $users->map(function($user) {
+                return [
+                    'id' => $user->id,
+                    'fullName' => $user->fullName,
+                    'phone' => $user->phone ?? '-',
+                    'birthDate' => $user->birthDate ? $user->birthDate->format('d M Y') : 'N/A',
+                    'address' => $user->address,
+                    'hasPassport' => $user->hasPassport,
+                ];
+            })
+        ]);
+    }
+
     public function show($id) {
         $user = User::with(['bookings.package', 'documents', 'passport.passportPhotos'])->findOrFail($id);
         return view('admin.users.show', compact('user'));
