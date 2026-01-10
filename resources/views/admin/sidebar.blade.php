@@ -127,7 +127,7 @@
 
     <!-- Footer Section -->
     <div class="sidebar-footer p-4 border-t border-slate-800 bg-slate-900/50">
-        <div class="flex items-center gap-3 mb-3 px-2">
+        <!-- <div class="flex items-center gap-3 mb-3 px-2">
             <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">
                 AD
             </div>
@@ -135,7 +135,7 @@
                 <p class="text-sm font-semibold text-white truncate">Administrator</p>
                 <p class="text-xs text-slate-500 truncate">admin@fabiabadi.com</p>
             </div>
-        </div>
+        </div> -->
 
         <form method="POST" action="{{ route('admin.logout') }}">
             @csrf
