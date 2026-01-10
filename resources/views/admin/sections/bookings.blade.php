@@ -108,18 +108,19 @@
     </div>
 </div>
 
+<!-- Create Booking Modal -->
 <div id="createBookingModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity opacity-0" id="createBookingBackdrop"></div>
     <div class="fixed inset-0 z-10 overflow-y-auto">
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg scale-95 opacity-0" id="createBookingPanel">
+            <div class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg scale-95 opacity-0" id="createBookingPanel">
 
-                <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex justify-between items-center">
+                <div class="bg-blue-600 px-6 py-4 flex justify-between items-center">
                     <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                        <i class="fas fa-calendar-plus bg-white/20 p-1.5 rounded-md"></i>
+                        <i class="fas fa-calendar-plus"></i>
                         Tambah Booking
                     </h3>
-                    <button onclick="closeCreateBookingModal()" class="text-blue-100 hover:text-white transition-colors focus:outline-none">
+                    <button onclick="closeCreateBookingModal()" class="text-white hover:text-gray-200 transition-colors focus:outline-none">
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
@@ -130,7 +131,7 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Jamaah</label>
-                            <select name="user_id" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5" required>
+                            <select name="user_id" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm" required>
                                 <option value="">-- Pilih Jamaah --</option>
                                 @foreach($users as $user)
                                     <option value="{{ $user->id }}">{{ $user->fullName }} ({{ $user->phone }})</option>
@@ -140,7 +141,7 @@
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Paket</label>
-                            <select name="package_id" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5" required>
+                            <select name="package_id" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm" required>
                                 <option value="">-- Pilih Paket --</option>
                                 @foreach($packages as $package)
                                     <option value="{{ $package->id }}">{{ $package->title }} (Rp {{ number_format($package->price, 0, ',', '.') }})</option>
@@ -151,23 +152,27 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                                <select name="status" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5">
-                                    <option value="pending">Pending (Menunggu)</option>
-                                    <option value="confirmed">Confirmed (Lunas)</option>
-                                    <option value="cancelled">Cancelled (Batal)</option>
-                                    <option value="completed">Completed (Selesai)</option>
+                                <select name="status" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm">
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="completed">Completed</option>
                                 </select>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Daftar</label>
-                                <input type="date" name="registered_at" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5" value="{{ date('Y-m-d') }}">
+                                <input type="date" name="registered_at" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm" value="{{ date('Y-m-d') }}">
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                        <button type="button" onclick="closeCreateBookingModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Batal</button>
-                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm transition-colors">Simpan Booking</button>
+                        <button type="button" onclick="closeCreateBookingModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm transition-colors">
+                            Simpan Booking
+                        </button>
                     </div>
                 </form>
             </div>
@@ -175,18 +180,19 @@
     </div>
 </div>
 
+<!-- Edit Booking Modal -->
 <div id="editBookingModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity opacity-0" id="editBookingBackdrop"></div>
     <div class="fixed inset-0 z-10 overflow-y-auto">
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg scale-95 opacity-0" id="editBookingPanel">
+            <div class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg scale-95 opacity-0" id="editBookingPanel">
 
-                <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex justify-between items-center">
+                <div class="bg-blue-600 px-6 py-4 flex justify-between items-center">
                     <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                        <i class="fas fa-edit bg-white/20 p-1.5 rounded-md"></i>
+                        <i class="fas fa-edit"></i>
                         Update Booking
                     </h3>
-                    <button onclick="closeEditBookingModal()" class="text-blue-100 hover:text-white transition-colors focus:outline-none">
+                    <button onclick="closeEditBookingModal()" class="text-white hover:text-gray-200 transition-colors focus:outline-none">
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
@@ -198,7 +204,7 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Jamaah</label>
-                            <select name="user_id" id="edit_user_id" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5 bg-gray-50" required>
+                            <select name="user_id" id="edit_user_id" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm bg-gray-50" required>
                                 @foreach($users as $user)
                                     <option value="{{ $user->id }}">{{ $user->fullName }} ({{ $user->phone }})</option>
                                 @endforeach
@@ -207,7 +213,7 @@
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Paket</label>
-                            <select name="package_id" id="edit_package_id" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5" required>
+                            <select name="package_id" id="edit_package_id" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm" required>
                                 @foreach($packages as $package)
                                     <option value="{{ $package->id }}">{{ $package->title }} (Rp {{ number_format($package->price, 0, ',', '.') }})</option>
                                 @endforeach
@@ -217,7 +223,7 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                                <select name="status" id="edit_status" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5">
+                                <select name="status" id="edit_status" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm">
                                     <option value="pending">Pending</option>
                                     <option value="confirmed">Confirmed</option>
                                     <option value="cancelled">Cancelled</option>
@@ -226,14 +232,18 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Daftar</label>
-                                <input type="date" name="registered_at" id="edit_registered_at" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5">
+                                <input type="date" name="registered_at" id="edit_registered_at" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm">
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                        <button type="button" onclick="closeEditBookingModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Batal</button>
-                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm transition-colors">Update Booking</button>
+                        <button type="button" onclick="closeEditBookingModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm transition-colors">
+                            Update Booking
+                        </button>
                     </div>
                 </form>
             </div>

@@ -17,13 +17,6 @@ class BookingController extends Controller
         return Booking::with(['user', 'package'])->findOrFail($id);
     }
 
-    public function edit($id) {
-        $booking = Booking::findOrFail($id);
-        $users = User::all();
-        $packages = Package::all();
-        return view('admin.bookings.edit', compact('booking', 'users', 'packages'));
-    }
-
     public function store(Request $request) {
         $data = $request->validate([
             'user_id' => 'required|exists:users,id',
