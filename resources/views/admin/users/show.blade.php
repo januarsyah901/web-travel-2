@@ -28,7 +28,7 @@
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8 relative overflow-hidden">
         <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
-            <i class="fas fa-kaaba text-9xl text-gray-800"></i>
+                <img src="{{ asset('img/img/logo.png') }}" alt="Logo" class="w-full h-full object-contain p-1">
         </div>
 
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">

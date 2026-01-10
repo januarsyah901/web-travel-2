@@ -9,7 +9,7 @@
     <div class="sidebar-header h-20 flex items-center px-6 border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
         <div class="flex items-center gap-3 min-w-0">
             <div class="sidebar-icon w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/20 flex-shrink-0">
-                <i class="fas fa-kaaba text-white text-base"></i>
+                <img src="{{ asset('img/img/logo.png') }}" alt="Logo" class="w-full h-full object-contain p-1">
             </div>
             <div class="sidebar-text min-w-0">
                 <h1 class="font-bold text-white text-lg tracking-tight truncate">Fabi Abadi</h1>
