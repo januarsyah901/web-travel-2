@@ -3,7 +3,7 @@
 <section id="mutawwif" class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-gray-800 mb-4">Mutawwif Profesional</h2>
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">Tour Leader</h2>
             <div class="w-20 h-1 bg-orange-600 mx-auto mb-4"></div>
             <p class="text-gray-600">Dipandu oleh pembimbing ibadah berpengalaman dan bersertifikat</p>
         </div>

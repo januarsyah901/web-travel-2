@@ -1,10 +1,9 @@
 <nav id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20"> <div class="flex items-center">
-                <a href="#home" class="flex items-center gap-2 group">
-                    <span class="text-2xl font-bold text-gray-800 group-hover:text-orange-600 transition-colors">
-                        PT Fabi <span class="text-orange-600 group-hover:text-gray-800 transition-colors">Abadi</span>
-                    </span>
+                <a href="#home" class="flex items-center gap-3 group">
+                    <img src="{{ asset('img/img/vertical_logo.png') }}" alt="PT Fabi Abadi Logo" class="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+            
                 </a>
             </div>
 

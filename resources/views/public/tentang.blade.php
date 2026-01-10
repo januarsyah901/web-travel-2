@@ -1,51 +1,60 @@
 <section id="tentang" class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-gray-800 mb-4">Tentang Kami</h2>
-            <div class="w-20 h-1 bg-orange-600 mx-auto mb-4"></div>
-            <p class="text-gray-600">Mitra perjalanan ibadah terpercaya ke Tanah Suci</p>
+        
+        <div class="grid lg:grid-cols-2 gap-10 mb-12 items-start">
+            <div>
+                <span class="text-orange-600 font-bold tracking-wider uppercase text-sm mb-2 block">
+                    TENTANG PT FABI ABADI
+                </span>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                    Kami menyediakan berbagai layanan terbaik untuk jamaah
+                </h2>
+            </div>
+            
+            <div class="text-gray-600 text-lg leading-relaxed space-y-4">
+                <p>
+                    PT FABI ABADI adalah perusahaan travel professional dengan pengalaman berkecimpung di dunia perhotelan pariwisata domestik dan internasional, inbound, outbound, halal tourism, umroh dan haji.
+                </p>
+                <p>
+                    Bersama PT FABI ABADI anda akan mendapatkan pengalaman ibadah yang mengesankan dengan dipandu oleh muttawif yang berkompeten dan layanan serta fasilitas terbaik.
+                </p>
+            </div>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="grid md:grid-cols-2 gap-8">
 
-            <div class="relative">
-                <div class="rounded-2xl overflow-hidden shadow-lg border border-gray-100">
-                    <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=800&auto=format&fit=crop"
-                         alt="Tentang PT Fabi Abadi"
-                         class="w-full h-full object-cover">
+            <div class="group relative h-[450px] rounded-2xl overflow-hidden shadow-xl cursor-pointer">
+                <img src="{{ asset('img/img/makka.jpg') }}" 
+                     alt="Paket Haji" 
+                     class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110">
+                
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-90"></div>
+                
+                <div class="absolute bottom-0 left-0 p-8 w-full">
+                    <h3 class="text-white text-2xl font-bold mb-2 uppercase tracking-wide">Paket Haji</h3>
+                    <div class="flex items-center text-orange-400 font-medium group-hover:text-orange-300 transition-colors">
+                        <span class="mr-2">Lihat Sekarang</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </div>
                 </div>
-                <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-orange-100 rounded-br-2xl -z-10"></div>
-                <div class="absolute -top-4 -left-4 w-24 h-24 bg-gray-100 rounded-tl-2xl -z-10"></div>
             </div>
 
-            <div>
-
-                <h3 class="text-xl font-semibold text-gray-900 mb-4">
-                    PT Fabi Abadi - Mitra Perjalanan Ibadah Terpercaya
-                </h3>
-
-                <p class="text-gray-600 leading-relaxed mb-4">
-                    Kami hadir untuk melayani jamaah dalam mewujudkan impian beribadah ke Tanah Suci. Dengan komitmen pelayanan profesional, kami memastikan setiap langkah ibadah Anda terasa nyaman, aman, dan khusyuk.
-                </p>
-
-                <p class="text-gray-600 leading-relaxed mb-8">
-                    Kepuasan jamaah adalah prioritas utama kami. Didukung oleh tim yang berpengalaman dan fasilitas terbaik di kelasnya, PT Fabi Abadi siap menjadi sahabat perjalanan spiritual Anda.
-                </p>
-
-                <div class="bg-gray-50 rounded-xl p-6 border border-gray-100">
-                    <div class="grid grid-cols-3 gap-4 text-center divide-x divide-gray-200">
-                        <div>
-                            <span class="block text-3xl font-bold text-orange-600">10+</span>
-                            <span class="text-sm text-gray-500 mt-1">Tahun</span>
-                        </div>
-                        <div>
-                            <span class="block text-3xl font-bold text-orange-600">5k+</span>
-                            <span class="text-sm text-gray-500 mt-1">Jamaah</span>
-                        </div>
-                        <div>
-                            <span class="block text-3xl font-bold text-orange-600">100%</span>
-                            <span class="text-sm text-gray-500 mt-1">Amanah</span>
-                        </div>
+            <div class="group relative h-[450px] rounded-2xl overflow-hidden shadow-xl cursor-pointer">
+                <img src="{{ asset('img/img/makka.jpg') }}"
+                     alt="Paket Umroh" 
+                     class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110">
+                
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-90"></div>
+                
+                <div class="absolute bottom-0 left-0 p-8 w-full">
+                    <h3 class="text-white text-2xl font-bold mb-2 uppercase tracking-wide">Paket Umroh</h3>
+                    <div class="flex items-center text-orange-400 font-medium group-hover:text-orange-300 transition-colors">
+                        <span class="mr-2">Lihat Sekarang</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
                     </div>
                 </div>
             </div>
