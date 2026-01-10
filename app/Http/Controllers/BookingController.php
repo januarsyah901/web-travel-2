@@ -13,8 +13,21 @@ class BookingController extends Controller
         return Booking::with(['user', 'package'])->get();
     }
 
+    public function create() {
+        $users = User::all();
+        $packages = Package::all();
+        return view('admin.bookings.create', compact('users', 'packages'));
+    }
+
     public function show($id) {
         return Booking::with(['user', 'package'])->findOrFail($id);
+    }
+
+    public function edit($id) {
+        $booking = Booking::findOrFail($id);
+        $users = User::all();
+        $packages = Package::all();
+        return view('admin.bookings.edit', compact('booking', 'users', 'packages'));
     }
 
     public function store(Request $request) {

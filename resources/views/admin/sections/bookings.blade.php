@@ -15,12 +15,12 @@
             <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Data Booking</h2>
             <p class="text-gray-500 mt-1">Kelola pendaftaran dan status pembayaran jamaah.</p>
         </div>
-        <button onclick="openCreateBookingModal()" class="group relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 ease-in-out transform hover:-translate-y-0.5">
+        <a href="{{ route('bookings.create') }}" class="group relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 ease-in-out transform hover:-translate-y-0.5">
             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                 <i class="fas fa-calendar-plus text-blue-300 group-hover:text-white transition-colors"></i>
             </span>
             <span class="ml-4">Tambah Booking</span>
-        </button>
+        </a>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -75,10 +75,9 @@
 
                         <td class="px-6 py-4 text-center">
                             <div class="flex items-center justify-center space-x-3">
-                                <button onclick="openEditBookingModal({{ $booking->id }}, {{ $booking->user_id }}, {{ $booking->package_id }}, '{{ $booking->status }}', '{{ $booking->registered_at ? $booking->registered_at->format('Y-m-d') : '' }}')"
-                                        class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200" title="Edit">
+                                <a href="{{ route('bookings.edit', $booking->id) }}" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200" title="Edit">
                                     <i class="fas fa-edit text-lg"></i>
-                                </button>
+                                </a>
 
                                 <form method="POST" action="{{ route('bookings.destroy', $booking->id) }}" class="inline-block" onsubmit="return confirm('Hapus data booking ini?');">
                                     @csrf
@@ -107,210 +106,3 @@
         </div>
     </div>
 </div>
-
-<!-- Create Booking Modal -->
-<div id="createBookingModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity opacity-0" id="createBookingBackdrop"></div>
-    <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg scale-95 opacity-0" id="createBookingPanel">
-
-                <div class="bg-blue-600 px-6 py-4 flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                        <i class="fas fa-calendar-plus"></i>
-                        Tambah Booking
-                    </h3>
-                    <button onclick="closeCreateBookingModal()" class="text-white hover:text-gray-200 transition-colors focus:outline-none">
-                        <i class="fas fa-times text-xl"></i>
-                    </button>
-                </div>
-
-                <form action="{{ route('bookings.store') }}" method="POST" class="p-6 space-y-5">
-                    @csrf
-
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Jamaah</label>
-                            <select name="user_id" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm" required>
-                                <option value="">-- Pilih Jamaah --</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->fullName }} ({{ $user->phone }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Paket</label>
-                            <select name="package_id" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm" required>
-                                <option value="">-- Pilih Paket --</option>
-                                @foreach($packages as $package)
-                                    <option value="{{ $package->id }}">{{ $package->title }} (Rp {{ number_format($package->price, 0, ',', '.') }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                                <select name="status" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm">
-                                    <option value="pending">Pending</option>
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="cancelled">Cancelled</option>
-                                    <option value="completed">Completed</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Daftar</label>
-                                <input type="date" name="registered_at" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm" value="{{ date('Y-m-d') }}">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                        <button type="button" onclick="closeCreateBookingModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                            Batal
-                        </button>
-                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm transition-colors">
-                            Simpan Booking
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Edit Booking Modal -->
-<div id="editBookingModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity opacity-0" id="editBookingBackdrop"></div>
-    <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg scale-95 opacity-0" id="editBookingPanel">
-
-                <div class="bg-blue-600 px-6 py-4 flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                        <i class="fas fa-edit"></i>
-                        Update Booking
-                    </h3>
-                    <button onclick="closeEditBookingModal()" class="text-white hover:text-gray-200 transition-colors focus:outline-none">
-                        <i class="fas fa-times text-xl"></i>
-                    </button>
-                </div>
-
-                <form id="editBookingForm" method="POST" class="p-6 space-y-5">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Jamaah</label>
-                            <select name="user_id" id="edit_user_id" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm bg-gray-50" required>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->fullName }} ({{ $user->phone }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Paket</label>
-                            <select name="package_id" id="edit_package_id" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm" required>
-                                @foreach($packages as $package)
-                                    <option value="{{ $package->id }}">{{ $package->title }} (Rp {{ number_format($package->price, 0, ',', '.') }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                                <select name="status" id="edit_status" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm">
-                                    <option value="pending">Pending</option>
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="cancelled">Cancelled</option>
-                                    <option value="completed">Completed</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Daftar</label>
-                                <input type="date" name="registered_at" id="edit_registered_at" class="block w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all sm:text-sm">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                        <button type="button" onclick="closeEditBookingModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                            Batal
-                        </button>
-                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm transition-colors">
-                            Update Booking
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // --- Helper for Animations ---
-    function animateBookingModal(modalId, backdropId, panelId, show) {
-        const modal = document.getElementById(modalId);
-        const backdrop = document.getElementById(backdropId);
-        const panel = document.getElementById(panelId);
-
-        if (show) {
-            modal.classList.remove('hidden');
-            requestAnimationFrame(() => {
-                backdrop.classList.remove('opacity-0');
-                panel.classList.remove('opacity-0', 'scale-95');
-                panel.classList.add('opacity-100', 'scale-100');
-            });
-        } else {
-            backdrop.classList.add('opacity-0');
-            panel.classList.remove('opacity-100', 'scale-100');
-            panel.classList.add('opacity-0', 'scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
-    }
-
-    // --- Create Functions ---
-    function openCreateBookingModal() {
-        animateBookingModal('createBookingModal', 'createBookingBackdrop', 'createBookingPanel', true);
-    }
-
-    function closeCreateBookingModal() {
-        animateBookingModal('createBookingModal', 'createBookingBackdrop', 'createBookingPanel', false);
-    }
-
-    // --- Edit Functions ---
-    function openEditBookingModal(id, userId, packageId, status, registeredAt) {
-        document.getElementById('edit_user_id').value = userId;
-        document.getElementById('edit_package_id').value = packageId;
-        document.getElementById('edit_status').value = status;
-        document.getElementById('edit_registered_at').value = registeredAt;
-
-        const baseUrl = '{{ url("bookings") }}';
-        document.getElementById('editBookingForm').action = `${baseUrl}/${id}`;
-
-        animateBookingModal('editBookingModal', 'editBookingBackdrop', 'editBookingPanel', true);
-    }
-
-    function closeEditBookingModal() {
-        animateBookingModal('editBookingModal', 'editBookingBackdrop', 'editBookingPanel', false);
-    }
-
-    // --- Close on Outside Click ---
-    window.addEventListener('click', function(e) {
-        const createModal = document.getElementById('createBookingModal');
-        const editModal = document.getElementById('editBookingModal');
-        const createPanel = document.getElementById('createBookingPanel');
-        const editPanel = document.getElementById('editBookingPanel');
-
-        if (e.target === createModal || (createModal && createModal.contains(e.target) && !createPanel.contains(e.target))) {
-            closeCreateBookingModal();
-        }
-        if (e.target === editModal || (editModal && editModal.contains(e.target) && !editPanel.contains(e.target))) {
-            closeEditBookingModal();
-        }
-    });
-</script>
