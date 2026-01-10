@@ -55,14 +55,20 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                    <label for="user_id" class="text-sm font-semibold text-gray-700">Jamaah <span class="text-red-500">*</span></label>
-                    <select name="user_id" id="user_id" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none" required>
-                        @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ old('user_id', $booking->user_id) == $user->id ? 'selected' : '' }}>
-                                {{ $user->fullName }} ({{ $user->phone }})
-                            </option>
-                        @endforeach
-                    </select>
+                    <label class="text-sm font-semibold text-gray-700">Nama Jamaah</label>
+                    <div class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-700">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-user text-gray-400"></i>
+                            <div>
+                                <div class="font-semibold">{{ $booking->user->fullName ?? 'Guest' }}</div>
+                                <div class="text-sm text-gray-500">{{ $booking->user->phone ?? '-' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="user_id" value="{{ $booking->user_id }}">
+                    <p class="text-xs text-gray-500 mt-1">
+                        <i class="fas fa-lock text-gray-400"></i> Data jamaah tidak dapat diubah
+                    </p>
                 </div>
 
                 <div class="space-y-2">
@@ -82,7 +88,6 @@
                         <option value="pending" {{ old('status', $booking->status) == 'pending' ? 'selected' : '' }}>Pending (Menunggu)</option>
                         <option value="confirmed" {{ old('status', $booking->status) == 'confirmed' ? 'selected' : '' }}>Confirmed (Lunas)</option>
                         <option value="cancelled" {{ old('status', $booking->status) == 'cancelled' ? 'selected' : '' }}>Cancelled (Batal)</option>
-                        <option value="completed" {{ old('status', $booking->status) == 'completed' ? 'selected' : '' }}>Completed (Selesai)</option>
                     </select>
                 </div>
 

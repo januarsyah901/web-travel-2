@@ -1,15 +1,4 @@
 <div id="bookings" class="content-section {{ $section == 'bookings' ? '' : 'hidden' }} space-y-6">
-    @if(session('success'))
-        <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-r-lg shadow-sm flex items-center animate-fade-in-down">
-            <div class="flex-shrink-0">
-                <i class="fas fa-check-circle text-green-500 text-lg"></i>
-            </div>
-            <div class="ml-3">
-                <p class="text-sm font-medium text-green-800">{{ session('success') }}</p>
-            </div>
-        </div>
-    @endif
-
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
             <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Data Booking</h2>
@@ -64,12 +53,17 @@
                                     'pending' => 'bg-yellow-100 text-yellow-800 border-yellow-200',
                                     'confirmed' => 'bg-green-100 text-green-800 border-green-200',
                                     'cancelled' => 'bg-red-100 text-red-800 border-red-200',
-                                    'completed' => 'bg-blue-100 text-blue-800 border-blue-200',
+                                ];
+                                $statusLabels = [
+                                    'pending' => 'Pending',
+                                    'confirmed' => 'Confirmed',
+                                    'cancelled' => 'Cancelled',
                                 ];
                                 $currentClass = $statusClasses[$booking->status] ?? 'bg-gray-100 text-gray-800';
+                                $statusLabel = $statusLabels[$booking->status] ?? ucfirst($booking->status);
                             @endphp
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $currentClass }} capitalize">
-                                {{ $booking->status }}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $currentClass }}">
+                                {{ $statusLabel }}
                             </span>
                         </td>
 

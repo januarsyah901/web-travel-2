@@ -55,14 +55,25 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <label for="user_id" class="text-sm font-semibold text-gray-700">Pilih Jamaah <span class="text-red-500">*</span></label>
-                    <select name="user_id" id="user_id" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none" required>
-                        <option value="">-- Pilih Jamaah --</option>
+                    
+                    <!-- Search Input -->
+                    <div class="relative mb-2">
+                        <input type="text" id="searchJamaah" placeholder="Cari nama atau nomor telepon..." 
+                               class="w-full pl-9 pr-4 py-2 text-sm rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                               onkeyup="filterJamaah()">
+                    </div>
+                    
+                    <select name="user_id" id="user_id" size="6" class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none" required>
+                        <option value="" disabled {{ old('user_id') ? '' : 'selected' }}>-- Pilih Jamaah --</option>
                         @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                            <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }} data-name="{{ strtolower($user->fullName) }}" data-phone="{{ $user->phone }}">
                                 {{ $user->fullName }} ({{ $user->phone }})
                             </option>
                         @endforeach
                     </select>
+                    <p class="text-xs text-gray-500 mt-1">
+                        <i class="fas fa-info-circle"></i> Gunakan search untuk mempermudah pencarian
+                    </p>
                 </div>
 
                 <div class="space-y-2">
@@ -83,7 +94,6 @@
                         <option value="pending" {{ old('status', 'pending') == 'pending' ? 'selected' : '' }}>Pending (Menunggu)</option>
                         <option value="confirmed" {{ old('status') == 'confirmed' ? 'selected' : '' }}>Confirmed (Lunas)</option>
                         <option value="cancelled" {{ old('status') == 'cancelled' ? 'selected' : '' }}>Cancelled (Batal)</option>
-                        <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Completed (Selesai)</option>
                     </select>
                 </div>
 
@@ -119,3 +129,48 @@
 
 </div>
 @endsection
+
+@push('scripts')
+<script>
+function filterJamaah() {
+    const searchInput = document.getElementById('searchJamaah');
+    const select = document.getElementById('user_id');
+    const filter = searchInput.value.toLowerCase();
+    const options = select.getElementsByTagName('option');
+    let visibleCount = 0;
+
+    for (let i = 0; i < options.length; i++) {
+        const option = options[i];
+        
+        // Skip the placeholder option
+        if (option.value === '') {
+            option.style.display = 'none';
+            continue;
+        }
+        
+        const name = option.getAttribute('data-name') || '';
+        const phone = option.getAttribute('data-phone') || '';
+        
+        if (name.indexOf(filter) > -1 || phone.indexOf(filter) > -1) {
+            option.style.display = '';
+            visibleCount++;
+        } else {
+            option.style.display = 'none';
+        }
+    }
+    
+    // If no visible options, show a message
+    if (visibleCount === 0 && filter !== '') {
+        // You could add a "no results" option here if needed
+    }
+}
+
+// Optional: Clear search when an option is selected
+document.getElementById('user_id').addEventListener('change', function() {
+    if (this.value) {
+        document.getElementById('searchJamaah').value = '';
+        filterJamaah();
+    }
+});
+</script>
+@endpush

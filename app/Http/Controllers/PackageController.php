@@ -15,6 +15,10 @@ class PackageController extends Controller
         return Package::findOrFail($id);
     }
 
+    public function create() {
+        return view('admin.packages.create');
+    }
+
     public function store(Request $request) {
         $data = $request->validate([
             'title' => 'required',
@@ -25,7 +29,9 @@ class PackageController extends Controller
         ]);
 
         try {
-            return Package::create($data);
+            Package::create($data);
+            return redirect()->to(route('admin.dashboard') . '?section=packages')
+                ->with('success', 'Package berhasil ditambahkan!');
         } catch (\Illuminate\Database\QueryException $e) {
             $sqlState = $e->getCode();
             $driverErrorCode = $e->errorInfo[1] ?? null;
@@ -40,10 +46,25 @@ class PackageController extends Controller
         }
     }
 
+    public function edit($id) {
+        $package = Package::findOrFail($id);
+        return view('admin.packages.edit', compact('package'));
+    }
+
     public function update(Request $request, $id) {
+        $data = $request->validate([
+            'title' => 'required',
+            'schedule' => 'required',
+            'duration' => 'required',
+            'price' => 'required|numeric',
+            'description' => 'nullable',
+        ]);
+
         $pkg = Package::findOrFail($id);
-        $pkg->update($request->all());
-        return $pkg;
+        $pkg->update($data);
+        
+        return redirect()->to(route('admin.dashboard') . '?section=packages')
+            ->with('success', 'Package berhasil diupdate!');
     }
 
     public function destroy($id) {
