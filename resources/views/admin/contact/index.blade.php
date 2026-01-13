@@ -207,7 +207,7 @@
                             @php
                                 $socials = [
                                     ['key' => 'facebook', 'icon' => 'fab fa-facebook-f', 'color' => 'bg-[#1877F2]', 'label' => 'Facebook'],
-                                    ['key' => 'instagram', 'icon' => 'fab fa-instagram', 'color' => 'bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737]', 'label' => 'Instagram'],
+                                    ['key' => 'instagram', 'icon' => 'fab fa-instagram', 'color' => 'bg-[#E4405F]', 'label' => 'Instagram'],
                                     ['key' => 'twitter', 'icon' => 'fab fa-twitter', 'color' => 'bg-[#1DA1F2]', 'label' => 'Twitter'],
                                     ['key' => 'youtube', 'icon' => 'fab fa-youtube', 'color' => 'bg-[#FF0000]', 'label' => 'YouTube'],
                                     ['key' => 'tiktok', 'icon' => 'fab fa-tiktok', 'color' => 'bg-black', 'label' => 'TikTok'],
