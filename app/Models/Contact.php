@@ -19,6 +19,9 @@ class Contact extends Model
         'twitter',
         'youtube',
         'tiktok',
+        'linkedin',
+        'pinterest',
+        'telegram',
         'working_hours',
         'maps_embed',
         'is_active',
@@ -61,6 +64,18 @@ class Contact extends Model
             'twitter' => $this->twitter,
             'youtube' => $this->youtube,
             'tiktok' => $this->tiktok,
+            'linkedin' => $this->linkedin,
+            'pinterest' => $this->pinterest,
+            'telegram' => $this->telegram,
         ];
+    }
+
+    // Method untuk mendapatkan semua social media yang aktif (bukan null)
+    public function getActiveSocialMediaAttribute()
+    {
+        $socials = $this->social_media;
+        return array_filter($socials, function ($value) {
+            return !is_null($value);
+        });
     }
 }

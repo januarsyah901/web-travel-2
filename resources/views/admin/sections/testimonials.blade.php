@@ -66,7 +66,7 @@
                                     <i class="fas fa-edit text-lg"></i>
                                 </button>
 
-                                <form method="POST" action="{{ route('testimonials.destroy', $testimonial->id) }}" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus testimoni ini?');">
+                                <form method="POST" action="{{ route('testimonials.destroy', $testimonial->id) }}" class="inline-block" onsubmit="return handleDeleteTestimonial(event, '{{ addslashes($testimonial->name) }}');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" title="Hapus">

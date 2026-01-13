@@ -259,7 +259,7 @@
                                 <a href="/users/${user.id}/edit" class="group p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200" title="Edit Data">
                                     <i class="fas fa-edit text-lg group-hover:scale-110 transition-transform"></i>
                                 </a>
-                                <form method="POST" action="/users/${user.id}" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data pendaftar ini?');">
+                                <form method="POST" action="/users/${user.id}" class="inline-block" onsubmit="return handleDeleteUser(event, '${user.fullName.replace(/'/g, "\\'")}');">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button type="submit" class="group p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200" title="Hapus Permanen">
@@ -341,5 +341,110 @@
         // Attach event listener with debounce
         searchInput.addEventListener('input', debounce(performSearch, 300));
     })();
+
+    /* ===================================
+       CUSTOM DELETE HANDLERS
+       =================================== */
+    async function handleDeletePartner(event, name) {
+        event.preventDefault();
+        const confirmed = await customConfirm(
+            `Partner "${name}" akan dihapus dari daftar. Lanjutkan?`,
+            {
+                title: 'Hapus Partner',
+                type: 'warning',
+                confirmText: 'Ya, Hapus',
+                confirmClass: 'px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-colors shadow-sm'
+            }
+        );
+        if (confirmed) {
+            event.target.submit();
+        }
+        return false;
+    }
+
+    async function handleDeletePackage(event, name) {
+        event.preventDefault();
+        const confirmed = await customConfirm(
+            `Paket "${name}" akan dihapus permanen. Data yang dihapus tidak dapat dikembalikan. Apakah Anda yakin?`,
+            {
+                title: 'Hapus Paket',
+                type: 'danger',
+                confirmText: 'Ya, Hapus Paket',
+                confirmClass: 'px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-colors shadow-sm'
+            }
+        );
+        if (confirmed) {
+            event.target.submit();
+        }
+        return false;
+    }
+
+    async function handleDeleteUser(event, name) {
+        event.preventDefault();
+        const confirmed = await customConfirm(
+            `Data pendaftar "${name}" akan dihapus. Data yang terkait (seperti booking) mungkin akan terpengaruh. Lanjutkan?`,
+            {
+                title: 'Hapus Pendaftar',
+                type: 'danger',
+                confirmText: 'Ya, Hapus',
+                confirmClass: 'px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-colors shadow-sm'
+            }
+        );
+        if (confirmed) {
+            event.target.submit();
+        }
+        return false;
+    }
+
+    async function handleDeleteBooking(event, name) {
+        event.preventDefault();
+        const confirmed = await customConfirm(
+            `Booking untuk "${name}" akan dihapus. Lanjutkan?`,
+            {
+                title: 'Hapus Booking',
+                type: 'warning',
+                confirmText: 'Ya, Hapus',
+                confirmClass: 'px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-colors shadow-sm'
+            }
+        );
+        if (confirmed) {
+            event.target.submit();
+        }
+        return false;
+    }
+
+    async function handleDeleteTestimonial(event, name) {
+        event.preventDefault();
+        const confirmed = await customConfirm(
+            `Testimoni dari "${name}" akan dihapus. Lanjutkan?`,
+            {
+                title: 'Hapus Testimoni',
+                type: 'warning',
+                confirmText: 'Ya, Hapus',
+                confirmClass: 'px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-colors shadow-sm'
+            }
+        );
+        if (confirmed) {
+            event.target.submit();
+        }
+        return false;
+    }
+
+    async function handleDeleteGallery(event, title) {
+        event.preventDefault();
+        const confirmed = await customConfirm(
+            `Foto "${title}" akan dihapus dari galeri. Lanjutkan?`,
+            {
+                title: 'Hapus Foto',
+                type: 'warning',
+                confirmText: 'Ya, Hapus',
+                confirmClass: 'px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-colors shadow-sm'
+            }
+        );
+        if (confirmed) {
+            event.target.submit();
+        }
+        return false;
+    }
 </script>
 

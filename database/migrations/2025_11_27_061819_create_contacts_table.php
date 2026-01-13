@@ -25,6 +25,9 @@ return new class extends Migration
             $table->string('twitter')->nullable();
             $table->string('youtube')->nullable();
             $table->string('tiktok')->nullable();
+            $table->string('linkedin')->nullable();
+            $table->string('pinterest')->nullable();
+            $table->string('telegram')->nullable();
             $table->text('working_hours')->nullable();
             $table->text('maps_embed')->nullable();
             $table->boolean('is_active')->default(true);

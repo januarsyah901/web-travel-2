@@ -39,7 +39,7 @@
                 <div class="w-20 h-1 bg-orange-600 mx-auto mb-4 rounded-full"></div>
                 <p class="text-gray-600">Apa kata mereka yang telah bergabung bersama kami</p>
             </div>
-            <script defer async src='https://cdn.trustindex.io/loader.js?d7fa8e26102b965a0c26a9e2f79'></script>
+            <script defer async src='https://cdn.trustindex.io/loader.js?c4afbcf618479654c27611e8e23'></script>
         </div>
     </div>
 </section>

@@ -123,6 +123,22 @@
                 <div class="sidebar-text ml-auto w-2 h-2 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)] flex-shrink-0"></div>
             @endif
         </a>
+
+        <!-- Settings Group -->
+        <div class="px-3 mb-2 mt-6">
+            <p class="sidebar-text text-xs font-bold text-slate-500 uppercase tracking-wider">Settings</p>
+        </div>
+
+        <!-- Contact -->
+        <a href="{{ route('contact.index') }}" title="Kontak Perusahaan"
+           class="sidebar-link flex items-center py-2.5 px-4 rounded-xl transition-all duration-200 group relative
+           {{ str_contains($currentRoute, 'contact') ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-md shadow-orange-900/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+            <i class="fas fa-address-book w-5 flex-shrink-0 {{ str_contains($currentRoute, 'contact') ? 'text-white' : 'text-slate-400 group-hover:text-white' }} transition-colors"></i>
+            <span class="sidebar-text ml-3 font-medium">Kontak</span>
+            @if(str_contains($currentRoute, 'contact'))
+                <div class="sidebar-text ml-auto w-2 h-2 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)] flex-shrink-0"></div>
+            @endif
+        </a>
     </nav>
 
     <!-- Footer Section -->

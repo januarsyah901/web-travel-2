@@ -312,14 +312,34 @@
                     <p class="text-xs text-gray-500 mb-4">
                         Tindakan ini akan menghapus semua data pendaftar termasuk riwayat booking dan dokumen yang tersimpan secara permanen.
                     </p>
-                    <form method="POST" action="{{ route('users.destroy', $user->id) }}">
+                    <form method="POST" action="{{ route('users.destroy', $user->id) }}" onsubmit="return handlePermanentDeleteUser(event, '{{ addslashes($user->fullName) }}');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" onclick="return confirm('APAKAH ANDA YAKIN? Data akan hilang permanen!')"
+                        <button type="submit"
                                 class="w-full py-2.5 bg-red-50 text-red-600 border border-red-200 rounded-xl hover:bg-red-600 hover:text-white font-medium transition-colors text-sm flex items-center justify-center">
                             <i class="fas fa-trash-alt mr-2"></i> Hapus Permanen
                         </button>
                     </form>
+                    
+                    <script>
+                    async function handlePermanentDeleteUser(event, name) {
+                        event.preventDefault();
+                        const confirmed = await customConfirm(
+                            `PERINGATAN! Data pendaftar "${name}" akan dihapus permanen termasuk semua riwayat booking dan dokumen yang tersimpan. Tindakan ini TIDAK DAPAT DIBATALKAN!`,
+                            {
+                                title: '⚠️ HAPUS PERMANEN',
+                                type: 'danger',
+                                confirmText: 'Ya, Hapus Permanen',
+                                cancelText: 'Batal',
+                                confirmClass: 'px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 font-bold transition-colors shadow-sm'
+                            }
+                        );
+                        if (confirmed) {
+                            event.target.submit();
+                        }
+                        return false;
+                    }
+                    </script>
                 </div>
             </div>
 

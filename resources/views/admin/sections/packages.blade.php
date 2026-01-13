@@ -56,7 +56,7 @@
                                         class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200" title="Edit">
                                     <i class="fas fa-edit text-lg"></i>
                                 </a>
-                                <form method="POST" action="{{ route('packages.destroy', $package->id) }}" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus paket ini? Data yang dihapus tidak dapat dikembalikan.');">
+                                <form method="POST" action="{{ route('packages.destroy', $package->id) }}" class="inline-block" onsubmit="return handleDeletePackage(event, '{{ addslashes($package->name) }}');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" title="Hapus">

@@ -43,5 +43,5 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('partners', PartnerController::class);
     Route::resource('mutawwifs', MutawwifController::class);
     Route::resource('galleries', GalleryController::class);
-    Route::resource('contacts', ContactController::class)->names('admin.contact');
+    Route::resource('contact', ContactController::class)->except(['show']);
 });

@@ -48,7 +48,7 @@
                                     <i class="fas fa-edit text-lg"></i>
                                 </button>
 
-                                <form method="POST" action="{{ route('partners.destroy', $partner->id) }}" class="inline-block" onsubmit="return confirm('Hapus partner ini?');">
+                                <form method="POST" action="{{ route('partners.destroy', $partner->id) }}" class="inline-block" onsubmit="return handleDeletePartner(event, '{{ addslashes($partner->name) }}');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" title="Hapus">

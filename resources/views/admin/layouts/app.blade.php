@@ -52,6 +52,9 @@
         </div>
     </div>
 
+    <!-- Custom Alert Modal -->
+    @include('admin.layouts.partials.custom-alert')
+
     <!-- Global Scripts -->
     @include('admin.layouts.partials.scripts')
 
