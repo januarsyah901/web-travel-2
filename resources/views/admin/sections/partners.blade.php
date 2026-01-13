@@ -43,12 +43,12 @@
 
                         <td class="px-6 py-4 text-center">
                             <div class="flex items-center justify-center space-x-3">
-                                <button onclick="openEditPartnerModal({{ $partner->id }}, '{{ addslashes($partner->name) }}', '{{ $partner->logo_path ? asset('storage/' . $partner->logo_path) : '' }}')"
+                                <button onclick="openEditPartnerModal({{ $partner->id }}, '{{ e($partner->name) }}', '{{ $partner->logo_path ? asset('storage/' . $partner->logo_path) : '' }}')"
                                         class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200" title="Edit">
                                     <i class="fas fa-edit text-lg"></i>
                                 </button>
 
-                                <form method="POST" action="{{ route('partners.destroy', $partner->id) }}" class="inline-block" onsubmit="return handleDeletePartner(event, '{{ addslashes($partner->name) }}');">
+                                <form method="POST" action="{{ route('partners.destroy', $partner->id) }}" class="inline-block" onsubmit="return handleDeletePartner(event, '{{ e($partner->name) }}');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" title="Hapus">

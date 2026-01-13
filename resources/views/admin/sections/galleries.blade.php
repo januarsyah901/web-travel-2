@@ -53,12 +53,12 @@
 
                         <td class="px-6 py-4 text-center">
                             <div class="flex items-center justify-center space-x-3">
-                                <button onclick="openEditGalleryModal({{ $gallery->id }}, '{{ addslashes($gallery->title) }}', '{{ addslashes($gallery->description) }}', '{{ $gallery->image_path ? asset('storage/' . $gallery->image_path) : '' }}')"
+                                <button onclick="openEditGalleryModal({{ $gallery->id }}, '{{ e($gallery->title) }}', '{{ e($gallery->description) }}', '{{ $gallery->image_path ? asset('storage/' . $gallery->image_path) : '' }}')"
                                         class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200" title="Edit">
                                     <i class="fas fa-edit text-lg"></i>
                                 </button>
 
-                                <form method="POST" action="{{ route('galleries.destroy', $gallery->id) }}" class="inline-block" onsubmit="return handleDeleteGallery(event, '{{ addslashes($gallery->title) }}');">
+                                <form method="POST" action="{{ route('galleries.destroy', $gallery->id) }}" class="inline-block" onsubmit="return handleDeleteGallery(event, '{{ e($gallery->title) }}');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" title="Hapus">

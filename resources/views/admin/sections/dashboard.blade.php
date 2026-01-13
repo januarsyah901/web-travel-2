@@ -152,7 +152,7 @@
                                     <i class="fas fa-edit text-lg group-hover:scale-110 transition-transform"></i>
                                 </a>
 
-                                <form method="POST" action="{{ route('users.destroy', $user->id) }}" class="inline-block" onsubmit="return handleDeleteUser(event, '{{ addslashes($user->fullName) }}');">
+                                <form method="POST" action="{{ route('users.destroy', $user->id) }}" class="inline-block" onsubmit="return handleDeleteUser(event, '{{ e($user->fullName) }}');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"

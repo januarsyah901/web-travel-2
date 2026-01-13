@@ -61,12 +61,12 @@
 
                         <td class="px-6 py-4 text-center">
                             <div class="flex items-center justify-center space-x-3">
-                                <button onclick="openEditTestimonialModal({{ $testimonial->id }}, '{{ addslashes($testimonial->name) }}', '{{ addslashes($testimonial->content) }}', {{ $testimonial->rating }}, '{{ $testimonial->photo ? asset('storage/' . $testimonial->photo) : '' }}')"
+                                <button onclick="openEditTestimonialModal({{ $testimonial->id }}, '{{ e($testimonial->name) }}', '{{ e($testimonial->content) }}', {{ $testimonial->rating }}, '{{ $testimonial->photo ? asset('storage/' . $testimonial->photo) : '' }}')"
                                         class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200" title="Edit">
                                     <i class="fas fa-edit text-lg"></i>
                                 </button>
 
-                                <form method="POST" action="{{ route('testimonials.destroy', $testimonial->id) }}" class="inline-block" onsubmit="return handleDeleteTestimonial(event, '{{ addslashes($testimonial->name) }}');">
+                                <form method="POST" action="{{ route('testimonials.destroy', $testimonial->id) }}" class="inline-block" onsubmit="return handleDeleteTestimonial(event, '{{ e($testimonial->name) }}');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" title="Hapus">
