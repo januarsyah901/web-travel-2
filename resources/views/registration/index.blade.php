@@ -3,6 +3,14 @@
 @section('title', 'Pendaftaran Umroh')
 
 @section('header')
+    <div class="max-w-4xl mx-auto mb-6 px-4">
+        <a href="{{ route('home') }}" class="inline-flex items-center text-orange-600 hover:text-orange-700 font-medium transition-colors">
+            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Kembali ke Beranda
+        </a>
+    </div>
     <div class="text-center mb-6 md:mb-10 px-4">
         <div class="inline-block mb-4">
             <img src="{{ asset('img/img/vertical_logo.png') }}"

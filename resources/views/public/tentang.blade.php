@@ -23,7 +23,7 @@
 
         <div class="grid md:grid-cols-2 gap-8">
 
-            <div class="group relative h-[450px] rounded-2xl overflow-hidden shadow-xl cursor-pointer">
+            <a href="{{ route('registration.index') }}" class="group relative h-[450px] rounded-2xl overflow-hidden shadow-xl cursor-pointer">
                 <img src="{{ asset('img/img/makka.jpg') }}" 
                      alt="Paket Haji" 
                      class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110">
@@ -39,9 +39,9 @@
                         </svg>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="group relative h-[450px] rounded-2xl overflow-hidden shadow-xl cursor-pointer">
+            <a href="{{ route('registration.index') }}" class="group relative h-[450px] rounded-2xl overflow-hidden shadow-xl cursor-pointer">
                 <img src="{{ asset('img/img/makka.jpg') }}"
                      alt="Paket Umroh" 
                      class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110">
@@ -57,7 +57,7 @@
                         </svg>
                     </div>
                 </div>
-            </div>
+            </a>
 
         </div>
     </div>
