@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index() {
-        $users = User::all();
+    public function index(Request $request) {
+        $sort = $request->get('sort', 'created_at');
+        $order = $request->get('order', 'desc');
+        $users = User::orderBy($sort, $order)->paginate(10);
         return view('admin.dashboard', [
             'users' => $users,
             'section' => 'users',
@@ -39,6 +41,7 @@ class UserController extends Controller
                     'birthDate' => $user->birthDate ? $user->birthDate->format('d M Y') : 'N/A',
                     'address' => $user->address,
                     'hasPassport' => $user->hasPassport,
+                    'createdAt' => $user->created_at ? $user->created_at->format('d/m/Y H:i') : '-',
                 ];
             })
         ]);

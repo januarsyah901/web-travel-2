@@ -37,12 +37,34 @@ class AdminController extends Controller
 
     public function dashboard(Request $request)
     {
-        $section = $request->get('section');
+        $section = $request->get('section', 'dashboard');
+        $sort = $request->get('sort', 'created_at');
+        $order = $request->get('order', 'desc');
 
-        // Fetch data for dashboard with pagination
-        $users = \App\Models\User::latest()->paginate(10);
+        // Fetch Users with sorting if it's the users section
+        $userQuery = \App\Models\User::query();
+        if ($section === 'users') {
+            $userQuery->orderBy($sort, $order);
+        } else {
+            $userQuery->latest();
+        }
+        $users = $userQuery->paginate(10, ['*'], 'users_page')->appends(['section' => 'users']);
+
+        // Fetch Bookings with sorting if it's the bookings section
+        $bookingQuery = \App\Models\Booking::with('user', 'package');
+        if ($section === 'bookings') {
+            // Check if sorting by status or date
+            if (in_array($sort, ['status', 'registered_at', 'created_at'])) {
+                $bookingQuery->orderBy($sort, $order);
+            } else {
+                $bookingQuery->latest();
+            }
+        } else {
+            $bookingQuery->latest();
+        }
+        $bookings = $bookingQuery->paginate(10, ['*'], 'bookings_page')->appends(['section' => 'bookings']);
+
         $packages = \App\Models\Package::all();
-        $bookings = \App\Models\Booking::with('user', 'package')->get();
         $galleries = \App\Models\Gallery::all();
         $mutawwifs = \App\Models\Mutawwif::all();
         $partners = \App\Models\Partner::all();

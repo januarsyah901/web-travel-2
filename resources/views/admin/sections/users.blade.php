@@ -33,11 +33,30 @@
                 {{-- Table Header --}}
                 <thead>
                 <tr class="bg-gray-50/50 border-b border-gray-200 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <th class="px-6 py-4 w-16">ID</th>
+                    <th class="px-6 py-4 w-16 text-center">ID</th>
                     <th class="px-6 py-4">Nama & Kontak</th>
                     <th class="px-6 py-4">Tgl Lahir</th>
                     <th class="px-6 py-4">Alamat Domisili</th>
-                    <th class="px-6 py-4 text-center">Status Paspor</th>
+                    <th class="px-6 py-4 text-center">
+                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'users']) }}" class="flex items-center justify-center gap-1 hover:text-blue-600 transition-colors">
+                            Tgl Daftar
+                            @if(request('sort', 'created_at') == 'created_at' && request('section', 'users') == 'users')
+                                <i class="fas fa-sort-{{ request('order', 'desc') == 'asc' ? 'up' : 'down' }}"></i>
+                            @else
+                                <i class="fas fa-sort text-gray-300"></i>
+                            @endif
+                        </a>
+                    </th>
+                    <th class="px-6 py-4 text-center">
+                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'hasPassport', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'users']) }}" class="flex items-center justify-center gap-1 hover:text-blue-600 transition-colors">
+                            Status Paspor
+                            @if(request('sort') == 'hasPassport' && request('section') == 'users')
+                                <i class="fas fa-sort-{{ request('order') == 'asc' ? 'up' : 'down' }}"></i>
+                            @else
+                                <i class="fas fa-sort text-gray-300"></i>
+                            @endif
+                        </a>
+                    </th>
                     <th class="px-6 py-4 text-center">Aksi</th>
                 </tr>
                 </thead>
@@ -46,7 +65,7 @@
                 <tbody id="usersTableBody" class="divide-y divide-gray-200 bg-white">
                 @forelse($users as $user)
                     <tr class="hover:bg-gray-50/80 transition-colors duration-150">
-                        <td class="px-6 py-4 text-sm text-gray-500 font-mono">
+                        <td class="px-6 py-4 text-sm text-gray-500 font-mono text-center">
                             #{{ $user->id }}
                         </td>
 
@@ -70,6 +89,12 @@
                             <span class="text-sm text-gray-600 block max-w-xs truncate" title="{{ $user->address }}">
                                 {{ Str::limit($user->address, 35) ?? '-' }}
                             </span>
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+                            <div class="text-xs text-gray-500">
+                                {{ $user->created_at ? $user->created_at->format('d/m/Y H:i') : '-' }}
+                            </div>
                         </td>
 
                         <td class="px-6 py-4 text-center">
@@ -113,7 +138,7 @@
                 @empty
                     {{-- Empty State --}}
                     <tr>
-                        <td colspan="6" class="px-6 py-12 text-center">
+                        <td colspan="7" class="px-6 py-12 text-center">
                             <div class="flex flex-col items-center justify-center space-y-3">
                                 <div class="p-4 bg-gray-50 rounded-full">
                                     <i class="fas fa-users-slash text-gray-400 text-3xl"></i>
@@ -136,7 +161,7 @@
                     dari <span class="font-medium">{{ $users->total() }}</span> pendaftar
                 </div>
                 <div class="flex justify-center">
-                    {{ $users->appends(['section' => 'users'])->links('vendor.pagination.custom') }}
+                    {{ $users->appends(['section' => 'users', 'sort' => request('sort'), 'order' => request('order')])->links('vendor.pagination.custom') }}
                 </div>
             </div>
         </div>

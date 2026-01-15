@@ -20,8 +20,28 @@
                     <th class="px-6 py-4 w-12">ID</th>
                     <th class="px-6 py-4">Nama Jamaah</th>
                     <th class="px-6 py-4">Paket Pilihan</th>
-                    <th class="px-6 py-4">Tgl Daftar</th>
-                    <th class="px-6 py-4 text-center">Status</th>
+                    <th class="px-6 py-4">
+                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'registered_at', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'bookings']) }}" class="flex items-center gap-1 hover:text-blue-600 transition-colors">
+                            Tgl Daftar
+                            @if(request('sort') == 'registered_at' && request('section') == 'bookings')
+                                <i class="fas fa-sort-{{ request('order') == 'asc' ? 'up' : 'down' }}"></i>
+                            @elseif(request('sort', 'created_at') == 'created_at' && request('section') == 'bookings')
+                                <i class="fas fa-sort-{{ request('order', 'desc') == 'asc' ? 'up' : 'down' }}"></i>
+                            @else
+                                <i class="fas fa-sort text-gray-300"></i>
+                            @endif
+                        </a>
+                    </th>
+                    <th class="px-6 py-4 text-center">
+                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'status', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'bookings']) }}" class="flex items-center justify-center gap-1 hover:text-blue-600 transition-colors">
+                            Status
+                            @if(request('sort') == 'status' && request('section') == 'bookings')
+                                <i class="fas fa-sort-{{ request('order') == 'asc' ? 'up' : 'down' }}"></i>
+                            @else
+                                <i class="fas fa-sort text-gray-300"></i>
+                            @endif
+                        </a>
+                    </th>
                     <th class="px-6 py-4 text-center">Aksi</th>
                 </tr>
                 </thead>
@@ -97,6 +117,20 @@
                 @endforelse
                 </tbody>
             </table>
+        </div>
+
+        {{-- Pagination Navigation --}}
+        <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-sm text-gray-700">
+                    Menampilkan <span class="font-medium">{{ $bookings->firstItem() ?? 0 }}</span>
+                    sampai <span class="font-medium">{{ $bookings->lastItem() ?? 0 }}</span>
+                    dari <span class="font-medium">{{ $bookings->total() }}</span> booking
+                </div>
+                <div class="flex justify-center">
+                    {{ $bookings->appends(['section' => 'bookings', 'sort' => request('sort'), 'order' => request('order')])->links('vendor.pagination.custom') }}
+                </div>
+            </div>
         </div>
     </div>
 </div>

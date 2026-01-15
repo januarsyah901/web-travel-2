@@ -207,7 +207,7 @@
             if (users.length === 0) {
                 usersTableBody.innerHTML = `
                     <tr>
-                        <td colspan="6" class="px-6 py-12 text-center">
+                        <td colspan="7" class="px-6 py-12 text-center">
                             <div class="flex flex-col items-center justify-center space-y-3">
                                 <div class="p-4 bg-gray-50 rounded-full">
                                     <i class="fas fa-search text-gray-400 text-3xl"></i>
@@ -228,7 +228,7 @@
 
                 html += `
                     <tr class="hover:bg-gray-50/80 transition-colors duration-150">
-                        <td class="px-6 py-4 text-sm text-gray-500 font-mono">#${user.id}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500 font-mono text-center">#${user.id}</td>
                         <td class="px-6 py-4">
                             <div class="flex flex-col">
                                 <span class="text-sm font-bold text-gray-900">${user.fullName}</span>
@@ -247,6 +247,11 @@
                             <span class="text-sm text-gray-600 block max-w-xs truncate" title="${user.address}">
                                 ${user.address.substring(0, 35)}${user.address.length > 35 ? '...' : ''}
                             </span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="text-xs text-gray-500">
+                                ${user.createdAt}
+                            </div>
                         </td>
                         <td class="px-6 py-4 text-center">
                             ${passportBadge}
@@ -317,7 +322,7 @@
                 console.error('Search error:', error);
                 usersTableBody.innerHTML = `
                     <tr>
-                        <td colspan="6" class="px-6 py-12 text-center">
+                        <td colspan="7" class="px-6 py-12 text-center">
                             <div class="flex flex-col items-center justify-center space-y-3">
                                 <div class="p-4 bg-red-50 rounded-full">
                                     <i class="fas fa-exclamation-circle text-red-400 text-3xl"></i>
