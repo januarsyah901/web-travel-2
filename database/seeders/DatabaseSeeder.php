@@ -20,9 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             PackageSeeder::class,
-            MutawwifSeeder::class,
-            PartnerSeeder::class,
-            PassportSeeder::class, // Ini sudah include documents dan passport_photos
             BookingSeeder::class,
             TestimonialSeeder::class,
             AdminSeeder::class,

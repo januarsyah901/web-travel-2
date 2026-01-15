@@ -21,18 +21,29 @@ class GalleryController extends Controller
     }
 
     public function store(Request $request) {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
-        ]);
+        try {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            ], [
+                'image.required' => 'Foto harus diunggah.',
+                'image.image' => 'File harus berupa gambar.',
+                'image.mimes' => 'Format gambar harus jpeg, jpg, atau png.',
+                'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
+            ]);
 
-        if ($request->hasFile('image')) {
-            $validated['image_path'] = $request->file('image')->store('galleries', 'public');
+            if ($request->hasFile('image')) {
+                $validated['image_path'] = $request->file('image')->store('galleries', 'public');
+            }
+
+            Gallery::create($validated);
+            return redirect()->route('admin.dashboard', ['section' => 'galleries'])->with('success', 'Foto berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Terjadi kesalahan saat mengunggah foto. Pastikan ukuran file tidak melebihi 2MB.')
+                ->withInput();
         }
-
-        Gallery::create($validated);
-        return redirect()->route('admin.dashboard', ['section' => 'galleries'])->with('success', 'Foto berhasil ditambahkan!');
     }
 
     public function edit($id) {
@@ -41,24 +52,34 @@ class GalleryController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $gallery = Gallery::findOrFail($id);
+        try {
+            $gallery = Gallery::findOrFail($id);
 
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
-        ]);
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+            ], [
+                'image.image' => 'File harus berupa gambar.',
+                'image.mimes' => 'Format gambar harus jpeg, jpg, atau png.',
+                'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
+            ]);
 
-        if ($request->hasFile('image')) {
-            // Delete old image
-            if ($gallery->image_path) {
-                Storage::disk('public')->delete($gallery->image_path);
+            if ($request->hasFile('image')) {
+                // Delete old image
+                if ($gallery->image_path) {
+                    Storage::disk('public')->delete($gallery->image_path);
+                }
+                $validated['image_path'] = $request->file('image')->store('galleries', 'public');
             }
-            $validated['image_path'] = $request->file('image')->store('galleries', 'public');
-        }
 
-        $gallery->update($validated);
-        return redirect()->route('admin.dashboard', ['section' => 'galleries'])->with('success', 'Foto berhasil diupdate!');
+            $gallery->update($validated);
+            return redirect()->route('admin.dashboard', ['section' => 'galleries'])->with('success', 'Foto berhasil diupdate!');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Terjadi kesalahan saat mengupdate foto. Pastikan ukuran file tidak melebihi 2MB.')
+                ->withInput();
+        }
     }
 
     public function destroy($id) {

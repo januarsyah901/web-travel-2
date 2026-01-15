@@ -1,4 +1,4 @@
-<div id="dashboard" class="content-section {{ $section ? 'hidden' : '' }} space-y-8 animate-fade-in-up">
+<div id="dashboard" class="content-section {{ $section !== 'dashboard' ? 'hidden' : '' }} space-y-8 animate-fade-in-up">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
         <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
