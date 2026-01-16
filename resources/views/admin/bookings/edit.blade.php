@@ -67,7 +67,7 @@
                     </div>
                     <input type="hidden" name="user_id" value="{{ $booking->user_id }}">
                     <p class="text-xs text-gray-500 mt-1">
-                        <i class="fas fa-lock text-gray-400"></i> Data jamaah tidak dapat diubah
+                        Data jamaah tidak dapat diubah
                     </p>
                 </div>
 

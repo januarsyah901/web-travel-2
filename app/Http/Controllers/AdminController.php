@@ -68,7 +68,6 @@ class AdminController extends Controller
         $galleries = \App\Models\Gallery::all();
         $mutawwifs = \App\Models\Mutawwif::all();
         $partners = \App\Models\Partner::all();
-        $testimonials = \App\Models\Testimonial::with('user')->get();
 
         // Calculate counts (use separate query for accurate total)
         $counts = [
@@ -76,7 +75,6 @@ class AdminController extends Controller
             'bookings' => $bookings->count(),
             'packages' => $packages->count(),
             'partners' => $partners->count(),
-            'testimonials' => $testimonials->count(),
         ];
 
         return view('admin.dashboard', compact(
@@ -86,7 +84,6 @@ class AdminController extends Controller
             'galleries',
             'mutawwifs',
             'partners',
-            'testimonials',
             'counts',
             'section'
         ));

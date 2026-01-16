@@ -25,8 +25,5 @@
 
     <!-- Galleries Section -->
     @include('admin.sections.galleries')
-
-    <!-- Testimonials Section -->
-    @include('admin.sections.testimonials')
 @endsection
 
