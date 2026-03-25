@@ -39,7 +39,53 @@
                 <div class="w-20 h-1 bg-orange-600 mx-auto mb-4 rounded-full"></div>
                 <p class="text-gray-600">Apa kata mereka yang telah bergabung bersama kami</p>
             </div>
-            <script defer async src='https://cdn.trustindex.io/loader.js?c4afbcf618479654c27611e8e23'></script>
+
+            <div class="swiper testimoniSwiper !pb-12">
+                <div class="swiper-wrapper">
+                    @php
+                        $testimonials = \App\Models\Testimonial::orderBy('created_at', 'desc')->get();
+                    @endphp
+                    @forelse($testimonials as $testimonial)
+                        <div class="swiper-slide">
+                            <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-md hover:shadow-lg transition h-full flex flex-col">
+                                <!-- Star Rating -->
+                                <div class="flex items-center gap-1 mb-4">
+                                    @for ($i = 0; $i < $testimonial->rating; $i++)
+                                        <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"></path>
+                                        </svg>
+                                    @endfor
+                                </div>
+
+                                <!-- Testimoni Text -->
+                                <p class="text-gray-700 mb-6 flex-grow text-sm md:text-base leading-relaxed italic">
+                                    "{{ $testimonial->content }}"
+                                </p>
+
+                                <!-- Author Info -->
+                                <div class="flex items-center gap-3 border-t border-gray-100 pt-4">
+                                    @if($testimonial->author_photo)
+                                        <img src="{{ asset('storage/' . $testimonial->author_photo) }}" alt="{{ $testimonial->name }}" class="w-12 h-12 rounded-full object-cover">
+                                    @else
+                                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold text-lg">
+                                            {{ strtoupper(substr($testimonial->name, 0, 1)) }}
+                                        </div>
+                                    @endif
+                                    <div>
+                                        <p class="font-semibold text-gray-800">{{ $testimonial->name }}</p>
+                                        <p class="text-xs text-gray-500">{{ $testimonial->review_time ?? 'Recently' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-span-full text-center w-full">
+                            <p class="text-gray-600">Testimoni akan segera ditampilkan.</p>
+                        </div>
+                    @endforelse
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
         </div>
     </div>
 </section>
