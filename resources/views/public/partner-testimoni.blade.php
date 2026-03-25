@@ -129,6 +129,10 @@
             spaceBetween: 20,
             loop: true,
             autoHeight: true,       // Menyesuaikan tinggi di HP
+            autoplay: {
+                delay: 5000,        // Gulir setiap 5 detik
+                disableOnInteraction: false,
+            },
             pagination: {
                 el: ".swiper-pagination",
                 clickable: true,
