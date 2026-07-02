@@ -1,7 +1,4 @@
 {
   "schemaVersion": 2,
-  "template": {
-    "type": 1,
-    "script": "dockerfile"
-  }
+  "dockerfilePath": "Dockerfile"
 }
