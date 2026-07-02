@@ -8,6 +8,11 @@
             <p class="text-gray-600">Dipandu oleh pembimbing ibadah berpengalaman dan bersertifikat</p>
         </div>
 
+        @php
+            $mutawwifs = \App\Models\Mutawwif::take(8)->get();
+        @endphp
+
+        @if($mutawwifs->isNotEmpty())
         <div class="relative">
             <!-- Navigation Buttons - Outside Swiper -->
             <button class="swiper-button-prev-custom absolute -left-4 lg:-left-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-orange-600 hover:bg-orange-600 hover:text-white transition-all duration-300">
@@ -23,11 +28,7 @@
 
             <div class="swiper mySwiper !pb-12 !px-2">
                 <div class="swiper-wrapper">
-                    @php
-                        $mutawwifs = \App\Models\Mutawwif::take(8)->get();
-                    @endphp
-
-                    @forelse($mutawwifs as $mutawwif)
+                    @foreach($mutawwifs as $mutawwif)
                         <div class="swiper-slide h-auto p-2">
                             <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                                 <div class="relative w-full aspect-square">
@@ -49,20 +50,28 @@
                                 </div>
                             </div>
                         </div>
-                    @empty
-                        <div class="col-span-full text-center py-12 w-full">
-                            <p class="text-gray-500 italic">Data mutawwif belum tersedia.</p>
-                        </div>
-                    @endforelse
+                    @endforeach
                 </div>
 
                 <div class="swiper-pagination"></div>
             </div>
         </div>
+        @else
+        <div class="max-w-md mx-auto text-center py-12 px-6 bg-white rounded-2xl border border-dashed border-orange-200 shadow-sm">
+            <div class="w-14 h-14 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold text-gray-800 mb-1">Tour Leader Belum Tersedia</h3>
+            <p class="text-gray-500 text-sm">Pembimbing ibadah dan tour leader berpengalaman akan segera kami rilis.</p>
+        </div>
+        @endif
     </div>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+@if($mutawwifs->isNotEmpty())
 <script>
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 1,
@@ -94,6 +103,7 @@
         },
     });
 </script>
+@endif
 
 <style>
     .swiper-pagination-bullet-active {

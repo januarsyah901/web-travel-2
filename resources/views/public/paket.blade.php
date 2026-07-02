@@ -11,6 +11,7 @@
             <p class="text-gray-600">Temukan paket ibadah yang sesuai dengan kebutuhan spiritual dan budget Anda</p>
         </div>
 
+        @if($packages->isNotEmpty())
         <div class="relative">
             <!-- Navigation Buttons -->
             <button class="paket-prev absolute -left-4 lg:-left-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-orange-600 hover:bg-orange-600 hover:text-white transition-all duration-300">
@@ -26,7 +27,7 @@
 
             <div class="swiper paketSwiper !pb-12">
                 <div class="swiper-wrapper">
-                    @forelse($packages as $package)
+                    @foreach($packages as $package)
                         <div class="swiper-slide h-auto p-2">
                             <div class="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-300 transform hover:-translate-y-2 flex flex-col h-full">
 
@@ -79,31 +80,39 @@
                                 </div>
                             </div>
                         </div>
-                    @empty
-                        <div class="swiper-slide">
-                            <div class="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-300">
-                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                                <h3 class="mt-2 text-sm font-medium text-gray-900">Belum ada paket tersedia</h3>
-                                <p class="mt-1 text-sm text-gray-500">Silakan hubungi admin untuk informasi lebih lanjut.</p>
-                            </div>
-                        </div>
-                    @endforelse
+                    @endforeach
                 </div>
 
                 <div class="swiper-pagination paket-pagination"></div>
             </div>
         </div>
-
-        <div class="mt-16 text-center">
-            <p class="text-gray-500">Butuh penawaran khusus untuk rombongan?</p>
-            <a href="#" class="inline-flex items-center mt-2 text-orange-600 font-semibold hover:text-orange-700">
-                Hubungi Konsultan Kami
-                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+        @else
+        <div class="max-w-md mx-auto text-center py-16 px-6 bg-white rounded-3xl border border-dashed border-orange-300 shadow-lg">
+            <div class="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="h-8 w-8 text-orange-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Paket Umroh Belum Tersedia</h3>
+            <p class="text-gray-500 text-sm mb-6 leading-relaxed">Saat ini kami sedang mempersiapkan paket ibadah terbaik untuk Anda. Silakan hubungi kami untuk mendapatkan informasi terbaru.</p>
+            <a href="{{ $contact ? $contact->whatsapp_link : '#' }}" target="_blank" class="inline-flex items-center justify-center px-6 py-3.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+                Hubungi Kami via WhatsApp
             </a>
         </div>
+        @endif
     </div>
+
+    <div class="mt-16 text-center">
+        <p class="text-gray-500">Butuh penawaran khusus untuk rombongan?</p>
+        <a href="{{ $contact ? $contact->whatsapp_link : '#' }}" target="_blank" class="inline-flex items-center mt-2 text-orange-600 font-semibold hover:text-orange-700">
+            Hubungi Konsultan Kami
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+        </a>
+    </div>
+</div>
 </section>
 
+@if($packages->isNotEmpty())
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var paketSwiper = new Swiper(".paketSwiper", {
@@ -137,6 +146,13 @@
         });
     });
 </script>
+@endif
+
+<style>
+    .paket-pagination .swiper-pagination-bullet-active {
+        background-color: #ea580c !important;
+    }
+</style>
 
 <style>
     .paket-pagination .swiper-pagination-bullet-active {

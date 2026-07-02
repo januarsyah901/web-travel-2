@@ -11,6 +11,7 @@
             $galleries = \App\Models\Gallery::take(8)->get();
         @endphp
 
+        @if($galleries->isNotEmpty())
         <div class="relative">
             <!-- Navigation Buttons -->
             <button type="button" class="galeri-prev absolute -left-4 lg:-left-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-orange-600 hover:bg-orange-600 hover:text-white transition-all duration-300">
@@ -26,7 +27,7 @@
 
             <div class="swiper galeriSwiper overflow-hidden rounded-xl">
                 <div class="swiper-wrapper">
-                    @forelse($galleries as $gallery)
+                    @foreach($galleries as $gallery)
                         <div class="swiper-slide">
                             <div class="relative h-56 md:h-96">
                                 @if($gallery->image_path)
@@ -44,25 +45,27 @@
                                 @endif
                             </div>
                         </div>
-                    @empty
-                        <div class="swiper-slide">
-                            <div class="relative h-56 md:h-96 bg-gradient-to-br from-gray-100 to-gray-200 flex flex-col items-center justify-center rounded-xl">
-                                <svg class="w-20 h-20 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                </svg>
-                                <p class="text-gray-500 text-lg font-medium">Galeri Kosong</p>
-                                <p class="text-gray-400 text-sm mt-1">Dokumentasi perjalanan akan segera ditampilkan</p>
-                            </div>
-                        </div>
-                    @endforelse
+                    @endforeach
                 </div>
 
                 <div class="swiper-pagination galeri-pagination mt-4"></div>
             </div>
         </div>
+        @else
+        <div class="max-w-md mx-auto text-center py-12 px-6 bg-white rounded-2xl border border-dashed border-orange-200 shadow-sm">
+            <div class="w-14 h-14 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold text-gray-800 mb-1">Galeri Kegiatan Kosong</h3>
+            <p class="text-gray-500 text-sm">Dokumentasi perjalanan ibadah dan galeri kegiatan akan segera kami perbarui.</p>
+        </div>
+        @endif
     </div>
 </section>
 
+@if($galleries->isNotEmpty())
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var galeriSwiper = new Swiper(".galeriSwiper", {
@@ -86,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+@endif
 
 <style>
     .galeri-pagination .swiper-pagination-bullet-active {

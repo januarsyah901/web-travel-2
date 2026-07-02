@@ -8,28 +8,32 @@
                 <p class="text-gray-600">Bekerjasama dengan mitra terpercaya untuk layanan terbaik</p>
             </div>
 
-            <div class="swiper partnerSwiper !pb-12"> <div class="swiper-wrapper items-center">
-                    @php
-                        $partners = \App\Models\Partner::take(8)->get();
-                    @endphp
-                    @forelse($partners as $partner)
+            @php
+                $partners = \App\Models\Partner::take(8)->get();
+            @endphp
+
+            @if($partners->isNotEmpty())
+            <div class="swiper partnerSwiper !pb-12"> 
+                <div class="swiper-wrapper items-center">
+                    @foreach($partners as $partner)
                         <div class="swiper-slide">
                             <div class="bg-white border border-gray-100 rounded-lg p-6 flex items-center justify-center hover:shadow-lg transition h-32 mx-2">
                                 @if($partner->logo_path)
-                                    <img src="{{ asset('storage/' . $partner->logo_path) }}" alt="{{ $partner->name }}" class="max-h-16 w-auto object-contain  transition duration-300">
+                                    <img src="{{ asset('storage/' . $partner->logo_path) }}" alt="{{ $partner->name }}" class="max-h-16 w-auto object-contain transition duration-300">
                                 @else
                                     <span class="text-gray-400 font-bold text-center">{{ $partner->name }}</span>
                                 @endif
                             </div>
                         </div>
-                    @empty
-                        <div class="col-span-full text-center w-full">
-                            <p class="text-gray-600">Partner akan segera ditampilkan.</p>
-                        </div>
-                    @endforelse
+                    @endforeach
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
+            @else
+            <div class="max-w-md mx-auto text-center py-8 px-4 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                <p class="text-gray-500 text-sm">Daftar mitra terpercaya akan segera diperbarui.</p>
+            </div>
+            @endif
         </div>
 
 
@@ -40,12 +44,14 @@
                 <p class="text-gray-600">Apa kata mereka yang telah bergabung bersama kami</p>
             </div>
 
+            @php
+                $testimonials = \App\Models\Testimonial::orderBy('created_at', 'desc')->get();
+            @endphp
+
+            @if($testimonials->isNotEmpty())
             <div class="swiper testimoniSwiper !pb-12">
                 <div class="swiper-wrapper">
-                    @php
-                        $testimonials = \App\Models\Testimonial::orderBy('created_at', 'desc')->get();
-                    @endphp
-                    @forelse($testimonials as $testimonial)
+                    @foreach($testimonials as $testimonial)
                         <div class="swiper-slide">
                             <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-md hover:shadow-lg transition h-full flex flex-col">
                                 <!-- Star Rating -->
@@ -78,14 +84,21 @@
                                 </div>
                             </div>
                         </div>
-                    @empty
-                        <div class="col-span-full text-center w-full">
-                            <p class="text-gray-600">Testimoni akan segera ditampilkan.</p>
-                        </div>
-                    @endforelse
+                    @endforeach
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
+            @else
+            <div class="max-w-md mx-auto text-center py-10 px-6 bg-white rounded-2xl border border-dashed border-orange-200 shadow-sm">
+                <div class="w-12 h-12 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-base font-bold text-gray-800 mb-1">Belum Ada Testimoni</h3>
+                <p class="text-gray-500 text-sm">Ulasan dan cerita perjalanan dari jamaah kami akan segera ditampilkan.</p>
+            </div>
+            @endif
         </div>
     </div>
 </section>
@@ -99,54 +112,58 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // 1. Konfigurasi Partner Carousel
-        new Swiper(".partnerSwiper", {
-            slidesPerView: 2,       // HP: 2 Logo
-            spaceBetween: 10,
-            loop: true,
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 3,
-                    spaceBetween: 20,
+        if (document.querySelector('.partnerSwiper')) {
+            new Swiper(".partnerSwiper", {
+                slidesPerView: 2,       // HP: 2 Logo
+                spaceBetween: 10,
+                loop: true,
+                autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
                 },
-                1024: {
-                    slidesPerView: 4, // Desktop: 4 Logo
-                    spaceBetween: 30,
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
                 },
-            },
-        });
+                breakpoints: {
+                    640: {
+                        slidesPerView: 3,
+                        spaceBetween: 20,
+                    },
+                    1024: {
+                        slidesPerView: 4, // Desktop: 4 Logo
+                        spaceBetween: 30,
+                    },
+                },
+            });
+        }
 
         // 2. Konfigurasi Testimoni Carousel
-        new Swiper(".testimoniSwiper", {
-            slidesPerView: 1,       // HP: 1 Testimoni (Fokus)
-            spaceBetween: 20,
-            loop: true,
-            autoHeight: true,       // Menyesuaikan tinggi di HP
-            autoplay: {
-                delay: 5000,        // Gulir setiap 5 detik
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            breakpoints: {
-                768: {
-                    slidesPerView: 2, // Tablet: 2 Testimoni
-                    spaceBetween: 20,
+        if (document.querySelector('.testimoniSwiper')) {
+            new Swiper(".testimoniSwiper", {
+                slidesPerView: 1,       // HP: 1 Testimoni (Fokus)
+                spaceBetween: 20,
+                loop: true,
+                autoHeight: true,       // Menyesuaikan tinggi di HP
+                autoplay: {
+                    delay: 5000,        // Gulir setiap 5 detik
+                    disableOnInteraction: false,
                 },
-                1024: {
-                    slidesPerView: 3, // Desktop: 3 Testimoni
-                    spaceBetween: 30,
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
                 },
-            },
-        });
+                breakpoints: {
+                    768: {
+                        slidesPerView: 2, // Tablet: 2 Testimoni
+                        spaceBetween: 20,
+                    },
+                    1024: {
+                        slidesPerView: 3, // Desktop: 3 Testimoni
+                        spaceBetween: 30,
+                    },
+                },
+            });
+        }
     });
 </script>
