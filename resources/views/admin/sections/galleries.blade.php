@@ -1,68 +1,62 @@
-<div id="galleries" class="content-section {{ $section == 'galleries' ? '' : 'hidden' }} space-y-6">
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div id="galleries" class="content-section {{ $section == 'galleries' ? '' : 'hidden' }}">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap;">
         <div>
-            <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Galeri Foto</h2>
-            <p class="text-gray-500 mt-1">Kelola dokumentasi kegiatan dan momen umroh.</p>
+            <h1 style="font-size:20px;font-weight:600;color:var(--color-charcoal);margin:0 0 4px;">Galeri Foto</h1>
+            <p style="font-size:14px;color:var(--color-fog);margin:0;">Kelola dokumentasi kegiatan dan momen umroh.</p>
         </div>
-        <button onclick="openCreateGalleryModal()" class="group relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 ease-in-out transform hover:-translate-y-0.5">
-            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                <i class="fas fa-camera text-blue-300 group-hover:text-white transition-colors"></i>
-            </span>
-            <span class="ml-4">Tambah Foto Baru</span>
+        <button onclick="openCreateGalleryModal()" class="dub-btn dub-btn-primary" style="gap:8px;">
+            <i class="fas fa-camera" style="font-size:13px;"></i>
+            Tambah Foto Baru
         </button>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div class="overflow-x-auto custom-scrollbar">
-            <table class="w-full whitespace-nowrap">
+    <div class="dub-table-wrapper">
+        <div style="overflow-x:auto;">
+            <table class="dub-table" style="white-space:nowrap;">
                 <thead>
-                <tr class="bg-gray-50/50 border-b border-gray-200 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <th class="px-6 py-4">Preview</th>
-                    <th class="px-6 py-4">Judul & Deskripsi</th>
-                    <th class="px-6 py-4">Tanggal Upload</th>
-                    <th class="px-6 py-4 text-center">Aksi</th>
-                </tr>
+                    <tr>
+                        <th>Preview</th>
+                        <th>Judul &amp; Deskripsi</th>
+                        <th>Tanggal Upload</th>
+                        <th style="text-align:center;">Aksi</th>
+                    </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 bg-white">
+                <tbody>
                 @forelse($galleries as $gallery)
-                    <tr class="hover:bg-gray-50/80 transition-colors duration-150 group">
-                        <td class="px-6 py-4 w-32">
-                            <div class="relative w-24 h-16 rounded-lg overflow-hidden border border-gray-200 shadow-sm group-hover:shadow-md transition-all">
+                    <tr>
+                        <td style="width:100px;">
+                            <div style="width:80px;height:52px;border-radius:var(--radius-buttons);overflow:hidden;border:1px solid var(--color-ash);flex-shrink:0;">
                                 @if($gallery->image_path)
-                                    <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                                    <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}"
+                                         style="width:100%;height:100%;object-fit:cover;">
                                 @else
-                                    <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
-                                        <i class="fas fa-image"></i>
+                                    <div style="width:100%;height:100%;background:var(--color-paper-mist);display:flex;align-items:center;justify-content:center;color:var(--color-silver);">
+                                        <i class="fas fa-image" style="font-size:16px;"></i>
                                     </div>
                                 @endif
                             </div>
                         </td>
-
-                        <td class="px-6 py-4">
-                            <div class="max-w-md whitespace-normal">
-                                <div class="text-sm font-bold text-gray-900 mb-1">{{ $gallery->title }}</div>
-                                <p class="text-xs text-gray-500 leading-relaxed">{{ Str::limit($gallery->description, 80) }}</p>
-                            </div>
+                        <td style="white-space:normal;max-width:300px;">
+                            <p style="font-size:14px;font-weight:500;color:var(--color-charcoal);margin:0 0 4px;">{{ $gallery->title }}</p>
+                            <p style="font-size:12px;color:var(--color-fog);margin:0;line-height:1.5;">{{ Str::limit($gallery->description, 80) }}</p>
                         </td>
-
-                        <td class="px-6 py-4">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
+                        <td>
+                            <span class="dub-badge dub-badge-neutral">
                                 {{ $gallery->created_at->format('d M Y') }}
                             </span>
                         </td>
-
-                        <td class="px-6 py-4 text-center">
-                            <div class="flex items-center justify-center space-x-3">
+                        <td>
+                            <div style="display:flex;align-items:center;justify-content:center;gap:4px;">
                                 <button onclick="openEditGalleryModal({{ $gallery->id }}, '{{ e($gallery->title) }}', '{{ e($gallery->description) }}', '{{ $gallery->image_path ? asset('storage/' . $gallery->image_path) : '' }}')"
-                                        class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200" title="Edit">
-                                    <i class="fas fa-edit text-lg"></i>
+                                        class="dub-action-btn edit" title="Edit">
+                                    <i class="fas fa-pen"></i>
                                 </button>
-
-                                <form method="POST" action="{{ route('galleries.destroy', $gallery->id) }}" class="inline-block" onsubmit="return handleDeleteGallery(event, '{{ e($gallery->title) }}');">
+                                <form method="POST" action="{{ route('galleries.destroy', $gallery->id) }}" class="inline-block"
+                                      onsubmit="return handleDeleteGallery(event, '{{ e($gallery->title) }}');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" title="Hapus">
-                                        <i class="fas fa-trash-alt text-lg"></i>
+                                    <button type="submit" class="dub-action-btn delete" title="Hapus">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
                             </div>
@@ -70,12 +64,11 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-12 text-center">
-                            <div class="flex flex-col items-center justify-center space-y-3">
-                                <div class="p-3 bg-gray-100 rounded-full">
-                                    <i class="far fa-images text-gray-400 text-3xl"></i>
-                                </div>
-                                <p class="text-gray-500 font-medium">Galeri masih kosong</p>
+                        <td colspan="4">
+                            <div class="dub-empty">
+                                <div class="dub-empty-icon"><i class="fas fa-images"></i></div>
+                                <p>Galeri masih kosong</p>
+                                <span>Tambahkan foto kegiatan umroh pertama Anda.</span>
                             </div>
                         </td>
                     </tr>
@@ -87,18 +80,18 @@
 </div>
 
 <div id="createGalleryModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity opacity-0" id="createGalleryBackdrop"></div>
+    <div class="fixed inset-0 bg-black/25 backdrop-blur-xs transition-opacity opacity-0" id="createGalleryBackdrop"></div>
     <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg scale-95 opacity-0" id="createGalleryPanel">
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left border border-[var(--color-ash)] shadow-lg transition-all w-full max-w-md scale-95 opacity-0" id="createGalleryPanel">
 
-                <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                        <i class="fas fa-plus-circle bg-white/20 p-1.5 rounded-md"></i>
+                <div class="px-6 py-4 border-b border-[var(--color-ash)] flex justify-between items-center bg-white">
+                    <h3 class="text-base font-semibold text-[var(--color-charcoal)] flex items-center gap-2">
+                        <i class="fas fa-camera text-[var(--color-electric-blue)]"></i>
                         Upload Foto Baru
                     </h3>
-                    <button onclick="closeCreateGalleryModal()" class="text-blue-100 hover:text-white transition-colors focus:outline-none">
-                        <i class="fas fa-times text-xl"></i>
+                    <button onclick="closeCreateGalleryModal()" class="text-[var(--color-fog)] hover:text-[var(--color-charcoal)] transition-colors focus:outline-none">
+                        <i class="fas fa-times text-lg"></i>
                     </button>
                 </div>
 
@@ -106,15 +99,15 @@
                     @csrf
 
                     <div class="space-y-2">
-                        <label class="block text-sm font-medium text-gray-700">File Gambar <span class="text-red-500">*</span></label>
+                        <label class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">File Gambar <span class="text-red-500">*</span></label>
                         <div class="flex items-center justify-center w-full">
-                            <label for="createImageInput" class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors relative overflow-hidden group">
+                            <label for="createImageInput" class="flex flex-col items-center justify-center w-full h-36 border border-dashed border-[var(--color-ash)] rounded-xl cursor-pointer bg-[var(--color-paper-mist)] hover:bg-white hover:border-[var(--color-smoke)] transition-colors relative overflow-hidden group">
                                 <img id="createImagePreview" class="absolute inset-0 w-full h-full object-cover hidden" />
 
-                                <div id="createImagePlaceholder" class="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2 group-hover:text-blue-500 transition-colors"></i>
-                                    <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Klik untuk upload</span></p>
-                                    <p class="text-xs text-gray-500">PNG, JPG (MAX. 2MB)</p>
+                                <div id="createImagePlaceholder" class="flex flex-col items-center justify-center py-4">
+                                    <i class="fas fa-cloud-upload-alt text-2xl text-[var(--color-silver)] mb-1 group-hover:text-[var(--color-electric-blue)] transition-colors"></i>
+                                    <p class="text-xs text-[var(--color-charcoal)] font-medium">Klik untuk upload gambar</p>
+                                    <p class="text-[11px] text-[var(--color-fog)] mt-0.5">PNG, JPG (MAX. 2MB)</p>
                                 </div>
                                 <input id="createImageInput" name="image" type="file" class="hidden" accept="image/*" onchange="previewImage(this, 'createImagePreview', 'createImagePlaceholder')" required />
                             </label>
@@ -122,18 +115,18 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Judul Foto <span class="text-red-500">*</span></label>
-                        <input type="text" name="title" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5" placeholder="Contoh: Keberangkatan Kloter 1" required>
+                        <label class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Judul Foto <span class="text-red-500">*</span></label>
+                        <input type="text" name="title" class="dub-input" placeholder="Contoh: Keberangkatan Kloter 1" required>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
-                        <textarea name="description" rows="3" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5 resize-none" placeholder="Keterangan foto..."></textarea>
+                        <label class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Deskripsi</label>
+                        <textarea name="description" rows="3" class="dub-input resize-none" placeholder="Keterangan foto..."></textarea>
                     </div>
 
-                    <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                        <button type="button" onclick="closeCreateGalleryModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Batal</button>
-                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm">Simpan</button>
+                    <div class="flex justify-end gap-2 pt-4 border-t border-[var(--color-ash)]">
+                        <button type="button" onclick="closeCreateGalleryModal()" class="dub-btn dub-btn-outline">Batal</button>
+                        <button type="submit" class="dub-btn dub-btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -142,18 +135,18 @@
 </div>
 
 <div id="editGalleryModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity opacity-0" id="editGalleryBackdrop"></div>
+    <div class="fixed inset-0 bg-black/25 backdrop-blur-xs transition-opacity opacity-0" id="editGalleryBackdrop"></div>
     <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg scale-95 opacity-0" id="editGalleryPanel">
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left border border-[var(--color-ash)] shadow-lg transition-all w-full max-w-md scale-95 opacity-0" id="editGalleryPanel">
 
-                <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                        <i class="fas fa-edit bg-white/20 p-1.5 rounded-md"></i>
+                <div class="px-6 py-4 border-b border-[var(--color-ash)] flex justify-between items-center bg-white">
+                    <h3 class="text-base font-semibold text-[var(--color-charcoal)] flex items-center gap-2">
+                        <i class="fas fa-edit text-[var(--color-electric-blue)]"></i>
                         Edit Foto
                     </h3>
-                    <button onclick="closeEditGalleryModal()" class="text-blue-100 hover:text-white transition-colors focus:outline-none">
-                        <i class="fas fa-times text-xl"></i>
+                    <button onclick="closeEditGalleryModal()" class="text-[var(--color-fog)] hover:text-[var(--color-charcoal)] transition-colors focus:outline-none">
+                        <i class="fas fa-times text-lg"></i>
                     </button>
                 </div>
 
@@ -162,13 +155,13 @@
                     @method('PUT')
 
                     <div class="space-y-2">
-                        <label class="block text-sm font-medium text-gray-700">Ganti Gambar (Opsional)</label>
+                        <label class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Ganti Gambar (Opsional)</label>
                         <div class="flex items-center justify-center w-full">
-                            <label for="editImageInput" class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors relative overflow-hidden group">
+                            <label for="editImageInput" class="flex flex-col items-center justify-center w-full h-36 border border-dashed border-[var(--color-ash)] rounded-xl cursor-pointer bg-[var(--color-paper-mist)] hover:bg-white hover:border-[var(--color-smoke)] transition-colors relative overflow-hidden group">
                                 <img id="editImagePreview" class="absolute inset-0 w-full h-full object-cover" />
 
-                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <p class="text-white text-sm font-medium"><i class="fas fa-camera mr-2"></i>Ganti Foto</p>
+                                <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <p class="text-white text-xs font-medium"><i class="fas fa-camera mr-1.5"></i>Ganti Foto</p>
                                 </div>
 
                                 <input id="editImageInput" name="image" type="file" class="hidden" accept="image/*" onchange="previewImage(this, 'editImagePreview', null)" />
@@ -177,18 +170,18 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Judul Foto <span class="text-red-500">*</span></label>
-                        <input type="text" id="editGalleryTitle" name="title" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5" required>
+                        <label class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Judul Foto <span class="text-red-500">*</span></label>
+                        <input type="text" id="editGalleryTitle" name="title" class="dub-input" required>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
-                        <textarea id="editGalleryDesc" name="description" rows="3" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5 resize-none"></textarea>
+                        <label class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Deskripsi</label>
+                        <textarea id="editGalleryDesc" name="description" rows="3" class="dub-input resize-none"></textarea>
                     </div>
 
-                    <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                        <button type="button" onclick="closeEditGalleryModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Batal</button>
-                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm">Update</button>
+                    <div class="flex justify-end gap-2 pt-4 border-t border-[var(--color-ash)]">
+                        <button type="button" onclick="closeEditGalleryModal()" class="dub-btn dub-btn-outline">Batal</button>
+                        <button type="submit" class="dub-btn dub-btn-primary">Update</button>
                     </div>
                 </form>
             </div>

@@ -14,7 +14,7 @@
     @include('public.partner-testimoni')
     @include('public.contact')
     @include('public.quick-links')
-    @include('public.footer')
+    @include('public.floating-whatsapp')
 </body>
 </html>
 

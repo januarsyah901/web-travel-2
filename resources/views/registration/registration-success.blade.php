@@ -113,11 +113,11 @@
             </div>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ route('home') }}" class="w-full sm:w-auto px-8 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-colors flex items-center justify-center">
+                <a href="{{ route('home') }}" class="w-full sm:w-auto px-8 py-3 bg-gray-100 text-gray-700 font-semibold rounded-full hover:bg-gray-200 transition-colors flex items-center justify-center">
                     <i class="fas fa-home mr-2 text-gray-500"></i>
                     Ke Beranda
                 </a>
-                <a href="{{ route('registration.index') }}" class="w-full sm:w-auto px-8 py-3 bg-orange-600 text-white font-bold rounded-xl hover:bg-orange-700 transition-all shadow-lg shadow-orange-200 flex items-center justify-center">
+                <a href="{{ route('registration.index') }}" class="w-full sm:w-auto px-8 py-3 bg-orange-600 text-white font-bold rounded-full hover:bg-orange-700 transition-all shadow-lg shadow-orange-200 flex items-center justify-center">
                     <i class="fas fa-user-plus mr-2"></i>
                     Daftar Jemaah Lain
                 </a>

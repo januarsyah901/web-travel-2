@@ -13,7 +13,9 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\MutawwifController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GoogleAuthController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/daftar', [HomeController::class, 'showRegistrationForm'])->name('registration.index');
@@ -21,7 +23,8 @@ Route::post('/daftar', [HomeController::class, 'register'])->name('registration.
 Route::get('/daftar/sukses', [HomeController::class, 'registrationSuccess'])->name('registration.success');
 
 Route::get('/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/login', [AdminController::class, 'login']);
+Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('auth.google');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google.callback');
 Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 // API endpoint untuk mendapatkan informasi kontak (public)
@@ -29,10 +32,12 @@ Route::get('/api/contact-info', [ContactController::class, 'getContactInfo'])->n
 
 Route::middleware('auth:admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
 
     // Search route must be before resource routes
     Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
 
+    Route::get('/users/{user}/documents/download', [UserController::class, 'downloadDocuments'])->name('users.documents.download');
     Route::resource('users', UserController::class);
     Route::resource('packages', PackageController::class);
     Route::resource('bookings', BookingController::class);

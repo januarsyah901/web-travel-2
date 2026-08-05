@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use ZipArchive;
 
 class UserController extends Controller
 {
@@ -94,5 +97,66 @@ class UserController extends Controller
         User::destroy($id);
         return redirect()->to(route('admin.dashboard') . '?section=users')
             ->with('success', 'Pendaftar berhasil dihapus!');
+    }
+
+    public function downloadDocuments($id)
+    {
+        $user = User::with(['documents', 'passport.passportPhotos'])->findOrFail($id);
+
+        $files = [];
+
+        if ($user->documents) {
+            if ($user->documents->ktp) {
+                $files[] = ['path' => $user->documents->ktp, 'name' => 'KTP_' . basename($user->documents->ktp)];
+            }
+            if ($user->documents->kk) {
+                $files[] = ['path' => $user->documents->kk, 'name' => 'KK_' . basename($user->documents->kk)];
+            }
+            if ($user->documents->dokumen_pendukung) {
+                $pendukung = json_decode($user->documents->dokumen_pendukung, true);
+                if (is_array($pendukung)) {
+                    foreach ($pendukung as $i => $path) {
+                        $files[] = ['path' => $path, 'name' => 'Dokumen_Pendukung_' . ($i + 1) . '_' . basename($path)];
+                    }
+                }
+            }
+        }
+
+        if ($user->passport && $user->passport->passportPhotos) {
+            foreach ($user->passport->passportPhotos as $i => $photo) {
+                if ($photo->file_path) {
+                    $files[] = [
+                        'path' => $photo->file_path,
+                        'name' => 'Paspor_Foto_' . ($i + 1) . '_' . basename($photo->file_path),
+                    ];
+                }
+            }
+        }
+
+        $existing = array_values(array_filter($files, fn ($f) => Storage::disk('public')->exists($f['path'])));
+
+        if (empty($existing)) {
+            return back()->with('error', 'Tidak ada dokumen yang bisa diunduh.');
+        }
+
+        $safeName = Str::upper(Str::slug($user->fullName, '_')) ?: 'JAMAAH';
+        $zipName = $safeName . '.zip';
+        $tmpPath = storage_path('app/tmp/' . uniqid('docs_', true) . '.zip');
+
+        if (!is_dir(dirname($tmpPath))) {
+            mkdir(dirname($tmpPath), 0755, true);
+        }
+
+        $zip = new ZipArchive();
+        if ($zip->open($tmpPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+            return back()->with('error', 'Gagal membuat file ZIP.');
+        }
+
+        foreach ($existing as $file) {
+            $zip->addFile(Storage::disk('public')->path($file['path']), $file['name']);
+        }
+        $zip->close();
+
+        return response()->download($tmpPath, $zipName)->deleteFileAfterSend(true);
     }
 }

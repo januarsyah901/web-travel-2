@@ -26,6 +26,8 @@ class PackageController extends Controller
             'duration' => 'required',
             'price' => 'required|numeric',
             'description' => 'nullable',
+            'hotel_makkah' => 'nullable|string|max:255',
+            'hotel_madinah' => 'nullable|string|max:255',
         ]);
 
         try {
@@ -58,6 +60,8 @@ class PackageController extends Controller
             'duration' => 'required',
             'price' => 'required|numeric',
             'description' => 'nullable',
+            'hotel_makkah' => 'nullable|string|max:255',
+            'hotel_madinah' => 'nullable|string|max:255',
         ]);
 
         $pkg = Package::findOrFail($id);

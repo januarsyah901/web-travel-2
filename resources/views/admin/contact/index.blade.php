@@ -1,30 +1,33 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Kelola Kontak')
+@section('title', 'Kelola Kontak - Admin Fabi Abadi')
+
+@section('page-title', 'Kontak Perusahaan')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="space-y-6">
 
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+    {{-- Page Header --}}
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Informasi Kontak</h1>
-            <p class="text-sm text-gray-500 mt-1">Kelola detail alamat, kontak, dan media sosial perusahaan.</p>
+            <h1 style="font-size:20px; font-weight:600; color:var(--color-charcoal); margin:0 0 4px;">Informasi Kontak Perusahaan</h1>
+            <p style="font-size:14px; color:var(--color-fog); margin:0;">Kelola detail alamat, kontak, media sosial, dan peta lokasi resmi.</p>
         </div>
         
         @if(!$contact)
-            <a href="{{ route('contact.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-xl font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150 shadow-lg shadow-blue-500/30">
-                <i class="fas fa-plus mr-2"></i> Buat Kontak Baru
+            <a href="{{ route('contact.create') }}" class="dub-btn dub-btn-primary">
+                <i class="fas fa-plus" style="font-size:12px;"></i> Buat Kontak Baru
             </a>
         @else
-            <div class="flex gap-3">
-                <a href="{{ route('contact.edit', $contact->id) }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-xl font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 hover:text-blue-600 focus:outline-none focus:ring ring-gray-200 transition ease-in-out duration-150 shadow-sm">
-                    <i class="fas fa-pencil-alt mr-2"></i> Edit Data
+            <div style="display:flex; gap:8px;">
+                <a href="{{ route('contact.edit', $contact->id) }}" class="dub-btn dub-btn-outline">
+                    <i class="fas fa-pen" style="font-size:12px;"></i> Edit Data
                 </a>
                 <form method="POST" action="{{ route('contact.destroy', $contact->id) }}" onsubmit="return handleDeleteContact(event);">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-50 border border-transparent rounded-xl font-semibold text-xs text-red-700 uppercase tracking-widest hover:bg-red-100 focus:outline-none focus:ring ring-red-300 transition ease-in-out duration-150">
-                        <i class="fas fa-trash-alt"></i>
+                    <button type="submit" class="dub-btn dub-btn-danger">
+                        <i class="fas fa-trash" style="font-size:12px;"></i>
                     </button>
                 </form>
                 
@@ -32,12 +35,12 @@
                 async function handleDeleteContact(event) {
                     event.preventDefault();
                     const confirmed = await customConfirm(
-                        'Data kontak akan dihapus permanen. Apakah Anda yakin ingin melanjutkan?',
+                        'Data kontak akan dihapus permanen. Apakah Anda yakin?',
                         {
                             title: 'Hapus Data Kontak',
                             type: 'danger',
                             confirmText: 'Ya, Hapus',
-                            confirmClass: 'px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-colors shadow-sm'
+                            cancelText: 'Batal'
                         }
                     );
                     if (confirmed) {
@@ -51,193 +54,124 @@
     </div>
 
     @if(session('success'))
-        <div class="mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl flex items-center shadow-sm" role="alert">
-            <i class="fas fa-check-circle text-xl mr-3"></i>
-            <span class="block sm:inline font-medium">{{ session('success') }}</span>
+        <div class="dub-card" style="border-color:#bbf7d0; background:#f0fdf4; padding:12px 16px; color:#166534; display:flex; align-items:center; gap:8px;">
+            <i class="fas fa-check-circle" style="color:#16a34a;"></i>
+            <span style="font-size:13px; font-weight:500;">{{ session('success') }}</span>
         </div>
     @endif
 
     @if($contact)
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-                <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
-                    <i class="fas fa-info"></i>
-                </div>
-                <div>
-                    <div class="text-xs text-gray-500 font-medium uppercase">Info Dasar</div>
-                    <div class="font-bold text-gray-800">
-                        {{ collect([$contact->address, $contact->phone, $contact->email])->filter()->count() }}/3
-                    </div>
-                </div>
+        {{-- Quick Stats --}}
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+            <div class="dub-stat-card">
+                <p style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; margin:0 0 8px;">Informasi Utama</p>
+                <p style="font-size:24px; font-weight:600; color:var(--color-charcoal); margin:0;">
+                    {{ collect([$contact->company_name, $contact->address, $contact->phone, $contact->email])->filter()->count() }}/4
+                </p>
             </div>
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-                <div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-600">
-                    <i class="fas fa-share-alt"></i>
-                </div>
-                <div>
-                    <div class="text-xs text-gray-500 font-medium uppercase">Sosial Media</div>
-                    <div class="font-bold text-gray-800">
-                        {{ count($contact->active_social_media ?? []) }} Aktif
-                    </div>
-                </div>
+            <div class="dub-stat-card">
+                <p style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; margin:0 0 8px;">Sosial Media</p>
+                <p style="font-size:24px; font-weight:600; color:var(--color-charcoal); margin:0;">
+                    {{ count($contact->active_social_media ?? []) }} Aktif
+                </p>
             </div>
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-                <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-600">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div>
-                    <div class="text-xs text-gray-500 font-medium uppercase">Jam Kerja</div>
-                    <div class="font-bold text-gray-800">{{ $contact->working_hours ? 'Diatur' : '-' }}</div>
-                </div>
+            <div class="dub-stat-card">
+                <p style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; margin:0 0 8px;">Jam Kerja</p>
+                <p style="font-size:24px; font-weight:600; color:var(--color-charcoal); margin:0;">
+                    {{ $contact->working_hours ? 'Diatur' : '—' }}
+                </p>
             </div>
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-600">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <div>
-                    <div class="text-xs text-gray-500 font-medium uppercase">Peta</div>
-                    <div class="font-bold text-gray-800">{{ $contact->maps_embed ? 'Terpasang' : 'Kosong' }}</div>
-                </div>
+            <div class="dub-stat-card">
+                <p style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; margin:0 0 8px;">Google Maps Embed</p>
+                <p style="font-size:24px; font-weight:600; color:var(--color-charcoal); margin:0;">
+                    {{ $contact->maps_embed ? 'Terpasang' : 'Kosong' }}
+                </p>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {{-- Details Grid --}}
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap:20px;">
             
-            <div class="lg:col-span-7 space-y-8">
-                
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
-                        <h3 class="font-bold text-gray-800 flex items-center">
-                            <i class="fas fa-building text-gray-400 mr-2"></i> Identitas & Lokasi
-                        </h3>
-                        <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                            {{ $contact->is_active ? 'Publik' : 'Draft' }}
-                        </span>
+            {{-- Left Column: Detail Utama --}}
+            <div class="space-y-6">
+                <div class="dub-table-wrapper">
+                    <div class="dub-section-header">
+                        <h3>Detail Kontak Utama</h3>
                     </div>
-                    <div class="p-6 space-y-6">
+                    <div style="padding:16px; display:grid; grid-template-columns:1fr; gap:14px;">
                         <div>
-                            <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Nama Perusahaan</label>
-                            <p class="text-lg font-semibold text-gray-900">{{ $contact->company_name ?? '-' }}</p>
+                            <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; display:block; margin-bottom:2px;">Nama Perusahaan</span>
+                            <span style="font-size:14px; font-weight:600; color:var(--color-charcoal);">{{ $contact->company_name ?? 'PT Fabi Abadi Travel' }}</span>
                         </div>
-
-                        <div class="flex gap-4">
-                            <div class="flex-shrink-0 mt-1">
-                                <i class="fas fa-map-pin text-gray-300"></i>
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Alamat Kantor</label>
-                                <p class="text-gray-700 leading-relaxed">
-                                    {{ $contact->address ?? 'Belum diisi' }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="flex gap-4">
-                            <div class="flex-shrink-0 mt-1">
-                                <i class="far fa-clock text-gray-300"></i>
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Jam Operasional</label>
-                                <p class="text-gray-700 whitespace-pre-line">{{ $contact->working_hours ?? 'Belum diisi' }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                        <h3 class="font-bold text-gray-800 flex items-center">
-                            <i class="fas fa-address-book text-gray-400 mr-2"></i> Saluran Kontak
-                        </h3>
-                    </div>
-                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="p-4 rounded-xl bg-blue-50/50 border border-blue-100">
-                            <div class="flex items-center justify-between mb-2">
-                                <label class="text-xs font-bold text-blue-600 uppercase">Telepon</label>
-                                <i class="fas fa-phone text-blue-300"></i>
-                            </div>
-                            <p class="font-semibold text-gray-800 mb-1">{{ $contact->phone ?? '-' }}</p>
-                            @if($contact->phone_2)
-                                <p class="text-sm text-gray-500">{{ $contact->phone_2 }} (Alt)</p>
-                            @endif
-                        </div>
-
-                        <div class="p-4 rounded-xl bg-indigo-50/50 border border-indigo-100">
-                            <div class="flex items-center justify-between mb-2">
-                                <label class="text-xs font-bold text-indigo-600 uppercase">Email</label>
-                                <i class="fas fa-envelope text-indigo-300"></i>
-                            </div>
-                            <p class="font-semibold text-gray-800 mb-1 truncate">{{ $contact->email ?? '-' }}</p>
-                            @if($contact->email_2)
-                                <p class="text-sm text-gray-500 truncate">{{ $contact->email_2 }}</p>
-                            @endif
-                        </div>
-
-                        <div class="p-4 rounded-xl bg-emerald-50/50 border border-emerald-100 md:col-span-2">
-                            <div class="flex items-center justify-between mb-2">
-                                <label class="text-xs font-bold text-emerald-600 uppercase">WhatsApp</label>
-                                <i class="fab fa-whatsapp text-emerald-300 text-lg"></i>
-                            </div>
-                            @if($contact->whatsapp)
-                                <div class="flex items-center justify-between">
-                                    <span class="font-semibold text-gray-800">{{ $contact->whatsapp }}</span>
-                                    <a href="{{ $contact->whatsapp_link }}" target="_blank" class="text-xs bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full hover:bg-emerald-200 transition">
-                                        Test Link <i class="fas fa-external-link-alt ml-1"></i>
+                        <div>
+                            <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; display:block; margin-bottom:2px;">Telepon / WhatsApp</span>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="font-size:14px; color:var(--color-charcoal);">{{ $contact->phone ?? '—' }}</span>
+                                @if($contact->phone)
+                                    <a href="https://wa.me/{{ preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $contact->phone)) }}" target="_blank" style="font-size:12px; color:#25d366; text-decoration:none; font-weight:500;">
+                                        <i class="fab fa-whatsapp"></i> Chat
                                     </a>
-                                </div>
-                            @else
-                                <span class="text-gray-400 italic text-sm">Belum diatur</span>
-                            @endif
+                                @endif
+                            </div>
+                        </div>
+                        <div>
+                            <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; display:block; margin-bottom:2px;">Email Official</span>
+                            <span style="font-size:14px; color:var(--color-charcoal);">{{ $contact->email ?? '—' }}</span>
+                        </div>
+                        <div>
+                            <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; display:block; margin-bottom:2px;">Jam Operasional</span>
+                            <span style="font-size:13px; color:var(--color-steel);">{{ $contact->working_hours ?? '—' }}</span>
+                        </div>
+                        <div>
+                            <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; display:block; margin-bottom:2px;">Alamat Kantor</span>
+                            <span style="font-size:13px; color:var(--color-steel); line-height:1.5;">{{ $contact->address ?? '—' }}</span>
                         </div>
                     </div>
                 </div>
 
-            </div>
-
-            <div class="lg:col-span-5 space-y-8">
-                
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
-                        <h3 class="font-bold text-gray-800">Media Sosial</h3>
-                        <span class="text-xs text-gray-400">{{ count($contact->active_social_media ?? []) }} Terhubung</span>
+                {{-- Social Media Accounts Grid --}}
+                <div class="dub-table-wrapper">
+                    <div class="dub-section-header">
+                        <div>
+                            <h3>Media Sosial</h3>
+                            <p>Daftar akun media sosial resmi yang terhubung.</p>
+                        </div>
+                        <span class="dub-badge dub-badge-blue">{{ count($contact->active_social_media ?? []) }} Aktif</span>
                     </div>
-                    
-                    <div class="p-4">
-                        <div class="grid grid-cols-2 gap-3">
+                    <div style="padding:16px;">
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">
                             @php
                                 $socials = [
-                                    ['key' => 'facebook', 'icon' => 'fab fa-facebook-f', 'color' => 'bg-[#1877F2]', 'label' => 'Facebook'],
-                                    ['key' => 'instagram', 'icon' => 'fab fa-instagram', 'color' => 'bg-[#E4405F]', 'label' => 'Instagram'],
-                                    ['key' => 'twitter', 'icon' => 'fab fa-twitter', 'color' => 'bg-[#1DA1F2]', 'label' => 'Twitter'],
-                                    ['key' => 'youtube', 'icon' => 'fab fa-youtube', 'color' => 'bg-[#FF0000]', 'label' => 'YouTube'],
-                                    ['key' => 'tiktok', 'icon' => 'fab fa-tiktok', 'color' => 'bg-black', 'label' => 'TikTok'],
-                                    ['key' => 'linkedin', 'icon' => 'fab fa-linkedin-in', 'color' => 'bg-[#0A66C2]', 'label' => 'LinkedIn'],
-                                    ['key' => 'pinterest', 'icon' => 'fab fa-pinterest-p', 'color' => 'bg-[#E60023]', 'label' => 'Pinterest'],
-                                    ['key' => 'telegram', 'icon' => 'fab fa-telegram-plane', 'color' => 'bg-[#0088CC]', 'label' => 'Telegram'],
+                                    ['key' => 'facebook', 'icon' => 'fab fa-facebook-f', 'label' => 'Facebook'],
+                                    ['key' => 'instagram', 'icon' => 'fab fa-instagram', 'label' => 'Instagram'],
+                                    ['key' => 'twitter', 'icon' => 'fab fa-twitter', 'label' => 'Twitter'],
+                                    ['key' => 'youtube', 'icon' => 'fab fa-youtube', 'label' => 'YouTube'],
+                                    ['key' => 'tiktok', 'icon' => 'fab fa-tiktok', 'label' => 'TikTok'],
+                                    ['key' => 'linkedin', 'icon' => 'fab fa-linkedin-in', 'label' => 'LinkedIn'],
+                                    ['key' => 'pinterest', 'icon' => 'fab fa-pinterest-p', 'label' => 'Pinterest'],
+                                    ['key' => 'telegram', 'icon' => 'fab fa-telegram-plane', 'label' => 'Telegram'],
                                 ];
                             @endphp
 
-                            @foreach($socials as $social)
-                                @if($contact->{$social['key']})
-                                    <a href="{{ $contact->{$social['key']} }}" target="_blank" class="flex items-center p-2 rounded-lg border border-gray-100 hover:border-blue-200 hover:shadow-sm transition-all group bg-white">
-                                        <div class="w-8 h-8 {{ $social['color'] }} rounded text-white flex items-center justify-center text-sm mr-2 shadow-sm">
-                                            <i class="{{ $social['icon'] }}"></i>
+                            @foreach($socials as $s)
+                                @if(!empty($contact->{$s['key']}))
+                                    <a href="{{ $contact->{$s['key']} }}" target="_blank" class="dub-card" style="display:flex; align-items:center; gap:8px; padding:10px; text-decoration:none; background:var(--color-paper-mist);">
+                                        <div style="width:28px; height:28px; border-radius:6px; background:var(--color-soft-blue); color:var(--color-electric-blue); display:flex; align-items:center; justify-content:center; font-size:13px;">
+                                            <i class="{{ $s['icon'] }}"></i>
                                         </div>
-                                        <div class="overflow-hidden">
-                                            <span class="text-xs font-semibold text-gray-700 block truncate group-hover:text-blue-600">{{ $social['label'] }}</span>
-                                            <span class="text-[10px] text-green-600 flex items-center">
-                                                <i class="fas fa-check-circle mr-1"></i> Aktif
-                                            </span>
+                                        <div style="overflow:hidden;">
+                                            <span style="font-size:12px; font-weight:600; color:var(--color-charcoal); display:block; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">{{ $s['label'] }}</span>
+                                            <span class="dub-badge dub-badge-mint" style="font-size:10px; padding:1px 6px;">Aktif</span>
                                         </div>
                                     </a>
                                 @else
-                                    <div class="flex items-center p-2 rounded-lg border border-gray-50 bg-gray-50 opacity-60 grayscale">
-                                        <div class="w-8 h-8 bg-gray-300 rounded text-white flex items-center justify-center text-sm mr-2">
-                                            <i class="{{ $social['icon'] }}"></i>
+                                    <div class="dub-card" style="display:flex; align-items:center; gap:8px; padding:10px; opacity:0.5; background:var(--color-paper-mist);">
+                                        <div style="width:28px; height:28px; border-radius:6px; background:var(--color-ash); color:var(--color-silver); display:flex; align-items:center; justify-content:center; font-size:13px;">
+                                            <i class="{{ $s['icon'] }}"></i>
                                         </div>
                                         <div>
-                                            <span class="text-xs font-semibold text-gray-500 block">{{ $social['label'] }}</span>
-                                            <span class="text-[10px] text-gray-400">-</span>
+                                            <span style="font-size:12px; font-weight:500; color:var(--color-fog); display:block;">{{ $s['label'] }}</span>
+                                            <span style="font-size:10px; color:var(--color-silver);">Nonaktif</span>
                                         </div>
                                     </div>
                                 @endif
@@ -245,64 +179,62 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
-                        <h3 class="font-bold text-gray-800">Pratinjau Peta</h3>
-                        <div class="flex items-center gap-2">
-                            @if($contact->maps_embed)
-                                <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">✓ Terisi</span>
-                            @else
-                                <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">Kosong</span>
-                            @endif
+            {{-- Right Column: Pratinjau Google Maps --}}
+            <div class="space-y-6">
+                <div class="dub-table-wrapper">
+                    <div class="dub-section-header">
+                        <div>
+                            <h3>Pratinjau Peta (Google Maps)</h3>
                         </div>
-                    </div>
-                    <div class="p-1">
                         @if($contact->maps_embed)
-                            <div class="w-full h-64 bg-gray-100 rounded-xl overflow-hidden relative">
-                                <div class="absolute inset-0 [&>iframe]:w-full [&>iframe]:h-full">
-                                    {!! $contact->maps_embed !!}
-                                </div>
+                            <span class="dub-badge dub-badge-mint">✓ Terpasang</span>
+                        @else
+                            <span class="dub-badge dub-badge-neutral">Kosong</span>
+                        @endif
+                    </div>
+                    <div style="padding:12px;">
+                        @if($contact->maps_embed)
+                            <div style="width:100%; height:260px; border-radius:8px; overflow:hidden; border:1px solid var(--color-ash); position:relative;" class="[&>iframe]:w-full [&>iframe]:h-full [&>iframe]:border-0">
+                                {!! $contact->maps_embed !!}
                             </div>
                         @else
-                            <div class="h-48 flex flex-col items-center justify-center bg-gray-50 text-gray-400 rounded-xl m-4 border-2 border-dashed border-gray-200">
-                                <i class="fas fa-map-marked-alt text-3xl mb-2 opacity-50"></i>
-                                <span class="text-sm">Embed Map belum diatur</span>
-                                <a href="{{ route('contact.edit', $contact->id) }}#maps_embed" class="mt-3 text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
-                                    <i class="fas fa-plus-circle"></i> Tambah Maps Embed
+                            <div class="dub-empty" style="padding:32px 16px; background:var(--color-paper-mist); border-radius:8px;">
+                                <div class="dub-empty-icon"><i class="fas fa-map-marked-alt"></i></div>
+                                <p style="font-size:14px; margin-bottom:4px;">Embed Map belum diatur</p>
+                                <span>Salin kode embed dari Google Maps untuk menampilkan peta lokasi kantor.</span>
+                                <a href="{{ route('contact.edit', $contact->id) }}#maps_embed" class="dub-btn dub-btn-primary" style="margin-top:12px; font-size:12px;">
+                                    <i class="fas fa-plus"></i> Tambah Embed Maps
                                 </a>
                             </div>
                         @endif
                     </div>
-                    <div class="px-6 py-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
-                        <span class="text-xs text-gray-500">
-                            Terakhir update: {{ $contact->updated_at->diffForHumans() }}
+                    <div style="padding:12px 16px; border-top:1px solid var(--color-ash); background:var(--color-paper-mist); display:flex; align-items:center; justify-content:space-between; border-radius: 0 0 var(--radius-cards) var(--radius-cards);">
+                        <span style="font-size:12px; color:var(--color-fog);">
+                            Update: {{ $contact->updated_at ? $contact->updated_at->diffForHumans() : '—' }}
                         </span>
-                        @if($contact->maps_embed)
-                        <a href="{{ route('contact.edit', $contact->id) }}#maps_embed" class="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
+                        <a href="{{ route('contact.edit', $contact->id) }}#maps_embed" class="dub-btn dub-btn-outline" style="font-size:12px; padding:4px 10px;">
                             <i class="fas fa-edit"></i> Edit Maps
                         </a>
-                        @else
-                        <a href="https://www.google.com/maps" target="_blank" class="text-xs text-gray-600 hover:text-gray-700 font-medium flex items-center gap-1">
-                            <i class="fas fa-external-link-alt"></i> Buka Google Maps
-                        </a>
-                        @endif
                     </div>
                 </div>
+            </div>
 
-            </div>
         </div>
+
     @else
-        <div class="text-center py-20 bg-white rounded-3xl shadow-sm border border-gray-100">
-            <div class="w-24 h-24 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fas fa-folder-open text-4xl"></i>
+        <div class="dub-table-wrapper">
+            <div class="dub-empty" style="padding:48px;">
+                <div class="dub-empty-icon"><i class="fas fa-address-book"></i></div>
+                <p>Belum ada informasi kontak</p>
+                <span>Silakan tambahkan informasi kontak resmi perusahaan Anda.</span>
+                <a href="{{ route('contact.create') }}" class="dub-btn dub-btn-primary" style="margin-top:12px;">
+                    <i class="fas fa-plus"></i> Buat Kontak Sekarang
+                </a>
             </div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">Data Kontak Kosong</h2>
-            <p class="text-gray-500 max-w-md mx-auto mb-8">Anda belum mengatur informasi kontak perusahaan. Data ini akan ditampilkan di halaman depan website.</p>
-            <a href="{{ route('contact.create') }}" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 font-medium transition shadow-lg shadow-blue-500/30">
-                <i class="fas fa-plus mr-2"></i> Mulai Pengaturan
-            </a>
         </div>
     @endif
+
 </div>
 @endsection

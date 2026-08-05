@@ -139,15 +139,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         updateDeviceType();
 
-        // Debug: Force sidebar visible on desktop
-        if (!isMobile) {
-            console.log('Desktop mode detected - ensuring sidebar is visible');
-            sidebar.style.display = 'flex';
-            sidebar.style.position = 'static';
-            sidebar.style.transform = 'translateX(0)';
-        }
-
-        // Restore sidebar state on desktop
+        // Restore sidebar collapsed state on desktop
         if (isDesktop) {
             const wasCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
             if (wasCollapsed) {

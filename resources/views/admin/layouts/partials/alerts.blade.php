@@ -1,60 +1,66 @@
-<!-- Success Alert -->
+{{-- Success Alert --}}
 @if(session('success'))
-    <div id="success-alert"
-         class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg mb-6 flex items-center justify-between shadow-md animate-fade-in">
-        <div class="flex items-center">
-            <i class="fas fa-check-circle text-2xl mr-3"></i>
-            <div>
-                <p class="font-semibold">Berhasil!</p>
-                <p class="text-sm">{{ session('success') }}</p>
-            </div>
+    <div id="success-alert" class="dub-alert dub-alert-success">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px;">
+            <path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div style="flex:1;min-width:0;">
+            <p style="font-weight:600;margin:0 0 2px;font-size:14px;">Berhasil!</p>
+            <p style="margin:0;font-size:13px;opacity:0.85;">{{ session('success') }}</p>
         </div>
-        <button onclick="closeAlert('success-alert')" class="text-green-700 hover:text-green-900">
-            <i class="fas fa-times text-xl"></i>
+        <button onclick="closeAlert('success-alert')" class="dub-alert-close" aria-label="Tutup">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
         </button>
     </div>
 @endif
 
-<!-- Error Alert -->
+{{-- Error Alert --}}
 @if(session('error') || $errors->any())
-    <div id="error-alert"
-         class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg mb-6 flex items-center justify-between shadow-md animate-fade-in">
-        <div class="flex items-center">
-            <i class="fas fa-exclamation-circle text-2xl mr-3"></i>
-            <div>
-                <p class="font-semibold">Error!</p>
-                @if(session('error'))
-                    <p class="text-sm">{{ session('error') }}</p>
-                @endif
-                @if($errors->any())
-                    <ul class="text-sm list-disc list-inside mt-1">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                @endif
-            </div>
+    <div id="error-alert" class="dub-alert dub-alert-error">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px;">
+            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M8 5V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="8" cy="11" r="0.75" fill="currentColor"/>
+        </svg>
+        <div style="flex:1;min-width:0;">
+            <p style="font-weight:600;margin:0 0 2px;font-size:14px;">Terjadi Kesalahan</p>
+            @if(session('error'))
+                <p style="margin:0;font-size:13px;opacity:0.85;">{{ session('error') }}</p>
+            @endif
+            @if($errors->any())
+                <ul style="margin:4px 0 0;padding-left:16px;font-size:13px;opacity:0.85;">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
         </div>
-        <button onclick="closeAlert('error-alert')" class="text-red-700 hover:text-red-900">
-            <i class="fas fa-times text-xl"></i>
+        <button onclick="closeAlert('error-alert')" class="dub-alert-close" aria-label="Tutup">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
         </button>
     </div>
 @endif
 
-<!-- Warning Alert -->
+{{-- Warning Alert --}}
 @if(session('warning'))
-    <div id="warning-alert"
-         class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-lg mb-6 flex items-center justify-between shadow-md animate-fade-in">
-        <div class="flex items-center">
-            <i class="fas fa-exclamation-triangle text-2xl mr-3"></i>
-            <div>
-                <p class="font-semibold">Peringatan!</p>
-                <p class="text-sm">{{ session('warning') }}</p>
-            </div>
+    <div id="warning-alert" class="dub-alert dub-alert-warning">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px;">
+            <path d="M8 1.5L14.5 13H1.5L8 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M8 6V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="8" cy="11" r="0.75" fill="currentColor"/>
+        </svg>
+        <div style="flex:1;min-width:0;">
+            <p style="font-weight:600;margin:0 0 2px;font-size:14px;">Peringatan</p>
+            <p style="margin:0;font-size:13px;opacity:0.85;">{{ session('warning') }}</p>
         </div>
-        <button onclick="closeAlert('warning-alert')" class="text-yellow-700 hover:text-yellow-900">
-            <i class="fas fa-times text-xl"></i>
+        <button onclick="closeAlert('warning-alert')" class="dub-alert-close" aria-label="Tutup">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
         </button>
     </div>
 @endif
-

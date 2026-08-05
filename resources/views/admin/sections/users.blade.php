@@ -1,189 +1,186 @@
 {{-- Users Section --}}
-<div id="users" class="content-section {{ $section == 'users' ? '' : 'hidden' }} space-y-6">
-    {{-- Header Section --}}
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-            <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Data Pendaftar</h2>
-            <p class="text-gray-500 mt-1">Database lengkap calon jamaah umroh yang terdaftar.</p>
-        </div>
+<div id="users" class="content-section {{ $section == 'users' ? '' : 'hidden' }}">
 
-        {{-- Live Search Input --}}
-        <div class="relative w-full md:w-64">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-                <i class="fas fa-search"></i>
+    {{-- Page Header --}}
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap;">
+        <div>
+            <h1 style="font-size:20px;font-weight:600;color:var(--color-charcoal);margin:0 0 4px;">Data Pendaftar</h1>
+            <p style="font-size:14px;color:var(--color-fog);margin:0;">Database lengkap calon jamaah umroh yang terdaftar.</p>
+        </div>
+        {{-- Search --}}
+        <div style="position:relative;width:240px;flex-shrink:0;">
+            <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--color-silver);pointer-events:none;">
+                <i class="fas fa-search" style="font-size:13px;"></i>
             </span>
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Cari nama jamaah..."
-                class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-shadow"
-                autocomplete="off">
-            <div id="searchLoader" class="absolute inset-y-0 right-0 items-center pr-3 hidden">
-                <svg class="animate-spin h-4 w-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <input type="text"
+                   id="searchInput"
+                   placeholder="Cari nama jamaah..."
+                   class="dub-input"
+                   style="padding-left:32px;"
+                   autocomplete="off">
+            <div id="searchLoader" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);display:none;">
+                <svg class="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" style="color:var(--color-electric-blue);">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-opacity="0.25" stroke-width="4"/>
+                    <path fill="currentColor" fill-opacity="0.75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
                 </svg>
             </div>
         </div>
     </div>
-    {{-- Users Table --}}
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div class="overflow-x-auto custom-scrollbar">
-            <table class="w-full whitespace-nowrap">
-                {{-- Table Header --}}
+
+    {{-- Table Card --}}
+    <div class="dub-table-wrapper">
+        <div style="overflow-x:auto;">
+            <table class="dub-table" style="white-space:nowrap;">
                 <thead>
-                <tr class="bg-gray-50/50 border-b border-gray-200 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <th class="px-6 py-4 w-16 text-center">ID</th>
-                    <th class="px-6 py-4">Nama & Kontak</th>
-                    <th class="px-6 py-4">Tgl Lahir</th>
-                    <th class="px-6 py-4">Alamat Domisili</th>
-                    <th class="px-6 py-4 text-center">
-                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'users']) }}" class="flex items-center justify-center gap-1 hover:text-blue-600 transition-colors">
-                            Tgl Daftar
-                            @if(request('sort', 'created_at') == 'created_at' && request('section', 'users') == 'users')
-                                <i class="fas fa-sort-{{ request('order', 'desc') == 'asc' ? 'up' : 'down' }}"></i>
-                            @else
-                                <i class="fas fa-sort text-gray-300"></i>
-                            @endif
-                        </a>
-                    </th>
-                    <th class="px-6 py-4 text-center">
-                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'hasPassport', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'users']) }}" class="flex items-center justify-center gap-1 hover:text-blue-600 transition-colors">
-                            Status Paspor
-                            @if(request('sort') == 'hasPassport' && request('section') == 'users')
-                                <i class="fas fa-sort-{{ request('order') == 'asc' ? 'up' : 'down' }}"></i>
-                            @else
-                                <i class="fas fa-sort text-gray-300"></i>
-                            @endif
-                        </a>
-                    </th>
-                    <th class="px-6 py-4 text-center">Aksi</th>
-                </tr>
-                </thead>
-
-                {{-- Table Body (Dynamic Content) --}}
-                <tbody id="usersTableBody" class="divide-y divide-gray-200 bg-white">
-                @forelse($users as $user)
-                    <tr class="hover:bg-gray-50/80 transition-colors duration-150">
-                        <td class="px-6 py-4 text-sm text-gray-500 font-mono text-center">
-                            #{{ $user->id }}
-                        </td>
-
-                        <td class="px-6 py-4">
-                            <div class="flex flex-col">
-                                <span class="text-sm font-bold text-gray-900">{{ $user->fullName }}</span>
-                                <span class="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
-                                    <i class="fab fa-whatsapp text-green-500"></i> {{ $user->phone ?? '-' }}
-                                </span>
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-4">
-                            <div class="text-sm text-gray-700 flex items-center gap-2">
-                                <i class="far fa-calendar-alt text-gray-400"></i>
-                                {{ $user->birthDate ? $user->birthDate->format('d M Y') : 'N/A' }}
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-4">
-                            <span class="text-sm text-gray-600 block max-w-xs truncate" title="{{ $user->address }}">
-                                {{ Str::limit($user->address, 35) ?? '-' }}
-                            </span>
-                        </td>
-
-                        <td class="px-6 py-4 text-center">
-                            <div class="text-xs text-gray-500">
-                                {{ $user->created_at ? $user->created_at->format('d/m/Y H:i') : '-' }}
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-4 text-center">
-                            @if($user->hasPassport)
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200">
-                                    <i class="fas fa-check-circle mr-1.5"></i> Ada
-                                </span>
-                            @else
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700 border border-red-200">
-                                    <i class="fas fa-times-circle mr-1.5"></i> Belum
-                                </span>
-                            @endif
-                        </td>
-
-                        <td class="px-6 py-4 text-center">
-                            <div class="flex items-center justify-center space-x-2">
-                                <a href="{{ route('users.show', $user->id) }}"
-                                   class="group p-2 text-teal-600 hover:bg-teal-50 rounded-lg transition-all duration-200"
-                                   title="Lihat Detail">
-                                    <i class="fas fa-eye text-lg group-hover:scale-110 transition-transform"></i>
-                                </a>
-
-                                <a href="{{ route('users.edit', $user->id) }}"
-                                   class="group p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
-                                   title="Edit Data">
-                                    <i class="fas fa-edit text-lg group-hover:scale-110 transition-transform"></i>
-                                </a>
-
-                                <form method="POST" action="{{ route('users.destroy', $user->id) }}" class="inline-block" onsubmit="return handleDeleteUser(event, '{{ addslashes($user->fullName) }}');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                            class="group p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
-                                            title="Hapus Permanen">
-                                        <i class="fas fa-trash-alt text-lg group-hover:scale-110 transition-transform"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    {{-- Empty State --}}
                     <tr>
-                        <td colspan="7" class="px-6 py-12 text-center">
-                            <div class="flex flex-col items-center justify-center space-y-3">
-                                <div class="p-4 bg-gray-50 rounded-full">
-                                    <i class="fas fa-users-slash text-gray-400 text-3xl"></i>
-                                </div>
-                                <p class="text-gray-500 font-medium">Belum ada data pendaftar umroh</p>
-                            </div>
-                        </td>
+                        <th style="text-align:center;width:52px;">ID</th>
+                        <th>Nama &amp; Kontak</th>
+                        <th style="text-align:center;">
+                            <a href="{{ request()->fullUrlWithQuery(['sort' => 'package', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'users']) }}"
+                               style="display:inline-flex;align-items:center;gap:4px;color:inherit;text-decoration:none;">
+                                Paket
+                                @if(request('sort') == 'package' && request('section') == 'users')
+                                    <i class="fas fa-sort-{{ request('order') == 'asc' ? 'up' : 'down' }}" style="font-size:10px;color:var(--color-electric-blue);"></i>
+                                @else
+                                    <i class="fas fa-sort" style="font-size:10px;color:var(--color-pebble);"></i>
+                                @endif
+                            </a>
+                        </th>
+                        <th>Tgl Lahir</th>
+                        <th>Alamat Domisili</th>
+                        <th style="text-align:center;">
+                            <a href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'users']) }}"
+                               style="display:inline-flex;align-items:center;gap:4px;color:inherit;text-decoration:none;">
+                                Tgl Daftar
+                                @if(request('sort', 'created_at') == 'created_at' && request('section', 'users') == 'users')
+                                    <i class="fas fa-sort-{{ request('order', 'desc') == 'asc' ? 'up' : 'down' }}" style="font-size:10px;color:var(--color-electric-blue);"></i>
+                                @else
+                                    <i class="fas fa-sort" style="font-size:10px;color:var(--color-pebble);"></i>
+                                @endif
+                            </a>
+                        </th>
+                        <th style="text-align:center;">
+                            <a href="{{ request()->fullUrlWithQuery(['sort' => 'hasPassport', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'users']) }}"
+                               style="display:inline-flex;align-items:center;gap:4px;color:inherit;text-decoration:none;">
+                                Status Paspor
+                                @if(request('sort') == 'hasPassport' && request('section') == 'users')
+                                    <i class="fas fa-sort-{{ request('order') == 'asc' ? 'up' : 'down' }}" style="font-size:10px;color:var(--color-electric-blue);"></i>
+                                @else
+                                    <i class="fas fa-sort" style="font-size:10px;color:var(--color-pebble);"></i>
+                                @endif
+                            </a>
+                        </th>
+                        <th style="text-align:center;">Aksi</th>
                     </tr>
-                @endforelse
+                </thead>
+                <tbody id="usersTableBody">
+                    @forelse($users as $user)
+                        <tr>
+                            <td style="text-align:center;">
+                                <span class="dub-mono">#{{ $user->id }}</span>
+                            </td>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <div class="dub-avatar">
+                                        {{ strtoupper(substr($user->fullName, 0, 2)) }}
+                                    </div>
+                                    <div>
+                                        <p style="font-size:14px;font-weight:500;color:var(--color-charcoal);margin:0 0 2px;">{{ $user->fullName }}</p>
+                                        <p style="font-size:12px;color:var(--color-fog);margin:0;display:flex;align-items:center;gap:4px;">
+                                            <i class="fab fa-whatsapp" style="color:#25d366;"></i>
+                                            {{ $user->phone ?? '—' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                @php $pkg = $user->bookings->sortByDesc('id')->first()?->package; @endphp
+                                @if($pkg)
+                                    <span style="font-size:13px;font-weight:500;color:var(--color-charcoal);">{{ $pkg->title }}</span>
+                                @else
+                                    <span style="font-size:12px;color:var(--color-fog);">—</span>
+                                @endif
+                            </td>
+                            <td>
+                                <span style="font-size:13px;color:var(--color-steel);">
+                                    {{ $user->birthDate ? $user->birthDate->format('d M Y') : '—' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span style="font-size:13px;color:var(--color-steel);max-width:180px;display:block;overflow:hidden;text-overflow:ellipsis;" title="{{ $user->address }}">
+                                    {{ Str::limit($user->address, 30) ?? '—' }}
+                                </span>
+                            </td>
+                            <td style="text-align:center;">
+                                <span style="font-size:12px;color:var(--color-fog);font-family:var(--font-mono);">
+                                    {{ $user->created_at ? $user->created_at->format('d/m/Y') : '—' }}
+                                </span>
+                            </td>
+                            <td style="text-align:center;">
+                                @if($user->hasPassport)
+                                    <span class="dub-badge dub-badge-mint">
+                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                        Ada
+                                    </span>
+                                @else
+                                    <span class="dub-badge dub-badge-red">
+                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2.5 2.5L7.5 7.5M7.5 2.5L2.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                        Belum
+                                    </span>
+                                @endif
+                            </td>
+                            <td>
+                                <div style="display:flex;align-items:center;justify-content:center;gap:4px;">
+                                    <a href="{{ route('users.show', $user->id) }}"
+                                       class="dub-action-btn view" title="Lihat Detail">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('users.edit', $user->id) }}"
+                                       class="dub-action-btn edit" title="Edit Data">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                    <form method="POST" action="{{ route('users.destroy', $user->id) }}"
+                                          class="inline-block"
+                                          onsubmit="return handleDeleteUser(event, '{{ addslashes($user->fullName) }}');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="dub-action-btn delete" title="Hapus Permanen">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="8">
+                                <div class="dub-empty">
+                                    <div class="dub-empty-icon"><i class="fas fa-users-slash"></i></div>
+                                    <p>Belum ada data pendaftar umroh</p>
+                                    <span>Data akan muncul di sini setelah jamaah mendaftar.</span>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
 
-        {{-- Pagination Navigation --}}
-        <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="text-sm text-gray-700">
-                    Menampilkan <span class="font-medium">{{ $users->firstItem() ?? 0 }}</span>
-                    sampai <span class="font-medium">{{ $users->lastItem() ?? 0 }}</span>
-                    dari <span class="font-medium">{{ $users->total() }}</span> pendaftar
-                </div>
-                <div class="flex justify-center">
-                    {{ $users->appends(['section' => 'users', 'sort' => request('sort'), 'order' => request('order')])->links('vendor.pagination.custom') }}
-                </div>
+        {{-- Pagination --}}
+        <div class="dub-pagination">
+            <span style="font-size:13px;">
+                Menampilkan
+                <strong style="color:var(--color-charcoal);">{{ $users->firstItem() ?? 0 }}</strong>
+                –
+                <strong style="color:var(--color-charcoal);">{{ $users->lastItem() ?? 0 }}</strong>
+                dari
+                <strong style="color:var(--color-charcoal);">{{ $users->total() }}</strong>
+                pendaftar
+            </span>
+            <div>
+                {{ $users->appends(['section' => 'users', 'sort' => request('sort'), 'order' => request('order')])->links('vendor.pagination.custom') }}
             </div>
         </div>
     </div>
-</div>
 
-{{-- Custom Styles --}}
-<style>
-    /* Custom Scrollbar Styling */
-    .custom-scrollbar::-webkit-scrollbar {
-        height: 6px;
-        width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: #f1f5f9;
-        border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
-    }
-</style>
+</div>

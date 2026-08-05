@@ -1,65 +1,59 @@
-<div id="mutawwifs" class="content-section {{ $section == 'mutawwifs' ? '' : 'hidden' }} space-y-6">
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div id="mutawwifs" class="content-section {{ $section == 'mutawwifs' ? '' : 'hidden' }}">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap;">
         <div>
-            <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Data Mutawwif</h2>
-            <p class="text-gray-500 mt-1">Kelola data pembimbing ibadah (Ustadz/Mutawwif).</p>
+            <h1 style="font-size:20px;font-weight:600;color:var(--color-charcoal);margin:0 0 4px;">Data Mutawwif</h1>
+            <p style="font-size:14px;color:var(--color-fog);margin:0;">Kelola data pembimbing ibadah (Ustadz/Mutawwif).</p>
         </div>
-        <button onclick="openCreateMutawwifModal()" class="group relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 ease-in-out transform hover:-translate-y-0.5">
-            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                <i class="fas fa-user-plus text-blue-300 group-hover:text-white transition-colors"></i>
-            </span>
-            <span class="ml-4">Tambah Mutawwif</span>
+        <button onclick="openCreateMutawwifModal()" class="dub-btn dub-btn-primary" style="gap:8px;">
+            <i class="fas fa-user-plus" style="font-size:13px;"></i>
+            Tambah Mutawwif
         </button>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div class="overflow-x-auto custom-scrollbar">
-            <table class="w-full whitespace-nowrap">
+    <div class="dub-table-wrapper">
+        <div style="overflow-x:auto;">
+            <table class="dub-table" style="white-space:nowrap;">
                 <thead>
-                <tr class="bg-gray-50/50 border-b border-gray-200 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <th class="px-6 py-4">Profil</th>
-                    <th class="px-6 py-4">Nama Lengkap</th>
-                    <th class="px-6 py-4">Spesialisasi</th>
-                    <th class="px-6 py-4 text-center">Aksi</th>
-                </tr>
+                    <tr>
+                        <th>Profil</th>
+                        <th>Nama Lengkap</th>
+                        <th>Spesialisasi</th>
+                        <th style="text-align:center;">Aksi</th>
+                    </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 bg-white">
+                <tbody>
                 @forelse($mutawwifs as $mutawwif)
-                    <tr class="hover:bg-gray-50/80 transition-colors duration-150">
-                        <td class="px-6 py-4 w-20">
-                            <div class="relative w-12 h-12">
-                                @if($mutawwif->photo_path)
-                                    <img src="{{ asset('storage/' . $mutawwif->photo_path) }}" alt="{{ $mutawwif->name }}" class="w-12 h-12 rounded-full object-cover border-2 border-gray-100 shadow-sm">
-                                @else
-                                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg border-2 border-white shadow-sm">
-                                        {{ substr($mutawwif->name, 0, 1) }}
-                                    </div>
-                                @endif
-                            </div>
+                    <tr>
+                        <td style="width:60px;">
+                            @if($mutawwif->photo_path)
+                                <img src="{{ asset('storage/' . $mutawwif->photo_path) }}" alt="{{ $mutawwif->name }}"
+                                     style="width:36px;height:36px;border-radius:9999px;object-fit:cover;border:1px solid var(--color-ash);">
+                            @else
+                                <div class="dub-avatar" style="background:var(--color-soft-blue);color:var(--color-electric-blue);border-color:#bfdbfe;">
+                                    {{ strtoupper(substr($mutawwif->name, 0, 2)) }}
+                                </div>
+                            @endif
                         </td>
-
-                        <td class="px-6 py-4">
-                            <div class="text-sm font-bold text-gray-900">{{ $mutawwif->name }}</div>
+                        <td>
+                            <span style="font-size:14px;font-weight:500;color:var(--color-charcoal);">{{ $mutawwif->name }}</span>
                         </td>
-
-                        <td class="px-6 py-4">
-                            <p class="text-sm text-gray-600 max-w-xs truncate" title="{{ $mutawwif->specialization }}">
-                                {{ $mutawwif->specialization ?? '-' }}
-                            </p>
+                        <td>
+                            <span style="font-size:13px;color:var(--color-steel);max-width:220px;display:block;overflow:hidden;text-overflow:ellipsis;" title="{{ $mutawwif->specialization }}">
+                                {{ $mutawwif->specialization ?? '—' }}
+                            </span>
                         </td>
-
-                        <td class="px-6 py-4 text-center">
-                            <div class="flex items-center justify-center space-x-3">
+                        <td>
+                            <div style="display:flex;align-items:center;justify-content:center;gap:4px;">
                                 <button onclick="openEditMutawwifModal({{ $mutawwif->id }}, '{{ addslashes($mutawwif->name) }}', '{{ addslashes($mutawwif->specialization) }}', '{{ $mutawwif->photo_path ? asset('storage/' . $mutawwif->photo_path) : '' }}')"
-                                        class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200" title="Edit">
-                                    <i class="fas fa-edit text-lg"></i>
+                                        class="dub-action-btn edit" title="Edit">
+                                    <i class="fas fa-pen"></i>
                                 </button>
-
-                                <form method="POST" action="{{ route('mutawwifs.destroy', $mutawwif->id) }}" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data mutawwif ini?');">
+                                <form method="POST" action="{{ route('mutawwifs.destroy', $mutawwif->id) }}" class="inline-block"
+                                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus data mutawwif ini?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" title="Hapus">
-                                        <i class="fas fa-trash-alt text-lg"></i>
+                                    <button type="submit" class="dub-action-btn delete" title="Hapus">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
                             </div>
@@ -67,12 +61,11 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-12 text-center">
-                            <div class="flex flex-col items-center justify-center space-y-3">
-                                <div class="p-3 bg-gray-100 rounded-full">
-                                    <i class="fas fa-user-slash text-gray-400 text-3xl"></i>
-                                </div>
-                                <p class="text-gray-500 font-medium">Belum ada data mutawwif</p>
+                        <td colspan="4">
+                            <div class="dub-empty">
+                                <div class="dub-empty-icon"><i class="fas fa-user-slash"></i></div>
+                                <p>Belum ada data mutawwif</p>
+                                <span>Tambahkan mutawwif pertama Anda.</span>
                             </div>
                         </td>
                     </tr>
@@ -84,54 +77,51 @@
 </div>
 
 <div id="createMutawwifModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity opacity-0" id="createMutawwifBackdrop"></div>
+    <div class="fixed inset-0 bg-black/25 backdrop-blur-xs transition-opacity opacity-0" id="createMutawwifBackdrop"></div>
     <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg scale-95 opacity-0" id="createMutawwifPanel">
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left border border-[var(--color-ash)] shadow-lg transition-all w-full max-w-md scale-95 opacity-0" id="createMutawwifPanel">
 
-                <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                        <i class="fas fa-user-plus bg-white/20 p-1.5 rounded-md"></i>
+                <div class="px-6 py-4 border-b border-[var(--color-ash)] flex justify-between items-center bg-white">
+                    <h3 class="text-base font-semibold text-[var(--color-charcoal)] flex items-center gap-2">
+                        <i class="fas fa-user-plus text-[var(--color-electric-blue)]"></i>
                         Tambah Mutawwif Baru
                     </h3>
-                    <button onclick="closeCreateMutawwifModal()" class="text-blue-100 hover:text-white transition-colors focus:outline-none">
-                        <i class="fas fa-times text-xl"></i>
+                    <button onclick="closeCreateMutawwifModal()" class="text-[var(--color-fog)] hover:text-[var(--color-charcoal)] transition-colors focus:outline-none">
+                        <i class="fas fa-times text-lg"></i>
                     </button>
                 </div>
 
                 <form id="createMutawwifForm" method="POST" action="{{ route('mutawwifs.store') }}" enctype="multipart/form-data" class="p-6 space-y-5">
                     @csrf
 
-                    <div class="flex flex-col items-center justify-center space-y-3">
+                    <div class="flex flex-col items-center justify-center space-y-2">
                         <div class="relative group">
-                            <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-100 shadow-md bg-gray-50 flex items-center justify-center">
+                            <div class="w-24 h-24 rounded-full overflow-hidden border border-[var(--color-ash)] bg-[var(--color-paper-mist)] flex items-center justify-center">
                                 <img id="createMutawwifPreview" src="" alt="Preview Foto Mutawwif" class="w-full h-full object-cover hidden" />
-                                <i id="createMutawwifPlaceholder" class="fas fa-camera text-4xl text-gray-300"></i>
+                                <i id="createMutawwifPlaceholder" class="fas fa-camera text-2xl text-[var(--color-silver)]"></i>
                             </div>
-                            <label for="createMutawwifPhoto" class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full shadow-lg cursor-pointer hover:bg-blue-700 transition-colors transform hover:scale-110">
+                            <label for="createMutawwifPhoto" class="absolute bottom-0 right-0 bg-[var(--color-primary-action-fill)] text-white p-1.5 rounded-full shadow-sm cursor-pointer hover:bg-[var(--color-graphite)] transition-colors">
                                 <i class="fas fa-pencil-alt text-xs"></i>
                             </label>
                             <input id="createMutawwifPhoto" name="photo" type="file" class="hidden" accept="image/*" onchange="previewImage(this, 'createMutawwifPreview', 'createMutawwifPlaceholder')" />
                         </div>
-                        <span class="text-xs text-gray-500">Upload Foto Profil (Opsional)</span>
+                        <span class="text-xs text-[var(--color-fog)]">Upload Foto Profil (Opsional)</span>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap<span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400"><i class="fas fa-user"></i></span>
-                            <input type="text" name="name" class="block w-full pl-10 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2.5" placeholder="Contoh: Ustadz Ahmad" required>
-                        </div>
+                        <label class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Nama Lengkap <span class="text-red-500">*</span></label>
+                        <input type="text" name="name" class="dub-input" placeholder="Contoh: Ustadz Ahmad" required>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Spesialisasi</label>
-                        <textarea name="specialization" rows="3" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5 resize-none" placeholder="Contoh: Tour Leader..."></textarea>
+                        <label class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Spesialisasi</label>
+                        <textarea name="specialization" rows="3" class="dub-input resize-none" placeholder="Contoh: Pembimbing Ibadah & Tour Leader..."></textarea>
                     </div>
 
-                    <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                        <button type="button" onclick="closeCreateMutawwifModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Batal</button>
-                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm">Simpan</button>
+                    <div class="flex justify-end gap-2 pt-4 border-t border-[var(--color-ash)]">
+                        <button type="button" onclick="closeCreateMutawwifModal()" class="dub-btn dub-btn-outline">Batal</button>
+                        <button type="submit" class="dub-btn dub-btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -140,18 +130,18 @@
 </div>
 
 <div id="editMutawwifModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity opacity-0" id="editMutawwifBackdrop"></div>
+    <div class="fixed inset-0 bg-black/25 backdrop-blur-xs transition-opacity opacity-0" id="editMutawwifBackdrop"></div>
     <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg scale-95 opacity-0" id="editMutawwifPanel">
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left border border-[var(--color-ash)] shadow-lg transition-all w-full max-w-md scale-95 opacity-0" id="editMutawwifPanel">
 
-                <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                        <i class="fas fa-user-edit bg-white/20 p-1.5 rounded-md"></i>
+                <div class="px-6 py-4 border-b border-[var(--color-ash)] flex justify-between items-center bg-white">
+                    <h3 class="text-base font-semibold text-[var(--color-charcoal)] flex items-center gap-2">
+                        <i class="fas fa-user-edit text-[var(--color-electric-blue)]"></i>
                         Edit Data Mutawwif
                     </h3>
-                    <button onclick="closeEditMutawwifModal()" class="text-blue-100 hover:text-white transition-colors focus:outline-none">
-                        <i class="fas fa-times text-xl"></i>
+                    <button onclick="closeEditMutawwifModal()" class="text-[var(--color-fog)] hover:text-[var(--color-charcoal)] transition-colors focus:outline-none">
+                        <i class="fas fa-times text-lg"></i>
                     </button>
                 </div>
 
@@ -159,36 +149,33 @@
                     @csrf
                     @method('PUT')
 
-                    <div class="flex flex-col items-center justify-center space-y-3">
+                    <div class="flex flex-col items-center justify-center space-y-2">
                         <div class="relative group">
-                            <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-100 shadow-md bg-gray-50 flex items-center justify-center">
+                            <div class="w-24 h-24 rounded-full overflow-hidden border border-[var(--color-ash)] bg-[var(--color-paper-mist)] flex items-center justify-center">
                                 <img id="editMutawwifPreview" src="" alt="Preview Edit Foto Mutawwif" class="w-full h-full object-cover hidden" />
-                                <i id="editMutawwifPlaceholder" class="fas fa-user text-4xl text-gray-300"></i>
+                                <i id="editMutawwifPlaceholder" class="fas fa-user text-2xl text-[var(--color-silver)]"></i>
                             </div>
-                            <label for="editMutawwifPhotoInput" class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full shadow-lg cursor-pointer hover:bg-blue-700 transition-colors transform hover:scale-110">
+                            <label for="editMutawwifPhotoInput" class="absolute bottom-0 right-0 bg-[var(--color-primary-action-fill)] text-white p-1.5 rounded-full shadow-sm cursor-pointer hover:bg-[var(--color-graphite)] transition-colors">
                                 <i class="fas fa-camera text-xs"></i>
                             </label>
                             <input id="editMutawwifPhotoInput" name="photo" type="file" class="hidden" accept="image/*" onchange="previewImage(this, 'editMutawwifPreview', 'editMutawwifPlaceholder')" />
                         </div>
-                        <span class="text-xs text-gray-500">Ganti Foto Profil</span>
+                        <span class="text-xs text-[var(--color-fog)]">Ganti Foto Profil</span>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400"><i class="fas fa-user"></i></span>
-                            <input type="text" id="editMutawwifName" name="name" class="block w-full pl-10 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2.5" required>
-                        </div>
+                        <label class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Nama Lengkap</label>
+                        <input type="text" id="editMutawwifName" name="name" class="dub-input" required>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Spesialisasi</label>
-                        <textarea id="editMutawwifSpecialization" name="specialization" rows="3" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2.5 resize-none"></textarea>
+                        <label class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Spesialisasi</label>
+                        <textarea id="editMutawwifSpecialization" name="specialization" rows="3" class="dub-input resize-none"></textarea>
                     </div>
 
-                    <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                        <button type="button" onclick="closeEditMutawwifModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Batal</button>
-                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm">Update</button>
+                    <div class="flex justify-end gap-2 pt-4 border-t border-[var(--color-ash)]">
+                        <button type="button" onclick="closeEditMutawwifModal()" class="dub-btn dub-btn-outline">Batal</button>
+                        <button type="submit" class="dub-btn dub-btn-primary">Update</button>
                     </div>
                 </form>
             </div>

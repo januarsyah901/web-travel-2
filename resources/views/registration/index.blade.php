@@ -107,7 +107,7 @@
                     @forelse($packages as $package)
                         <label class="relative flex cursor-pointer group">
                             <input type="radio" name="package_id" value="{{ $package->id }}"
-                                   {{ old('package_id') == $package->id ? 'checked' : '' }}
+                                   {{ old('package_id') == $package->id || request('package') == $package->id ? 'checked' : '' }}
                                    class="peer sr-only" required>
 
                             <div class="flex-1 p-4 md:p-5 border-2 border-gray-200 rounded-xl bg-white hover:border-orange-300 transition-all shadow-sm
@@ -182,9 +182,9 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Akte / Buku Nikah / Ijazah <span class="text-red-500">*</span></label>
-                        <input type="file" name="supporting_docs[]" accept="image/*,.pdf" multiple required class="{{ $fileInputClass }}">
-                        <p class="text-xs text-gray-500 mt-1">Bisa pilih lebih dari satu file.</p>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Akte / Buku Nikah / Ijazah <span class="text-gray-400 text-xs font-normal">(opsional)</span></label>
+                        <input type="file" name="supporting_docs[]" accept="image/*,.pdf" multiple class="{{ $fileInputClass }}">
+                        <p class="text-xs text-gray-500 mt-1">Opsional. Bisa pilih lebih dari satu file.</p>
                     </div>
 
                     <div>
@@ -237,10 +237,10 @@
             </div>
 
             <div class="pt-6 flex flex-col-reverse sm:flex-row gap-4">
-                <a href="{{ route('home') }}" class="w-full sm:w-1/3 px-6 py-3.5 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-colors text-center">
+                <a href="{{ route('home') }}" class="w-full sm:w-1/3 px-6 py-3.5 bg-gray-100 text-gray-700 font-semibold rounded-full hover:bg-gray-200 transition-colors text-center">
                     Kembali
                 </a>
-                <button type="submit" class="w-full sm:w-2/3 px-6 py-3.5 bg-orange-600 text-white font-bold rounded-xl hover:bg-orange-700 transition-colors shadow-lg shadow-orange-200">
+                <button type="submit" class="w-full sm:w-2/3 px-6 py-3.5 bg-orange-600 text-white font-bold rounded-full hover:bg-orange-700 transition-colors shadow-lg shadow-orange-200">
                     Daftar Sekarang
                 </button>
             </div>

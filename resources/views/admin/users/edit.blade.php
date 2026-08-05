@@ -4,150 +4,95 @@
 
 @section('page-title', 'Edit Data Pendaftar')
 
-@push('styles')
-<style>
-    /* Smooth transitions for passport section */
-    #passportUploadSection {
-        transition: all 0.3s ease;
-    }
-</style>
-@endpush
-
 @section('content')
-<div class="max-w-5xl mx-auto">
+<div style="max-width: 800px; margin: 0 auto;" class="space-y-6">
 
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div class="flex items-center gap-5">
-            <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
-                <i class="fas fa-user-edit"></i>
-            </div>
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800">Edit Data Pendaftar</h1>
-                <p class="text-gray-500 text-sm mt-1">Perbarui informasi jamaah dengan teliti.</p>
-            </div>
+    {{-- Page Header --}}
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+        <div>
+            <h1 style="font-size:20px; font-weight:600; color:var(--color-charcoal); margin:0 0 4px;">Edit Data Pendaftar</h1>
+            <p style="font-size:14px; color:var(--color-fog); margin:0;">Perbarui informasi jamaah dengan teliti.</p>
         </div>
-        <a href="{{ route('users.show', $user->id) }}" class="px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-medium transition-colors shadow-sm flex items-center justify-center w-full md:w-auto">
-            <i class="fas fa-arrow-left mr-2"></i> Kembali
+        <a href="{{ route('users.show', $user->id) }}" class="dub-btn dub-btn-outline">
+            <i class="fas fa-arrow-left" style="font-size:12px;"></i> Kembali
         </a>
     </div>
 
-    <form method="POST" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data" class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-        @csrf
-        @method('PUT')
+    {{-- Form Card --}}
+    <div class="dub-card" style="padding:24px;">
+        <form method="POST" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data" class="space-y-5">
+            @csrf
+            @method('PUT')
 
-        <div class="p-6 md:p-8 space-y-8">
-
-            <div class="pb-2 border-b border-gray-100">
-                <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
-                    <span class="w-1 h-6 bg-blue-500 rounded-full inline-block"></span>
-                    Informasi Pribadi
-                </h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-2">
-                    <label for="fullName" class="text-sm font-semibold text-gray-700">Nama Lengkap <span class="text-red-500">*</span></label>
-                    <input type="text" name="fullName" id="fullName" value="{{ old('fullName', $user->fullName) }}"
-                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none" required>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px;">
+                <div>
+                    <label for="fullName" class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Nama Lengkap <span class="text-red-500">*</span></label>
+                    <input type="text" name="fullName" id="fullName" value="{{ old('fullName', $user->fullName) }}" class="dub-input" required>
                 </div>
 
-                <div class="space-y-2">
-                    <label for="birthDate" class="text-sm font-semibold text-gray-700">Tanggal Lahir <span class="text-red-500">*</span></label>
-                    <input type="date" name="birthDate" id="birthDate" value="{{ old('birthDate', $user->birthDate ? $user->birthDate->format('Y-m-d') : '') }}"
-                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none" required>
+                <div>
+                    <label for="birthDate" class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Tanggal Lahir <span class="text-red-500">*</span></label>
+                    <input type="date" name="birthDate" id="birthDate" value="{{ old('birthDate', $user->birthDate ? $user->birthDate->format('Y-m-d') : '') }}" class="dub-input" required>
                 </div>
 
-                <div class="space-y-2">
-                    <label for="phone" class="text-sm font-semibold text-gray-700">Nomor WhatsApp <span class="text-red-500">*</span></label>
-                    <div class="relative">
-                        <span class="absolute left-4 top-3.5 text-gray-400"><i class="fab fa-whatsapp"></i></span>
-                        <input type="tel" name="phone" id="phone" value="{{ old('phone', $user->phone) }}" placeholder="08xxxxxxxxxx"
-                               class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none" required>
-                    </div>
+                <div>
+                    <label for="phone" class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Nomor WhatsApp <span class="text-red-500">*</span></label>
+                    <input type="tel" name="phone" id="phone" value="{{ old('phone', $user->phone) }}" placeholder="08xxxxxxxxxx" class="dub-input" required>
                 </div>
 
-                <div class="space-y-2">
-                    <label for="email" class="text-sm font-semibold text-gray-700">Email (Opsional)</label>
-                    <div class="relative">
-                        <span class="absolute left-4 top-3.5 text-gray-400"><i class="far fa-envelope"></i></span>
-                        <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" placeholder="contoh@email.com"
-                               class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none">
-                    </div>
-                </div>
-
-                <div class="md:col-span-2 space-y-2">
-                    <label for="address" class="text-sm font-semibold text-gray-700">Alamat Domisili <span class="text-red-500">*</span></label>
-                    <textarea name="address" id="address" rows="3"
-                              class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none resize-none" required>{{ old('address', $user->address) }}</textarea>
+                <div>
+                    <label for="email" class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Email (Opsional)</label>
+                    <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" placeholder="contoh@email.com" class="dub-input">
                 </div>
             </div>
 
-            <div class="pt-4 border-t border-gray-100">
-                <label class="text-sm font-semibold text-gray-700 block mb-3">Status Kepemilikan Paspor <span class="text-red-500">*</span></label>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <label class="relative flex items-center p-4 border rounded-xl cursor-pointer hover:bg-gray-50 transition-colors {{ old('hasPassport', $user->hasPassport) == 1 ? 'border-green-500 bg-green-50/50 ring-1 ring-green-500' : 'border-gray-200' }}">
-                        <input type="radio" name="hasPassport" value="1" id="hasPassportYes" class="w-5 h-5 text-green-600 focus:ring-green-500 border-gray-300" {{ old('hasPassport', $user->hasPassport) == 1 ? 'checked' : '' }}>
-                        <div class="ml-3">
-                            <span class="block text-sm font-bold text-gray-900">Sudah Ada Paspor</span>
-                            <span class="block text-xs text-gray-500">Jamaah telah memiliki dokumen paspor aktif.</span>
+            <div>
+                <label for="address" class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Alamat Domisili <span class="text-red-500">*</span></label>
+                <textarea name="address" id="address" rows="3" class="dub-input resize-none" required>{{ old('address', $user->address) }}</textarea>
+            </div>
+
+            <div style="padding-top:16px; border-top:1px solid var(--color-ash);">
+                <label class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-2">Status Kepemilikan Paspor <span class="text-red-500">*</span></label>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+                    <label class="dub-card" style="display:flex; align-items:center; gap:10px; cursor:pointer; padding:12px 14px;">
+                        <input type="radio" name="hasPassport" value="1" id="hasPassportYes" {{ old('hasPassport', $user->hasPassport) == 1 ? 'checked' : '' }}>
+                        <div>
+                            <span style="font-size:13px; font-weight:600; color:var(--color-charcoal); display:block;">Sudah Ada Paspor</span>
+                            <span style="font-size:11px; color:var(--color-fog);">Memiliki dokumen paspor aktif</span>
                         </div>
                     </label>
 
-                    <label class="relative flex items-center p-4 border rounded-xl cursor-pointer hover:bg-gray-50 transition-colors {{ old('hasPassport', $user->hasPassport) == 0 ? 'border-red-500 bg-red-50/50 ring-1 ring-red-500' : 'border-gray-200' }}">
-                        <input type="radio" name="hasPassport" value="0" id="hasPassportNo" class="w-5 h-5 text-red-600 focus:ring-red-500 border-gray-300" {{ old('hasPassport', $user->hasPassport) == 0 ? 'checked' : '' }}>
-                        <div class="ml-3">
-                            <span class="block text-sm font-bold text-gray-900">Belum Ada Paspor</span>
-                            <span class="block text-xs text-gray-500">Jamaah perlu mengurus pembuatan paspor.</span>
+                    <label class="dub-card" style="display:flex; align-items:center; gap:10px; cursor:pointer; padding:12px 14px;">
+                        <input type="radio" name="hasPassport" value="0" id="hasPassportNo" {{ old('hasPassport', $user->hasPassport) == 0 ? 'checked' : '' }}>
+                        <div>
+                            <span style="font-size:13px; font-weight:600; color:var(--color-charcoal); display:block;">Belum Ada Paspor</span>
+                            <span style="font-size:11px; color:var(--color-fog);">Perlu pengurusan paspor</span>
                         </div>
                     </label>
                 </div>
 
-                <!-- Passport Upload Section (Hidden by default) -->
-                <div id="passportUploadSection" class="mt-6 p-6 bg-green-50/30 border border-green-200 rounded-xl {{ old('hasPassport', $user->hasPassport) == 1 ? '' : 'hidden' }}" style="transition: all 0.3s ease;">
-                    <div class="flex items-center gap-2 mb-4">
-                        <h3 class="text-md font-bold text-gray-800">Upload Dokumen Paspor Baru</h3>
-                    </div>
-                    <div class="space-y-4">
-
-                        <div class="space-y-2">
-                            <label for="passport_file" class="text-sm font-semibold text-gray-700">File Paspor (PDF/Image)</label>
-                            <input type="file" name="passport_file" id="passport_file"
-                                   accept=".pdf,.jpg,.jpeg,.png"
-                                   class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
-                            <p class="text-xs text-gray-500 mt-1">Format yang didukung: PDF, JPG, JPEG, PNG (Max 2MB)</p>
-                            @if(isset($user->passport) && $user->passport->file_path)
-                                <p class="text-xs text-green-600 mt-2 flex items-center gap-1">
-                                    <i class="fas fa-check-circle"></i>
-                                    File saat ini: {{ basename($user->passport->file_path) }}
-                                </p>
-                            @endif
-                        </div>
-                    </div>
+                {{-- Passport Upload --}}
+                <div id="passportUploadSection" class="dub-card {{ old('hasPassport', $user->hasPassport) == 1 ? '' : 'hidden' }}" style="margin-top:12px; background:var(--color-paper-mist); padding:16px;">
+                    <label for="passport_file" class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">File Paspor Baru (PDF/Image)</label>
+                    <input type="file" name="passport_file" id="passport_file" accept=".pdf,.jpg,.jpeg,.png" class="dub-input" style="background:#fff;">
+                    <p style="font-size:11px; color:var(--color-fog); margin-top:4px;">PDF, JPG, PNG (Max 2MB)</p>
+                    @if(isset($user->passport) && $user->passport->file_path)
+                        <p style="font-size:12px; color:var(--color-electric-blue); margin-top:6px; font-weight:500;">
+                            <i class="fas fa-file"></i> {{ basename($user->passport->file_path) }}
+                        </p>
+                    @endif
                 </div>
             </div>
 
-        </div>
-
-        <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
-            <a href="{{ route('users.show', $user->id) }}" class="px-6 py-3 bg-white border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-100 transition-colors text-center shadow-sm">
-                Batal
-            </a>
-            <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-                <i class="fas fa-save"></i> Simpan Perubahan
-            </button>
-        </div>
-    </form>
-
-    <div class="mt-6 flex gap-3 p-4 bg-blue-50 border border-blue-100 rounded-xl text-blue-800 text-sm">
-        <i class="fas fa-info-circle mt-0.5 text-lg"></i>
-        <div>
-            <p class="font-bold">Catatan:</p>
-            <ul class="list-disc list-inside mt-1 space-y-1 text-blue-700">
-                <li>Pastikan Nomor WhatsApp aktif untuk keperluan konfirmasi.</li>
-                <li>Perubahan data akan langsung tersimpan di sistem.</li>
-                <li>Untuk mengubah dokumen fisik (Foto KTP/KK), silakan gunakan menu Dokumen di halaman detail.</li>
-            </ul>
-        </div>
+            <div style="display:flex; justify-content:flex-end; gap:8px; padding-top:16px; border-top:1px solid var(--color-ash);">
+                <a href="{{ route('users.show', $user->id) }}" class="dub-btn dub-btn-outline">
+                    Batal
+                </a>
+                <button type="submit" class="dub-btn dub-btn-primary">
+                    <i class="fas fa-save" style="font-size:12px;"></i> Simpan Perubahan
+                </button>
+            </div>
+        </form>
     </div>
 
 </div>
@@ -155,7 +100,6 @@
 
 @push('scripts')
 <script>
-    // Toggle passport upload section
     const hasPassportYes = document.getElementById('hasPassportYes');
     const hasPassportNo = document.getElementById('hasPassportNo');
     const passportUploadSection = document.getElementById('passportUploadSection');
@@ -163,32 +107,12 @@
     function togglePassportSection() {
         if (hasPassportYes.checked) {
             passportUploadSection.classList.remove('hidden');
-            // Smooth animation
-            setTimeout(() => {
-                passportUploadSection.style.opacity = '1';
-                passportUploadSection.style.transform = 'translateY(0)';
-            }, 10);
         } else {
-            passportUploadSection.style.opacity = '0';
-            passportUploadSection.style.transform = 'translateY(-10px)';
-            setTimeout(() => {
-                passportUploadSection.classList.add('hidden');
-            }, 300);
+            passportUploadSection.classList.add('hidden');
         }
     }
 
-    // Add event listeners
     hasPassportYes.addEventListener('change', togglePassportSection);
     hasPassportNo.addEventListener('change', togglePassportSection);
-
-    // Set initial state with smooth transition
-    passportUploadSection.style.transition = 'all 0.3s ease';
-    if (hasPassportYes.checked) {
-        passportUploadSection.style.opacity = '1';
-        passportUploadSection.style.transform = 'translateY(0)';
-    } else {
-        passportUploadSection.style.opacity = '0';
-        passportUploadSection.style.transform = 'translateY(-10px)';
-    }
 </script>
 @endpush

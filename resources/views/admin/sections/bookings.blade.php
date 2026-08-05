@@ -1,136 +1,145 @@
-<div id="bookings" class="content-section {{ $section == 'bookings' ? '' : 'hidden' }} space-y-6">
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+{{-- Bookings Section --}}
+<div id="bookings" class="content-section {{ $section == 'bookings' ? '' : 'hidden' }}">
+
+    {{-- Page Header --}}
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap;">
         <div>
-            <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Data Booking</h2>
-            <p class="text-gray-500 mt-1">Kelola pendaftaran dan status pembayaran jamaah.</p>
+            <h1 style="font-size:20px;font-weight:600;color:var(--color-charcoal);margin:0 0 4px;">Data Pelunasan</h1>
+            <p style="font-size:14px;color:var(--color-fog);margin:0;">Kelola pendaftaran dan status pelunasan jamaah.</p>
         </div>
-        <a href="{{ route('bookings.create') }}" class="group relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 ease-in-out transform hover:-translate-y-0.5">
-            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                <i class="fas fa-calendar-plus text-blue-300 group-hover:text-white transition-colors"></i>
-            </span>
-            <span class="ml-4">Tambah Booking</span>
+        <a href="{{ route('bookings.create') }}" class="dub-btn dub-btn-primary" style="gap:8px;">
+            <i class="fas fa-calendar-plus" style="font-size:13px;"></i>
+            Tambah Booking
         </a>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div class="overflow-x-auto custom-scrollbar">
-            <table class="w-full whitespace-nowrap">
+    {{-- Table Card --}}
+    <div class="dub-table-wrapper">
+        <div style="overflow-x:auto;">
+            <table class="dub-table" style="white-space:nowrap;">
                 <thead>
-                <tr class="bg-gray-50/50 border-b border-gray-200 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <th class="px-6 py-4 w-12">ID</th>
-                    <th class="px-6 py-4">Nama Jamaah</th>
-                    <th class="px-6 py-4">Paket Pilihan</th>
-                    <th class="px-6 py-4">
-                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'registered_at', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'bookings']) }}" class="flex items-center gap-1 hover:text-blue-600 transition-colors">
-                            Tgl Daftar
-                            @if(request('sort') == 'registered_at' && request('section') == 'bookings')
-                                <i class="fas fa-sort-{{ request('order') == 'asc' ? 'up' : 'down' }}"></i>
-                            @elseif(request('sort', 'created_at') == 'created_at' && request('section') == 'bookings')
-                                <i class="fas fa-sort-{{ request('order', 'desc') == 'asc' ? 'up' : 'down' }}"></i>
-                            @else
-                                <i class="fas fa-sort text-gray-300"></i>
-                            @endif
-                        </a>
-                    </th>
-                    <th class="px-6 py-4 text-center">
-                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'status', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'bookings']) }}" class="flex items-center justify-center gap-1 hover:text-blue-600 transition-colors">
-                            Status
-                            @if(request('sort') == 'status' && request('section') == 'bookings')
-                                <i class="fas fa-sort-{{ request('order') == 'asc' ? 'up' : 'down' }}"></i>
-                            @else
-                                <i class="fas fa-sort text-gray-300"></i>
-                            @endif
-                        </a>
-                    </th>
-                    <th class="px-6 py-4 text-center">Aksi</th>
-                </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 bg-white">
-                @forelse($bookings as $booking)
-                    <tr class="hover:bg-gray-50/80 transition-colors duration-150">
-                        <td class="px-6 py-4 text-sm text-gray-500 font-mono">#{{ $booking->id }}</td>
-
-                        <td class="px-6 py-4">
-                            <div class="flex flex-col">
-                                <span class="text-sm font-bold text-gray-900">{{ $booking->user->fullName ?? 'Guest' }}</span>
-                                <span class="text-xs text-gray-500">{{ $booking->user->phone ?? '-' }}</span>
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-4">
-                            <div class="text-sm text-gray-700">{{ $booking->package->title ?? 'Paket Dihapus' }}</div>
-                        </td>
-
-                        <td class="px-6 py-4">
-                            <span class="text-sm text-gray-600">
-                                {{ $booking->registered_at ? $booking->registered_at->format('d M Y') : '-' }}
-                            </span>
-                        </td>
-
-                        <td class="px-6 py-4 text-center">
-                            @php
-                                $statusClasses = [
-                                    'pending' => 'bg-yellow-100 text-yellow-800 border-yellow-200',
-                                    'confirmed' => 'bg-green-100 text-green-800 border-green-200',
-                                    'cancelled' => 'bg-red-100 text-red-800 border-red-200',
-                                ];
-                                $statusLabels = [
-                                    'pending' => 'Pending',
-                                    'confirmed' => 'Confirmed',
-                                    'cancelled' => 'Cancelled',
-                                ];
-                                $currentClass = $statusClasses[$booking->status] ?? 'bg-gray-100 text-gray-800';
-                                $statusLabel = $statusLabels[$booking->status] ?? ucfirst($booking->status);
-                            @endphp
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $currentClass }}">
-                                {{ $statusLabel }}
-                            </span>
-                        </td>
-
-                        <td class="px-6 py-4 text-center">
-                            <div class="flex items-center justify-center space-x-3">
-                                <a href="{{ route('bookings.edit', $booking->id) }}" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200" title="Edit">
-                                    <i class="fas fa-edit text-lg"></i>
-                                </a>
-
-                                <form method="POST" action="{{ route('bookings.destroy', $booking->id) }}" class="inline-block" onsubmit="return handleDeleteBooking(event, '{{ e($booking->user->fullName ?? 'Booking') }}');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" title="Hapus">
-                                        <i class="fas fa-trash-alt text-lg"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-12 text-center">
-                            <div class="flex flex-col items-center justify-center space-y-3">
-                                <div class="p-3 bg-gray-100 rounded-full">
-                                    <i class="far fa-calendar-times text-gray-400 text-3xl"></i>
-                                </div>
-                                <p class="text-gray-500 font-medium">Belum ada booking masuk</p>
-                            </div>
-                        </td>
+                        <th style="width:52px;">ID</th>
+                        <th>Nama Jamaah</th>
+                        <th>Paket Pilihan</th>
+                        <th>
+                            <a href="{{ request()->fullUrlWithQuery(['sort' => 'registered_at', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'bookings']) }}"
+                               style="display:inline-flex;align-items:center;gap:4px;color:inherit;text-decoration:none;">
+                                Tgl Daftar
+                                @if(request('sort') == 'registered_at' && request('section') == 'bookings')
+                                    <i class="fas fa-sort-{{ request('order') == 'asc' ? 'up' : 'down' }}" style="font-size:10px;color:var(--color-electric-blue);"></i>
+                                @elseif(request('sort', 'created_at') == 'created_at' && request('section') == 'bookings')
+                                    <i class="fas fa-sort-{{ request('order', 'desc') == 'asc' ? 'up' : 'down' }}" style="font-size:10px;color:var(--color-electric-blue);"></i>
+                                @else
+                                    <i class="fas fa-sort" style="font-size:10px;color:var(--color-pebble);"></i>
+                                @endif
+                            </a>
+                        </th>
+                        <th style="text-align:center;">
+                            <a href="{{ request()->fullUrlWithQuery(['sort' => 'status', 'order' => request('order') == 'asc' ? 'desc' : 'asc', 'section' => 'bookings']) }}"
+                               style="display:inline-flex;align-items:center;justify-content:center;gap:4px;color:inherit;text-decoration:none;width:100%;">
+                                Status
+                                @if(request('sort') == 'status' && request('section') == 'bookings')
+                                    <i class="fas fa-sort-{{ request('order') == 'asc' ? 'up' : 'down' }}" style="font-size:10px;color:var(--color-electric-blue);"></i>
+                                @else
+                                    <i class="fas fa-sort" style="font-size:10px;color:var(--color-pebble);"></i>
+                                @endif
+                            </a>
+                        </th>
+                        <th style="text-align:center;">Aksi</th>
                     </tr>
-                @endforelse
+                </thead>
+                <tbody>
+                    @forelse($bookings as $booking)
+                        <tr>
+                            <td><span class="dub-mono">#{{ $booking->id }}</span></td>
+
+                            <td>
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <div class="dub-avatar">
+                                        {{ strtoupper(substr($booking->user->fullName ?? 'G', 0, 2)) }}
+                                    </div>
+                                    <div>
+                                        <p style="font-size:14px;font-weight:500;color:var(--color-charcoal);margin:0 0 2px;">{{ $booking->user->fullName ?? 'Guest' }}</p>
+                                        <p style="font-size:12px;color:var(--color-fog);margin:0;">{{ $booking->user->phone ?? '—' }}</p>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <span style="font-size:13px;color:var(--color-steel);">{{ $booking->package->title ?? 'Paket Dihapus' }}</span>
+                            </td>
+
+                            <td>
+                                <span style="font-size:13px;color:var(--color-steel);">
+                                    {{ $booking->registered_at ? $booking->registered_at->format('d M Y') : '—' }}
+                                </span>
+                            </td>
+
+                            <td style="text-align:center;">
+                                @php
+                                    $statusBadge = [
+                                        'pending'   => 'dub-badge-orange',
+                                        'confirmed' => 'dub-badge-mint',
+                                        'cancelled' => 'dub-badge-red',
+                                    ][$booking->status] ?? 'dub-badge-neutral';
+                                    $statusLabel = [
+                                        'pending'   => 'Pending',
+                                        'confirmed' => 'Confirmed',
+                                        'cancelled' => 'Cancelled',
+                                    ][$booking->status] ?? ucfirst($booking->status);
+                                @endphp
+                                <span class="dub-badge {{ $statusBadge }}">{{ $statusLabel }}</span>
+                            </td>
+
+                            <td>
+                                <div style="display:flex;align-items:center;justify-content:center;gap:4px;">
+                                    <a href="{{ route('bookings.edit', $booking->id) }}"
+                                       class="dub-action-btn edit" title="Edit">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                    <form method="POST" action="{{ route('bookings.destroy', $booking->id) }}"
+                                          class="inline-block"
+                                          onsubmit="return handleDeleteBooking(event, '{{ e($booking->user->fullName ?? 'Booking') }}');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="dub-action-btn delete" title="Hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6">
+                                <div class="dub-empty">
+                                    <div class="dub-empty-icon"><i class="far fa-calendar-times"></i></div>
+                                    <p>Belum ada booking masuk</p>
+                                    <span>Booking jamaah akan tampil di sini.</span>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
 
-        {{-- Pagination Navigation --}}
-        <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="text-sm text-gray-700">
-                    Menampilkan <span class="font-medium">{{ $bookings->firstItem() ?? 0 }}</span>
-                    sampai <span class="font-medium">{{ $bookings->lastItem() ?? 0 }}</span>
-                    dari <span class="font-medium">{{ $bookings->total() }}</span> booking
-                </div>
-                <div class="flex justify-center">
-                    {{ $bookings->appends(['section' => 'bookings', 'sort' => request('sort'), 'order' => request('order')])->links('vendor.pagination.custom') }}
-                </div>
+        {{-- Pagination --}}
+        <div class="dub-pagination">
+            <span style="font-size:13px;">
+                Menampilkan
+                <strong style="color:var(--color-charcoal);">{{ $bookings->firstItem() ?? 0 }}</strong>
+                –
+                <strong style="color:var(--color-charcoal);">{{ $bookings->lastItem() ?? 0 }}</strong>
+                dari
+                <strong style="color:var(--color-charcoal);">{{ $bookings->total() }}</strong>
+                booking
+            </span>
+            <div>
+                {{ $bookings->appends(['section' => 'bookings', 'sort' => request('sort'), 'order' => request('order')])->links('vendor.pagination.custom') }}
             </div>
         </div>
     </div>
+
 </div>

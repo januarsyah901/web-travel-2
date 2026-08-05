@@ -1,86 +1,187 @@
-<!-- Custom Alert/Confirm Modal -->
-<div id="customAlertModal" class="fixed inset-0 bg-gray-900/20 backdrop-blur-sm hidden z-[9999] flex items-center justify-center p-4 transition-all duration-300" onclick="closeCustomAlert(event)">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0" id="customAlertContent" onclick="event.stopPropagation()">
-        <!-- Header -->
-        <div class="p-6 pb-4">
-            <div class="flex items-center gap-4">
-                <div id="customAlertIcon" class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center">
-                    <!-- Icon will be inserted here -->
-                </div>
-                <div class="flex-1">
-                    <h3 id="customAlertTitle" class="text-lg font-bold text-gray-900"></h3>
-                </div>
-            </div>
+{{-- Custom Alert / Confirm Modal --}}
+<div id="customAlertModal"
+     class="dub-modal-backdrop hidden"
+     onclick="closeCustomAlert(event)">
+    <div class="dub-modal" id="customAlertContent" onclick="event.stopPropagation()">
+
+        {{-- Header --}}
+        <div class="dub-modal-header">
+            <div id="customAlertIcon" class="dub-modal-icon"></div>
+            <h3 id="customAlertTitle" class="dub-modal-title"></h3>
+            <button class="dub-modal-close" onclick="closeCustomAlert()" aria-label="Tutup">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </button>
         </div>
 
-        <!-- Body -->
-        <div class="px-6 pb-6">
-            <p id="customAlertMessage" class="text-gray-600 leading-relaxed"></p>
+        {{-- Divider --}}
+        <div style="height:1px;background:var(--color-ash);"></div>
+
+        {{-- Body --}}
+        <div class="dub-modal-body">
+            <p id="customAlertMessage" style="margin:0;font-size:14px;color:var(--color-steel);line-height:1.6;"></p>
         </div>
 
-        <!-- Footer -->
-        <div id="customAlertFooter" class="px-6 pb-6 flex gap-3 justify-end">
-            <!-- Buttons will be inserted here -->
-        </div>
+        {{-- Footer --}}
+        <div id="customAlertFooter" class="dub-modal-footer"></div>
+
     </div>
 </div>
+
+<style>
+    .dub-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(4px);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        transition: opacity 0.2s ease;
+    }
+
+    .dub-modal-backdrop.hidden {
+        display: none !important;
+    }
+
+    .dub-modal {
+        background: var(--color-canvas-white);
+        border: 1px solid var(--color-ash);
+        border-radius: var(--radius-largecards);
+        max-width: 420px;
+        width: 100%;
+        box-shadow: var(--shadow-md);
+        transform: translateY(0);
+        opacity: 1;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .dub-modal.entering {
+        transform: translateY(8px);
+        opacity: 0;
+    }
+
+    .dub-modal-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px;
+    }
+
+    .dub-modal-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .dub-modal-title {
+        flex: 1;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--color-charcoal);
+        margin: 0;
+    }
+
+    .dub-modal-close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        border: 1px solid var(--color-ash);
+        background: var(--color-canvas-white);
+        color: var(--color-fog);
+        cursor: pointer;
+        transition: all 0.15s ease;
+        flex-shrink: 0;
+    }
+
+    .dub-modal-close:hover {
+        background: var(--color-paper-mist);
+        color: var(--color-charcoal);
+        border-color: var(--color-smoke);
+    }
+
+    .dub-modal-body {
+        padding: 16px 20px;
+    }
+
+    .dub-modal-footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 14px 20px;
+        border-top: 1px solid var(--color-ash);
+        background: var(--color-paper-mist);
+        border-radius: 0 0 var(--radius-largecards) var(--radius-largecards);
+    }
+</style>
 
 <script>
 let customAlertCallback = null;
 let customAlertForm = null;
 
 function showCustomAlert(options) {
-    const modal = document.getElementById('customAlertModal');
-    const content = document.getElementById('customAlertContent');
-    const icon = document.getElementById('customAlertIcon');
-    const title = document.getElementById('customAlertTitle');
-    const message = document.getElementById('customAlertMessage');
-    const footer = document.getElementById('customAlertFooter');
+    const modal    = document.getElementById('customAlertModal');
+    const content  = document.getElementById('customAlertContent');
+    const icon     = document.getElementById('customAlertIcon');
+    const title    = document.getElementById('customAlertTitle');
+    const message  = document.getElementById('customAlertMessage');
+    const footer   = document.getElementById('customAlertFooter');
 
-    // Set content
-    title.textContent = options.title || 'Pemberitahuan';
+    title.textContent   = options.title || 'Pemberitahuan';
     message.textContent = options.message || '';
 
-    // Set icon based on type
-    const iconHTML = {
-        'warning': `
-            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-                <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                </svg>
-            </div>
-        `,
-        'danger': `
-            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-            </div>
-        `,
-        'success': `
-            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-            </div>
-        `,
-        'info': `
-            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-            </div>
-        `
+    // Icons
+    const iconMap = {
+        warning: {
+            bg: '#fffbeb', color: '#d97706',
+            svg: `<path d="M8 3L14 13H2L8 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                  <path d="M8 7V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <circle cx="8" cy="11.5" r="0.5" fill="currentColor"/>`,
+            vb: '0 0 16 16'
+        },
+        danger: {
+            bg: '#fef2f2', color: '#dc2626',
+            svg: `<circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M8 5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <circle cx="8" cy="10.5" r="0.5" fill="currentColor"/>`,
+            vb: '0 0 16 16'
+        },
+        success: {
+            bg: '#f0fdf4', color: '#16a34a',
+            svg: `<path d="M2.5 8L6 11.5L13.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+            vb: '0 0 16 16'
+        },
+        info: {
+            bg: '#eff6ff', color: '#2563eb',
+            svg: `<circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M8 7V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <circle cx="8" cy="5" r="0.5" fill="currentColor"/>`,
+            vb: '0 0 16 16'
+        },
     };
-    icon.innerHTML = iconHTML[options.type || 'info'];
 
-    // Set buttons
+    const t = iconMap[options.type || 'info'];
+    icon.style.background = t.bg;
+    icon.innerHTML = `<svg width="16" height="16" viewBox="${t.vb}" fill="none" style="color:${t.color}">${t.svg}</svg>`;
+
+    // Buttons
     footer.innerHTML = '';
-    
+
     if (options.showCancel) {
         const cancelBtn = document.createElement('button');
         cancelBtn.type = 'button';
-        cancelBtn.className = 'px-5 py-2.5 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 font-medium transition-colors';
+        cancelBtn.className = 'dub-btn dub-btn-outline';
         cancelBtn.textContent = options.cancelText || 'Batal';
         cancelBtn.onclick = () => {
             closeCustomAlert();
@@ -91,7 +192,7 @@ function showCustomAlert(options) {
 
     const confirmBtn = document.createElement('button');
     confirmBtn.type = 'button';
-    confirmBtn.className = options.confirmClass || 'px-5 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 font-medium transition-colors shadow-sm';
+    confirmBtn.className = options.confirmClass || 'dub-btn dub-btn-primary';
     confirmBtn.textContent = options.confirmText || 'OK';
     confirmBtn.onclick = () => {
         closeCustomAlert();
@@ -99,61 +200,50 @@ function showCustomAlert(options) {
     };
     footer.appendChild(confirmBtn);
 
-    // Show modal with animation
+    // Show
     modal.classList.remove('hidden');
-    setTimeout(() => {
-        modal.classList.remove('bg-gray-900/20');
-        modal.classList.add('bg-gray-900/30');
-        content.classList.remove('scale-95', 'opacity-0');
-        content.classList.add('scale-100', 'opacity-100');
-    }, 10);
+    content.classList.add('entering');
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            content.classList.remove('entering');
+        });
+    });
 }
 
 function closeCustomAlert(event) {
     if (event && event.target.id !== 'customAlertModal') return;
-    
     const modal = document.getElementById('customAlertModal');
-    const content = document.getElementById('customAlertContent');
-    
-    modal.classList.remove('bg-gray-900/30');
-    modal.classList.add('bg-gray-900/20');
-    content.classList.remove('scale-100', 'opacity-100');
-    content.classList.add('scale-95', 'opacity-0');
-    
-    setTimeout(() => {
-        modal.classList.add('hidden');
-    }, 300);
+    modal.classList.add('hidden');
 }
 
 function customConfirm(message, options = {}) {
     return new Promise((resolve) => {
         showCustomAlert({
-            title: options.title || 'Konfirmasi',
-            message: message,
-            type: options.type || 'warning',
-            showCancel: true,
-            cancelText: options.cancelText || 'Batal',
-            confirmText: options.confirmText || 'Ya, Lanjutkan',
-            confirmClass: options.confirmClass || 'px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-colors shadow-sm',
-            onConfirm: () => resolve(true),
-            onCancel: () => resolve(false)
+            title:        options.title || 'Konfirmasi',
+            message:      message,
+            type:         options.type || 'warning',
+            showCancel:   true,
+            cancelText:   options.cancelText || 'Batal',
+            confirmText:  options.confirmText || 'Ya, Lanjutkan',
+            confirmClass: options.confirmClass || 'dub-btn dub-btn-primary',
+            onConfirm:    () => resolve(true),
+            onCancel:     () => resolve(false)
         });
     });
 }
 
 function customAlert(message, options = {}) {
     showCustomAlert({
-        title: options.title || 'Pemberitahuan',
-        message: message,
-        type: options.type || 'info',
-        showCancel: false,
+        title:       options.title || 'Pemberitahuan',
+        message:     message,
+        type:        options.type || 'info',
+        showCancel:  false,
         confirmText: options.confirmText || 'OK',
-        confirmClass: 'px-5 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 font-medium transition-colors shadow-sm',
-        onConfirm: options.onConfirm
+        confirmClass:'dub-btn dub-btn-primary',
+        onConfirm:   options.onConfirm
     });
 }
 
-// Close on ESC key
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         const modal = document.getElementById('customAlertModal');

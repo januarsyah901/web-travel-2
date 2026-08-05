@@ -9,13 +9,17 @@
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('img/icon/favicon.png') }}" type="image/png">
 
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- External CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css"/>
-    <!-- Font Awesome sudah di-include via Vite build -->
 
     <!-- Global Styles -->
     @include('admin.layouts.partials.styles')
@@ -23,23 +27,23 @@
     <!-- Page Specific Styles -->
     @stack('styles')
 </head>
-<body class="bg-gray-100">
+<body class="dub-body">
 
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
 
-    <div class="flex h-screen overflow-hidden">
+    <div class="dub-shell">
         <!-- Sidebar -->
         @include('admin.layouts.sidebar')
 
         <!-- Main Content Wrapper -->
-        <div class="flex-1 flex flex-col overflow-hidden w-full">
+        <div class="dub-main">
 
             <!-- Header -->
             @include('admin.layouts.header')
 
             <!-- Content Area -->
-            <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50">
+            <main class="dub-content">
 
                 <!-- Alert Messages -->
                 @include('admin.layouts.partials.alerts')
@@ -63,4 +67,3 @@
 
 </body>
 </html>
-

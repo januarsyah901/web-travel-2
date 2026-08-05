@@ -1,7 +1,4 @@
 <footer class="bg-gray-900 text-white border-t-4 border-orange-600 relative overflow-hidden">
-    <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-orange-600 rounded-full opacity-5 blur-3xl pointer-events-none"></div>
-    <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-64 h-64 bg-orange-900 rounded-full opacity-10 blur-3xl pointer-events-none"></div>
-
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8 relative z-10">
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
 

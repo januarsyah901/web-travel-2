@@ -4,149 +4,129 @@
 
 @section('page-title', 'Detail Pendaftar')
 
-@push('styles')
-<style>
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #f1f1f1; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-</style>
-@endpush
-
 @section('content')
-<div class="max-w-7xl mx-auto">
+<div class="space-y-6">
 
-    @if(session('success'))
-        <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-r shadow-sm flex items-start animate-fade-in-down">
-            <i class="fas fa-check-circle text-green-500 mt-0.5 mr-3"></i>
+    {{-- Header --}}
+    <div class="dub-card" style="padding:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+            <div class="dub-avatar" style="width:48px; height:48px; font-size:18px; background:var(--color-soft-blue); color:var(--color-electric-blue); border-color:#bfdbfe;">
+                {{ strtoupper(substr($user->fullName, 0, 2)) }}
+            </div>
             <div>
-                <p class="text-sm text-green-700 font-medium">{{ session('success') }}</p>
+                <h1 style="font-size:20px; font-weight:600; color:var(--color-charcoal); margin:0 0 2px;">{{ $user->fullName }}</h1>
+                <p style="font-size:13px; color:var(--color-fog); margin:0; font-family:var(--font-mono);">
+                    Terdaftar sejak {{ $user->created_at->format('d M Y') }}
+                </p>
             </div>
         </div>
-    @endif
 
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8 relative overflow-hidden">
-        <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
-                <img src="{{ asset('img/img/logo.png') }}" alt="Logo" class="w-full h-full object-contain p-1">
-        </div>
-
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
-            <div class="flex items-center gap-5">
-                <div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 tracking-tight">{{ $user->fullName }}</h1>
-                    <div class="flex items-center gap-3 mt-1 text-sm text-gray-500">
-                        <span><i class="far fa-clock mr-1"></i> Terdaftar: {{ $user->created_at->format('d M Y') }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex flex-wrap gap-3 w-full md:w-auto">
-                <a href="{{ route('admin.dashboard') }}?section=users"
-                   class="px-4 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-medium transition-colors flex items-center justify-center shadow-sm">
-                    <i class="fas fa-arrow-left mr-2"></i> Kembali
-                </a>
-                <a href="{{ route('users.edit', $user->id) }}"
-                   class="px-4 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 font-medium transition-colors flex items-center justify-center shadow-md hover:shadow-lg">
-                    <i class="fas fa-edit mr-2"></i> Edit Data
-                </a>
-            </div>
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <a href="{{ route('admin.dashboard') }}?section=users" class="dub-btn dub-btn-outline">
+                <i class="fas fa-arrow-left" style="font-size:12px;"></i> Kembali
+            </a>
+            <a href="{{ route('users.documents.download', $user->id) }}" class="dub-btn dub-btn-outline" style="color:var(--color-vivid-green); border-color:#86efac; background:var(--color-soft-mint);">
+                <i class="fas fa-file-archive" style="font-size:12px;"></i> ZIP Semua Dokumen
+            </a>
+            <a href="{{ route('users.edit', $user->id) }}" class="dub-btn dub-btn-primary">
+                <i class="fas fa-pen" style="font-size:12px;"></i> Edit Data
+            </a>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    {{-- Content Grid --}}
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:20px;">
 
-        <div class="lg:col-span-2 space-y-8">
+        {{-- Left Column --}}
+        <div class="space-y-6">
 
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
-                    <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
-                        <i class="fas fa-user text-blue-500"></i> Data Pribadi
-                    </h2>
+            {{-- Data Pribadi --}}
+            <div class="dub-table-wrapper">
+                <div class="dub-section-header">
+                    <h3>Data Pribadi Jamaah</h3>
                 </div>
-                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div style="padding:16px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Nama Lengkap</label>
-                        <p class="text-gray-800 font-medium">{{ $user->fullName }}</p>
+                        <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; letter-spacing:0.05em; display:block; margin-bottom:4px;">Nama Lengkap</span>
+                        <span style="font-size:14px; font-weight:500; color:var(--color-charcoal);">{{ $user->fullName }}</span>
                     </div>
+
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Tanggal Lahir</label>
-                        <p class="text-gray-800 font-medium">
-                            {{ $user->birthDate ? $user->birthDate->format('d F Y') : '-' }}
-                            <span class="text-gray-400 text-xs font-normal">({{ $user->birthDate ? $user->birthDate->age . ' Tahun' : '' }})</span>
-                        </p>
+                        <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; letter-spacing:0.05em; display:block; margin-bottom:4px;">Tanggal Lahir</span>
+                        <span style="font-size:14px; font-weight:500; color:var(--color-charcoal);">
+                            {{ $user->birthDate ? $user->birthDate->format('d F Y') : '—' }}
+                            @if($user->birthDate)
+                                <span style="font-size:12px; color:var(--color-fog); font-weight:normal;">({{ $user->birthDate->age }} thn)</span>
+                            @endif
+                        </span>
                     </div>
+
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Nomor WhatsApp</label>
-                        <div class="flex items-center gap-2">
-                            <p class="text-gray-800 font-medium">{{ $user->phone }}</p>
-                            <a href="https://wa.me/{{ preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $user->phone)) }}" target="_blank" class="text-green-500 hover:text-green-600 text-sm">
+                        <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; letter-spacing:0.05em; display:block; margin-bottom:4px;">Nomor WhatsApp</span>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span style="font-size:14px; font-weight:500; color:var(--color-charcoal);">{{ $user->phone }}</span>
+                            <a href="https://wa.me/{{ preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $user->phone)) }}" target="_blank" style="font-size:12px; color:#25d366; text-decoration:none; font-weight:500;">
                                 <i class="fab fa-whatsapp"></i> Chat
                             </a>
                         </div>
                     </div>
+
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Status Paspor</label>
+                        <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; letter-spacing:0.05em; display:block; margin-bottom:4px;">Status Paspor</span>
                         @if($user->hasPassport)
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200">
-                                <i class="fas fa-check-circle mr-1.5"></i> Sudah Ada
+                            <span class="dub-badge dub-badge-mint">
+                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                Sudah Ada
                             </span>
                         @else
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700 border border-red-200">
-                                <i class="fas fa-times-circle mr-1.5"></i> Belum Ada
+                            <span class="dub-badge dub-badge-red">
+                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2.5 2.5L7.5 7.5M7.5 2.5L2.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                Belum Ada
                             </span>
                         @endif
                     </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Alamat Domisili</label>
-                        <p class="text-gray-800 font-medium leading-relaxed">{{ $user->address }}</p>
+
+                    <div style="grid-column: span 2;">
+                        <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; letter-spacing:0.05em; display:block; margin-bottom:4px;">Alamat Domisili</span>
+                        <span style="font-size:13px; color:var(--color-steel); line-height:1.5;">{{ $user->address }}</span>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
-                    <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
-                        <i class="fas fa-history text-orange-500"></i> Riwayat Paket
-                    </h2>
+            {{-- Riwayat Booking --}}
+            <div class="dub-table-wrapper">
+                <div class="dub-section-header">
+                    <h3>Riwayat Booking Paket</h3>
                 </div>
-                <div class="p-6">
+                <div style="padding:16px;">
                     @if($user->bookings && $user->bookings->count() > 0)
-                        <div class="space-y-4">
+                        <div class="space-y-3">
                             @foreach($user->bookings as $booking)
-                                <div class="border border-gray-200 rounded-xl p-4 hover:border-blue-300 transition-colors bg-white">
-                                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                                        <div>
-                                            <h4 class="font-bold text-gray-900 text-lg">{{ $booking->package->title ?? 'Paket Tidak Ditemukan' }}</h4>
-                                            <div class="flex items-center gap-3 text-sm text-gray-500 mt-1">
-                                                <span><i class="far fa-calendar-alt mr-1"></i> {{ $booking->package->schedule ?? '-' }}</span>
-                                                <span class="text-gray-300">|</span>
-                                                <span>Booking: {{ $booking->registered_at ? $booking->registered_at->format('d M Y') : '-' }}</span>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            @php
-                                                $statusColor = match($booking->status) {
-                                                    'confirmed' => 'bg-green-100 text-green-800 border-green-200',
-                                                    'pending' => 'bg-yellow-100 text-yellow-800 border-yellow-200',
-                                                    'cancelled' => 'bg-red-100 text-red-800 border-red-200',
-                                                    default => 'bg-gray-100 text-gray-800 border-gray-200',
-                                                };
-                                            @endphp
-                                            <span class="px-3 py-1 rounded-full text-xs font-bold border {{ $statusColor }} uppercase tracking-wide">
-                                                {{ $booking->status }}
-                                            </span>
-                                        </div>
+                                <div class="dub-card" style="display:flex; align-items:center; justify-content:space-between; padding:12px 14px;">
+                                    <div>
+                                        <p style="font-size:14px; font-weight:600; color:var(--color-charcoal); margin:0 0 2px;">{{ $booking->package->title ?? 'Paket Dihapus' }}</p>
+                                        <span style="font-size:12px; color:var(--color-fog);">
+                                            Tgl Daftar: {{ $booking->registered_at ? $booking->registered_at->format('d M Y') : '—' }}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        @php
+                                            $bBadge = match($booking->status) {
+                                                'confirmed' => 'dub-badge-mint',
+                                                'pending' => 'dub-badge-orange',
+                                                'cancelled' => 'dub-badge-red',
+                                                default => 'dub-badge-neutral',
+                                            };
+                                        @endphp
+                                        <span class="dub-badge {{ $bBadge }}">{{ ucfirst($booking->status) }}</span>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                     @else
-                        <div class="text-center py-8">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                                <i class="fas fa-box-open text-gray-400 text-2xl"></i>
-                            </div>
-                            <p class="text-gray-500 text-sm">Belum ada riwayat booking paket.</p>
+                        <div class="dub-empty" style="padding:24px;">
+                            <div class="dub-empty-icon"><i class="fas fa-box-open"></i></div>
+                            <p>Belum ada riwayat booking</p>
                         </div>
                     @endif
                 </div>
@@ -154,107 +134,29 @@
 
         </div>
 
-        <div class="space-y-8">
+        {{-- Right Column --}}
+        <div class="space-y-6">
 
-            <!-- Passport Section -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
-                    <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
-                        <i class="fas fa-passport text-blue-500"></i> Data Paspor
-                    </h2>
+            {{-- Berkas Dokumen --}}
+            <div class="dub-table-wrapper">
+                <div class="dub-section-header">
+                    <h3>Berkas Dokumen</h3>
                 </div>
-
-                <div class="p-6">
-                    @if($user->passport)
-                        <div class="space-y-4">
-                            <div class="border border-gray-200 rounded-xl p-4 bg-gray-50/50">
-                                <div class="grid grid-cols-1 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Nama di Paspor</label>
-                                        <p class="text-gray-800 font-medium">{{ $user->passport->passportName ?: '-' }}</p>
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Status</label>
-                                        @if($user->passport->isActive)
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200">
-                                                <i class="fas fa-check-circle mr-1.5"></i> Aktif
-                                            </span>
-                                        @else
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-50 text-gray-700 border border-gray-200">
-                                                <i class="fas fa-minus-circle mr-1.5"></i> Tidak Aktif
-                                            </span>
-                                        @endif
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Tanggal Didaftarkan</label>
-                                        <p class="text-gray-800 font-medium">{{ $user->passport->created_at->format('d F Y') }}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            @if($user->passport->passportPhotos && $user->passport->passportPhotos->count() > 0)
-                                <div class="pt-4 border-t border-gray-200">
-                                    <h3 class="text-sm font-bold text-gray-700 mb-3">Foto Paspor</h3>
-                                    <div class="grid grid-cols-2 gap-3">
-                                        @foreach($user->passport->passportPhotos as $photo)
-                                            @php
-                                                $ext = pathinfo($photo->file_path, PATHINFO_EXTENSION);
-                                                $isImg = in_array(strtolower($ext), ['jpg','jpeg','png','gif','webp']);
-                                            @endphp
-                                            @if($isImg)
-                                                <div class="rounded-lg overflow-hidden border border-gray-200 h-32 bg-gray-200 flex items-center justify-center group cursor-pointer" onclick="window.open('{{ asset('storage/' . $photo->file_path) }}')">
-                                                    <img src="{{ asset('storage/' . $photo->file_path) }}" alt="Foto Paspor" class="h-full w-full object-cover group-hover:opacity-90 transition">
-                                                </div>
-                                            @else
-                                                <a href="{{ asset('storage/' . $photo->file_path) }}" target="_blank" class="flex flex-col items-center justify-center p-3 border border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition bg-white text-center group h-32">
-                                                    <i class="fas fa-file-alt text-3xl text-gray-400 group-hover:text-blue-500 mb-2"></i>
-                                                    <span class="text-xs font-medium text-gray-600 group-hover:text-blue-700">{{ strtoupper($ext) }}</span>
-                                                </a>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    @else
-                        <div class="text-center py-8">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                                <i class="fas fa-passport text-gray-400 text-2xl"></i>
-                            </div>
-                            <p class="text-gray-500 text-sm">Belum ada data paspor.</p>
-                        </div>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Documents Section -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
-                    <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
-                        <i class="fas fa-folder-open text-yellow-500"></i> Berkas Dokumen
-                    </h2>
-                </div>
-
-                <div class="p-6 space-y-6">
-
+                <div style="padding:16px;" class="space-y-4">
                     @foreach([
                         ['label' => 'KTP', 'file' => $user->documents->ktp ?? null, 'icon' => 'fa-id-card'],
                         ['label' => 'Kartu Keluarga', 'file' => $user->documents->kk ?? null, 'icon' => 'fa-users'],
                     ] as $doc)
-                        <div class="border border-gray-200 rounded-xl p-4 bg-gray-50/50">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="flex items-center gap-2">
-                                    <i class="fas {{ $doc['icon'] }} text-gray-400"></i>
-                                    <span class="font-semibold text-gray-700 text-sm">{{ $doc['label'] }}</span>
-                                </div>
+                        <div class="dub-card" style="padding:12px; background:var(--color-paper-mist);">
+                            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                                <span style="font-size:13px; font-weight:600; color:var(--color-charcoal);">
+                                    <i class="fas {{ $doc['icon'] }}" style="color:var(--color-silver); margin-right:6px;"></i>
+                                    {{ $doc['label'] }}
+                                </span>
                                 @if($doc['file'])
-                                    <span class="text-xs text-green-600 font-bold flex items-center gap-1">
-                                        <i class="fas fa-check-circle"></i> Ada
-                                    </span>
+                                    <span class="dub-badge dub-badge-mint">Ada</span>
                                 @else
-                                    <span class="text-xs text-red-500 font-bold flex items-center gap-1">
-                                        <i class="fas fa-times-circle"></i> Kosong
-                                    </span>
+                                    <span class="dub-badge dub-badge-neutral">Kosong</span>
                                 @endif
                             </div>
 
@@ -265,86 +167,62 @@
                                 @endphp
 
                                 @if($isImg)
-                                    <div class="mb-3 rounded-lg overflow-hidden border border-gray-200 h-32 bg-gray-200 flex items-center justify-center">
-                                        <img src="{{ asset('storage/' . $doc['file']) }}" class="h-full w-full object-cover cursor-pointer hover:opacity-90 transition" onclick="window.open(this.src)">
-                                    </div>
-                                @else
-                                    <div class="mb-3 flex items-center justify-center h-20 bg-gray-100 rounded-lg border border-dashed border-gray-300">
-                                        <span class="text-gray-500 text-sm font-medium uppercase">{{ $ext }} FILE</span>
+                                    <div style="width:100%; height:100px; border-radius:6px; overflow:hidden; border:1px solid var(--color-ash); margin-bottom:8px;">
+                                        <img src="{{ asset('storage/' . $doc['file']) }}" style="width:100%; height:100%; object-fit:cover; cursor:pointer;" onclick="window.open(this.src)">
                                     </div>
                                 @endif
 
-                                <div class="grid grid-cols-2 gap-2">
-                                    <a href="{{ asset('storage/' . $doc['file']) }}" target="_blank" class="flex items-center justify-center px-3 py-2 bg-white border border-gray-300 rounded-lg text-xs font-medium hover:bg-gray-50 text-gray-700 transition">
-                                        <i class="fas fa-external-link-alt mr-1"></i> Buka
+                                <div style="display:flex; gap:6px;">
+                                    <a href="{{ asset('storage/' . $doc['file']) }}" target="_blank" class="dub-btn dub-btn-outline" style="font-size:12px; padding:4px 8px; flex:1; justify-content:center;">
+                                        <i class="fas fa-external-link-alt"></i> Buka
                                     </a>
-                                    <a href="{{ asset('storage/' . $doc['file']) }}" download class="flex items-center justify-center px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg text-xs font-medium hover:bg-blue-100 text-blue-700 transition">
-                                        <i class="fas fa-download mr-1"></i> Unduh
+                                    <a href="{{ asset('storage/' . $doc['file']) }}" download class="dub-btn dub-btn-outline" style="font-size:12px; padding:4px 8px; flex:1; justify-content:center;">
+                                        <i class="fas fa-download"></i> Unduh
                                     </a>
                                 </div>
                             @endif
                         </div>
                     @endforeach
-
-                    @if($user->documents && $user->documents->dokumen_pendukung)
-                        @php $pendukung = json_decode($user->documents->dokumen_pendukung, true); @endphp
-                        @if(is_array($pendukung))
-                            <div class="pt-4 border-t border-gray-200">
-                                <h3 class="text-sm font-bold text-gray-700 mb-3">Dokumen Tambahan</h3>
-                                <div class="grid grid-cols-2 gap-3">
-                                    @foreach($pendukung as $idx => $path)
-                                        <a href="{{ asset('storage/' . $path) }}" target="_blank" class="flex flex-col items-center justify-center p-3 border border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition bg-white text-center group">
-                                            <i class="fas fa-file-alt text-2xl text-gray-400 group-hover:text-blue-500 mb-2"></i>
-                                            <span class="text-xs font-medium text-gray-600 group-hover:text-blue-700 truncate w-full">Dokumen {{ $idx + 1 }}</span>
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                    @endif
-
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-red-100 overflow-hidden">
-                <div class="p-6">
-                    <h3 class="text-sm font-bold text-red-600 mb-2">Hapus Akun Pendaftar</h3>
-                    <p class="text-xs text-gray-500 mb-4">
-                        Tindakan ini akan menghapus semua data pendaftar termasuk riwayat booking dan dokumen yang tersimpan secara permanen.
-                    </p>
-                    <form method="POST" action="{{ route('users.destroy', $user->id) }}" onsubmit="return handlePermanentDeleteUser(event, '{{ addslashes($user->fullName) }}');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                                class="w-full py-2.5 bg-red-50 text-red-600 border border-red-200 rounded-xl hover:bg-red-600 hover:text-white font-medium transition-colors text-sm flex items-center justify-center">
-                            <i class="fas fa-trash-alt mr-2"></i> Hapus Permanen
-                        </button>
-                    </form>
-                    
-                    <script>
-                    async function handlePermanentDeleteUser(event, name) {
-                        event.preventDefault();
-                        const confirmed = await customConfirm(
-                            `PERINGATAN! Data pendaftar "${name}" akan dihapus permanen termasuk semua riwayat booking dan dokumen yang tersimpan. Tindakan ini TIDAK DAPAT DIBATALKAN!`,
-                            {
-                                title: '⚠️ HAPUS PERMANEN',
-                                type: 'danger',
-                                confirmText: 'Ya, Hapus Permanen',
-                                cancelText: 'Batal',
-                                confirmClass: 'px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 font-bold transition-colors shadow-sm'
-                            }
-                        );
-                        if (confirmed) {
-                            event.target.submit();
-                        }
-                        return false;
-                    }
-                    </script>
-                </div>
+            {{-- Hapus Permanen --}}
+            <div class="dub-card" style="border-color:#fecaca; background:#fef2f2; padding:16px;">
+                <h4 style="font-size:13px; font-weight:600; color:#dc2626; margin:0 0 4px;">Hapus Akun Pendaftar</h4>
+                <p style="font-size:12px; color:#991b1b; margin:0 0 12px; line-height:1.4;">
+                    Semua data pendaftar dan riwayat booking akan dihapus secara permanen.
+                </p>
+                <form method="POST" action="{{ route('users.destroy', $user->id) }}" onsubmit="return handlePermanentDeleteUser(event, '{{ addslashes($user->fullName) }}');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="dub-btn dub-btn-danger" style="width:100%; justify-content:center;">
+                        <i class="fas fa-trash"></i> Hapus Permanen
+                    </button>
+                </form>
             </div>
 
         </div>
+
     </div>
+
 </div>
 
+<script>
+async function handlePermanentDeleteUser(event, name) {
+    event.preventDefault();
+    const confirmed = await customConfirm(
+        `Data pendaftar "${name}" akan dihapus permanen. Tindakan ini tidak dapat dibatalkan!`,
+        {
+            title: 'Hapus Permanen',
+            type: 'danger',
+            confirmText: 'Ya, Hapus',
+            cancelText: 'Batal'
+        }
+    );
+    if (confirmed) {
+        event.target.submit();
+    }
+    return false;
+}
+</script>
 @endsection

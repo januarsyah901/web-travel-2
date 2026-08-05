@@ -30,7 +30,7 @@ class HomeController extends Controller
             'package_id' => 'required|exists:packages,id',
             'ktp' => 'required|file|mimes:jpeg,jpg,png,pdf|max:2048',
             'kk' => 'required|file|mimes:jpeg,jpg,png,pdf|max:2048',
-            'supporting_docs' => 'required|array',
+            'supporting_docs' => 'nullable|array',
             'supporting_docs.*' => 'file|mimes:jpeg,jpg,png,pdf|max:2048',
             'pas_foto' => 'nullable|file|mimes:jpeg,jpg,png|max:2048',
             'passportName' => 'nullable|string|max:255',

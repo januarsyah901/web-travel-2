@@ -2,14 +2,30 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Package extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
-    protected $fillable = ['title', 'schedule', 'duration', 'price', 'description'];
+    protected $fillable = [
+        'title',
+        'schedule',
+        'duration',
+        'price',
+        'description',
+        'hotel_makkah',
+        'hotel_madinah',
+    ];
+
+    // Legacy blade sometimes uses $package->name
+    public function getNameAttribute(): string
+    {
+        return (string) ($this->attributes['title'] ?? '');
+    }
 
     protected function casts(): array
     {

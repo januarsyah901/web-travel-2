@@ -25,7 +25,7 @@
                     </a>
                 </div>
                 
-                <button id="mobile-menu-button" class="lg:hidden text-gray-600 hover:text-orange-600 focus:outline-none p-2 rounded-md flex flex-col justify-center items-center gap-1.5 w-10 h-10" aria-label="Toggle Menu">
+                <button id="mobile-menu-button" class="lg:hidden text-gray-600 hover:text-orange-600 focus:outline-none p-2 rounded-full flex flex-col justify-center items-center gap-1.5 w-10 h-10" aria-label="Toggle Menu">
                     <span class="w-6 h-0.5 bg-current transition-all duration-300 origin-center" id="hamburger-line-1"></span>
                     <span class="w-6 h-0.5 bg-current transition-all duration-300" id="hamburger-line-2"></span>
                     <span class="w-6 h-0.5 bg-current transition-all duration-300 origin-center" id="hamburger-line-3"></span>
@@ -44,7 +44,7 @@
             <a href="#kontak" class="mobile-link block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50 transition">Kontak</a>
 
             <div class="pt-4 mt-4 border-t border-gray-100">
-                <a href="{{ route('registration.index') }}" class="block w-full text-center px-6 py-3 bg-orange-600 text-white rounded-lg font-bold hover:bg-orange-700 shadow-md transition">
+                <a href="{{ route('registration.index') }}" class="block w-full text-center px-6 py-3 bg-orange-600 text-white rounded-full font-bold hover:bg-orange-700 shadow-md transition">
                     Daftar Sekarang
                 </a>
             </div>

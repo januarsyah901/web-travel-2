@@ -2,37 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
     public function showLoginForm()
     {
+        if (Auth::guard('admin')->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+
         return view('admin.login');
     }
 
-    public function login(Request $request)
+    public function logout(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
-            return redirect()->intended('/dashboard');
+        if (Auth::guard('admin')->check()) {
+            ActivityLog::record('logout', 'Logout: ' . Auth::guard('admin')->user()->email);
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
-    }
-
-    public function logout()
-    {
         Auth::guard('admin')->logout();
-        return redirect('/login');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('admin.login');
     }
 
     public function dashboard(Request $request)
@@ -42,13 +37,29 @@ class AdminController extends Controller
         $order = $request->get('order', 'desc');
 
         // Fetch Users with sorting if it's the users section
-        $userQuery = \App\Models\User::query();
+        $userQuery = \App\Models\User::query()->with(['bookings.package']);
         if ($section === 'users') {
-            $userQuery->orderBy($sort, $order);
+            if ($sort === 'package') {
+                $userQuery->leftJoin('bookings', function ($join) {
+                        $join->on('users.id', '=', 'bookings.user_id')
+                            ->whereRaw('bookings.id = (select max(id) from bookings where bookings.user_id = users.id)');
+                    })
+                    ->leftJoin('packages', 'bookings.package_id', '=', 'packages.id')
+                    ->orderBy('packages.title', $order)
+                    ->select('users.*');
+            } elseif (in_array($sort, ['created_at', 'hasPassport', 'fullName', 'birthDate'], true)) {
+                $userQuery->orderBy($sort, $order);
+            } else {
+                $userQuery->latest();
+            }
         } else {
             $userQuery->latest();
         }
-        $users = $userQuery->paginate(10, ['*'], 'users_page')->appends(['section' => 'users']);
+        $users = $userQuery->paginate(10, ['*'], 'users_page')->appends([
+            'section' => 'users',
+            'sort' => $sort,
+            'order' => $order,
+        ]);
 
         // Fetch Bookings with sorting if it's the bookings section
         $bookingQuery = \App\Models\Booking::with('user', 'package');
