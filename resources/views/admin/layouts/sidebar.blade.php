@@ -82,7 +82,7 @@
     <!-- Logo / Brand -->
     <div class="dub-sidebar-brand">
         <div class="dub-sidebar-logo">
-            <img src="{{ asset('img/img/logo.png') }}" alt="Logo" style="width:100%;height:100%;object-fit:contain;padding:2px;">
+            <img src="{{ asset('img/img/logo.png') }}" alt="Logo" style="width:100%;height:100%;object-fit:contain;">
         </div>
         <div class="dub-sidebar-brand-text">
             <span class="dub-sidebar-brand-name">Fabi Abadi</span>
@@ -201,7 +201,7 @@
     .dub-sidebar-brand {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
         padding: 16px 16px;
         border-bottom: 1px solid var(--color-ash);
         height: 57px;
@@ -210,11 +210,8 @@
     }
 
     .dub-sidebar-logo {
-        width: 28px;
-        height: 28px;
-        border-radius: 6px;
-        background: var(--color-paper-mist);
-        border: 1px solid var(--color-ash);
+        width: 36px;
+        height: 36px;
         display: flex;
         align-items: center;
         justify-content: center;

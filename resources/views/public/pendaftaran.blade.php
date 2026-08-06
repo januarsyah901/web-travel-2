@@ -8,13 +8,13 @@
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a href="{{ route('registration.index') }}"
-               class="inline-flex items-center justify-center bg-orange-600 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-orange-700 transition-colors shadow-md text-base">
+               class="inline-flex items-center justify-center bg-orange-600 text-white px-8 py-3.5 rounded-full font-bold hover:bg-orange-700 transition-colors shadow-md text-base">
                 Formulir Pendaftaran
             </a>
             @if(isset($contact) && $contact && $contact->whatsapp)
             <a href="{{ $contact->whatsapp_link ?? 'https://wa.me/' . preg_replace('/[^0-9]/', '', $contact->whatsapp) }}"
                target="_blank"
-               class="inline-flex items-center justify-center bg-white text-orange-600 border-2 border-orange-600 px-8 py-3.5 rounded-xl font-bold hover:bg-orange-50 transition-colors text-base">
+               class="inline-flex items-center justify-center bg-white text-orange-600 border-2 border-orange-600 px-8 py-3.5 rounded-full font-bold hover:bg-orange-50 transition-colors text-base">
                 Hubungi Kami
             </a>
             @endif

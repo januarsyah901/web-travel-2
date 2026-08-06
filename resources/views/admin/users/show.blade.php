@@ -26,7 +26,7 @@
                 <i class="fas fa-arrow-left" style="font-size:12px;"></i> Kembali
             </a>
             <a href="{{ route('users.documents.download', $user->id) }}" class="dub-btn dub-btn-outline" style="color:var(--color-vivid-green); border-color:#86efac; background:var(--color-soft-mint);">
-                <i class="fas fa-file-archive" style="font-size:12px;"></i> ZIP Semua Dokumen
+                <i class="fas fa-file-archive" style="font-size:12px;"></i> Unduh Semua Dokumen
             </a>
             <a href="{{ route('users.edit', $user->id) }}" class="dub-btn dub-btn-primary">
                 <i class="fas fa-pen" style="font-size:12px;"></i> Edit Data

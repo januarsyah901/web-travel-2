@@ -182,7 +182,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Akte / Buku Nikah / Ijazah <span class="text-gray-400 text-xs font-normal">(opsional)</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Akte / Buku Nikah / Ijazah</label>
                         <input type="file" name="supporting_docs[]" accept="image/*,.pdf" multiple class="{{ $fileInputClass }}">
                         <p class="text-xs text-gray-500 mt-1">Opsional. Bisa pilih lebih dari satu file.</p>
                     </div>
