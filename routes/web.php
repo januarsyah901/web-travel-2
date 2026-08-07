@@ -22,6 +22,10 @@ Route::get('/daftar', [HomeController::class, 'showRegistrationForm'])->name('re
 Route::post('/daftar', [HomeController::class, 'register'])->name('registration.submit');
 Route::get('/daftar/sukses', [HomeController::class, 'registrationSuccess'])->name('registration.success');
 
+// Halaman Legal
+Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('privacy.policy');
+Route::get('/terms-of-service', [HomeController::class, 'termsOfService'])->name('terms.service');
+
 Route::get('/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('auth.google');
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google.callback');

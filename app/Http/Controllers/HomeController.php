@@ -110,4 +110,14 @@ class HomeController extends Controller
     public function registrationSuccess() {
         return view('registration.registration-success');
     }
+
+    public function privacyPolicy() {
+        $contact = Contact::getMainContact();
+        return view('public.privacy-policy', compact('contact'));
+    }
+
+    public function termsOfService() {
+        $contact = Contact::getMainContact();
+        return view('public.terms-of-service', compact('contact'));
+    }
 }
