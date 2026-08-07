@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\LogsActivity;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
@@ -49,14 +50,35 @@ class Contact extends Model
         return self::active()->first();
     }
 
-    // Method untuk format nomor WhatsApp
+    protected function whatsapp(): Attribute
+    {
+        return Attribute::make(
+            set: fn (?string $value) => self::normalizeWhatsapp($value),
+        );
+    }
+
+    public static function normalizeWhatsapp(?string $value): ?string
+    {
+        if ($value === null || $value === '') {
+            return $value;
+        }
+
+        $digits = preg_replace('/\D+/', '', $value);
+        if ($digits === '') {
+            return $value;
+        }
+
+        if (str_starts_with($digits, '0')) {
+            return '62' . substr($digits, 1);
+        }
+
+        return $digits;
+    }
+
     public function getWhatsappLinkAttribute()
     {
-        $phone = preg_replace('/[^0-9]/', '', $this->whatsapp);
-        if (substr($phone, 0, 1) === '0') {
-            $phone = '62' . substr($phone, 1);
-        }
-        return "https://wa.me/{$phone}";
+        $phone = self::normalizeWhatsapp($this->whatsapp) ?? '';
+        return $phone !== '' ? "https://wa.me/{$phone}" : '#';
     }
 
     // Method untuk mendapatkan social media links
