@@ -71,7 +71,7 @@
                     <i class="fa-solid fa-house mr-2"></i>
                     Kembali ke Beranda
                 </a>
-                <a href="https://wa.me/{{ App\Models\Contact::getMainContact() ? preg_replace('/[^0-9]/', '', App\Models\Contact::getMainContact()->whatsapp) : '' }}" target="_blank" class="inline-flex items-center justify-center px-6 py-3.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold rounded-xl shadow-sm hover:shadow transition-all duration-300 transform hover:-translate-y-0.5">
+                <a href="{{ App\Models\Contact::getMainContact()?->whatsapp_link ?? '#' }}" target="_blank" class="inline-flex items-center justify-center px-6 py-3.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold rounded-xl shadow-sm hover:shadow transition-all duration-300 transform hover:-translate-y-0.5">
                     <i class="fa-brands fa-whatsapp text-green-500 mr-2"></i>
                     Hubungi Bantuan
                 </a>

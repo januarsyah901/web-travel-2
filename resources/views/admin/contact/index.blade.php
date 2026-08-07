@@ -66,7 +66,7 @@
             <div class="dub-stat-card">
                 <p style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; margin:0 0 8px;">Informasi Utama</p>
                 <p style="font-size:24px; font-weight:600; color:var(--color-charcoal); margin:0;">
-                    {{ collect([$contact->company_name, $contact->address, $contact->phone, $contact->email])->filter()->count() }}/4
+                    {{ collect([$contact->company_name, $contact->address, $contact->whatsapp, $contact->email])->filter()->count() }}/4
                 </p>
             </div>
             <div class="dub-stat-card">
@@ -104,11 +104,15 @@
                             <span style="font-size:14px; font-weight:600; color:var(--color-charcoal);">{{ $contact->company_name ?? 'PT Fabi Abadi Travel' }}</span>
                         </div>
                         <div>
-                            <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; display:block; margin-bottom:2px;">Telepon / WhatsApp</span>
+                            <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; display:block; margin-bottom:2px;">Telepon Kantor</span>
+                            <span style="font-size:14px; color:var(--color-charcoal);">{{ \App\Models\Contact::OFFICE_PHONE }}</span>
+                        </div>
+                        <div>
+                            <span style="font-size:11px; font-weight:600; color:var(--color-silver); text-transform:uppercase; display:block; margin-bottom:2px;">WhatsApp</span>
                             <div style="display:flex; align-items:center; gap:8px;">
-                                <span style="font-size:14px; color:var(--color-charcoal);">{{ $contact->phone ?? '—' }}</span>
-                                @if($contact->phone)
-                                    <a href="https://wa.me/{{ preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $contact->phone)) }}" target="_blank" style="font-size:12px; color:#25d366; text-decoration:none; font-weight:500;">
+                                <span style="font-size:14px; color:var(--color-charcoal);">{{ $contact->whatsapp ?? '—' }}</span>
+                                @if($contact->whatsapp)
+                                    <a href="{{ $contact->whatsapp_link }}" target="_blank" style="font-size:12px; color:#25d366; text-decoration:none; font-weight:500;">
                                         <i class="fab fa-whatsapp"></i> Chat
                                     </a>
                                 @endif

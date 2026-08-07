@@ -16,9 +16,9 @@ class ContactSeeder extends Seeder
         Contact::create([
             'company_name' => 'PT Fabi Abadi',
             'address' => 'Jl. Sidotopo Wetan Baru Gg. 2 No. 36, Surabaya, Jawa Timur',
-            'phone' => '031-12345678',
-            'phone_2' => '031-87654321',
-            'whatsapp' => '082133087492',
+            'phone' => Contact::OFFICE_PHONE,
+            'phone_2' => null,
+            'whatsapp' => '6282133087492',
             'email' => 'info@fabiabadi.com',
             'email_2' => 'cs@fabiabadi.com',
             'facebook' => 'https://facebook.com/fabiabadi',

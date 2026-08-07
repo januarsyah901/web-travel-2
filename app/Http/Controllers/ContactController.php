@@ -16,6 +16,8 @@ class ContactController extends Controller
         if (!$contact) {
             $contact = Contact::create([
                 'company_name' => 'Nama Perusahaan',
+                'phone' => Contact::OFFICE_PHONE,
+                'whatsapp' => '6282133087492',
                 'is_active' => true,
             ]);
         }
@@ -35,8 +37,6 @@ class ContactController extends Controller
         $validated = $request->validate([
             'company_name' => 'required|string|max:255',
             'address' => 'required|string',
-            'phone' => 'required|string|max:20',
-            'phone_2' => 'nullable|string|max:20',
             'whatsapp' => 'required|string|max:20',
             'email' => 'required|email|max:255',
             'email_2' => 'nullable|email|max:255',
@@ -52,6 +52,8 @@ class ContactController extends Controller
             'maps_embed' => 'nullable|string',
             'is_active' => 'boolean',
         ]);
+
+        $validated['phone'] = Contact::OFFICE_PHONE;
 
         // Normalize maps_embed if provided
         if (!empty($validated['maps_embed'])) {
@@ -79,9 +81,7 @@ class ContactController extends Controller
         $validated = $request->validate([
             'company_name' => 'nullable|string|max:255',
             'address' => 'nullable|string',
-            'phone' => 'nullable|string|max:20',
-            'phone_2' => 'nullable|string|max:20',
-            'whatsapp' => 'nullable|string|max:20',
+            'whatsapp' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
             'email_2' => 'nullable|email|max:255',
             'facebook' => 'nullable|url',
@@ -96,6 +96,8 @@ class ContactController extends Controller
             'maps_embed' => 'nullable|string',
             'is_active' => 'boolean',
         ]);
+
+        $validated['phone'] = Contact::OFFICE_PHONE;
 
         // Sanitize maps_embed if provided
         if (!empty($validated['maps_embed'])) {

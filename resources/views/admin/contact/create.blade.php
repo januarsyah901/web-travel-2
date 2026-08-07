@@ -35,8 +35,9 @@
                     </div>
 
                     <div>
-                        <label for="phone" class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Nomor Telepon / WA <span class="text-red-500">*</span></label>
-                        <input type="text" name="phone" id="phone" value="{{ old('phone') }}" placeholder="Contoh: 081234567890" class="dub-input" required>
+                        <label for="whatsapp" class="block text-xs font-semibold text-[var(--color-steel)] uppercase tracking-wider mb-1.5">Nomor WhatsApp <span class="text-red-500">*</span></label>
+                        <input type="text" name="whatsapp" id="whatsapp" value="{{ old('whatsapp') }}" placeholder="Contoh: 081234567890 atau 6281234567890" class="dub-input" required>
+                        <p style="font-size:12px; color:var(--color-fog); margin-top:4px;">08… otomatis jadi 62… saat disimpan. Telepon kantor fixed: {{ \App\Models\Contact::OFFICE_PHONE }}</p>
                     </div>
 
                     <div>

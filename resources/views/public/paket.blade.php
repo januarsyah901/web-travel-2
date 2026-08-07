@@ -214,7 +214,7 @@
             document.getElementById('m-link-daftar').href = '/daftar?package=' + pkg.id;
 
             // Build WhatsApp konsultasi link
-            var waBase = "{{ $contact ? preg_replace('/[^0-9]/', '', $contact->whatsapp) : '62' }}";
+            var waBase = "{{ $contact && $contact->whatsapp ? $contact->whatsapp : '62' }}";
             var waText = encodeURIComponent('Halo, saya ingin konsultasi terkait paket umroh "' + nama + '".');
             document.getElementById('m-link-konsultasi').href = 'https://wa.me/' + waBase + '?text=' + waText;
 

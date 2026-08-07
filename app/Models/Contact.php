@@ -11,6 +11,8 @@ class Contact extends Model
 {
     use LogsActivity;
 
+    public const OFFICE_PHONE = '031-12345678';
+
     protected $fillable = [
         'company_name',
         'address',
@@ -53,6 +55,7 @@ class Contact extends Model
     protected function whatsapp(): Attribute
     {
         return Attribute::make(
+            get: fn (?string $value) => self::normalizeWhatsapp($value),
             set: fn (?string $value) => self::normalizeWhatsapp($value),
         );
     }
