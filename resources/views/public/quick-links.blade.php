@@ -150,7 +150,12 @@
                             </div>
                             <div class="ml-3">
                                 <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Telepon / WhatsApp</p>
-                                <a href="tel:{{ $contact->phone }}" class="block text-gray-300 text-sm mt-1 hover:text-orange-500 transition">{{ $contact->phone }}</a>
+                                @if($contact->phone)
+                                    <a href="tel:{{ $contact->phone }}" class="block text-gray-300 text-sm mt-1 hover:text-orange-500 transition">{{ $contact->phone }}</a>
+                                @endif
+                                @if($contact->whatsapp)
+                                    <a href="{{ $contact->whatsapp_link }}" target="_blank" rel="noopener" class="block text-gray-300 text-sm mt-1 hover:text-[#25D366] transition">{{ $contact->whatsapp }}</a>
+                                @endif
                             </div>
                         </li>
                         <li class="flex items-start">
