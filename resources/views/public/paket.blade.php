@@ -99,7 +99,7 @@
         @endif
 
         <div class="mt-24 pt-16 border-t border-gray-200 text-center">
-            <h3 class="text-4xl font-bold text-gray-800 mb-4">Penawaran Khusus Rombongan</h3>
+            <h3 class="text-4xl font-bold text-gray-800 mb-4">Penawaran Khusus Private</h3>
             <div class="w-20 h-1 bg-orange-600 mx-auto mb-4"></div>
             <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
                 Tim konsultan kami siap membantu menyusun paket ibadah terbaik untuk keluarga, komunitas, atau perusahaan Anda.
